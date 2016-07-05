@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>隔行变色</title>
+    <style>
+        *{ margin: 0; padding: 0; font-family: microsoft yahei; color: #999; }
+        ul{ list-style: none; width: 300px; margin: 20px auto; border: 2px solid #ccc; padding: 10px;  }
+        ul li{ width: 300px; height: 30px; line-height: 30px; cursor: pointer;
+            /*超出的部分用省略号代替*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        /*ul li:hover{ background: blue; } */ /*不兼容只有a标签的hover兼容所有浏览器*/
+        /*css3选择器样式，不兼容*/
+/*
+        ul li:nth-child(odd){
+            background: red;
+        }
+        ul li:nth-child(even){
+            background: green;
+        }
+*/
+        .c1{ background: red; }
+        .c2{ background: green; }
+        .hover{ background: blue; opacity: 0.5; }
+    </style>
+</head>
+<body>
+    <ul id="list">
+        <li class="c1" xxx="111">11111111111111111111111111111111111111111</li>
+        <li class="c2">22222222222222222222222222222222222222222</li>
+        <li>33333333333333333333333333333333333333333</li>
+        <li>44444444444444444444444444444444444444444</li>
+        <li>55555555555555555555555555555555555555555</li>
+        <li>66666666666666666666666666666666666666666</li>
+    </ul>
+</body>
+</html>
+<script>
+    //首先获取所有的li，dom获取元素的操作
+    var list = document.getElementById('list'); //id的范围只能是document
+    var lis = list.getElementsByTagName('li'); //在list这个范围内获取所有的li,在js语言中这个list范围叫做上下文。context
+    console.log(lis);
+    for(var i=0; i<lis.length; i++){
+        //0,1,2每次都是用i代表，i是一个变量
+        //lis.0
+        //lis[i] ==> lis[0]  lis[1] 通过1这个属性去查找  lis[lis.length-1]这是最后一项
+        //这种类似于数字的属性名字我们叫做索引
+        //lis[i]就是通过索引获取，每次循环都分别代表每一行
+
+        //我要给每一行都添加一个class，但是相同的两行不能是相同的class,其实就是给每一行的class赋值就行
+/*
+        if(i%2 == 0){ //if(i%2)
+            lis[i].className = 'c1 '; //给lis[i](整体)的className属性重新赋值,而这个className属性是自带的，这个属性就能改变元素的class
+        }else{
+            lis[i].className = 'c2 ';
+        }
+*/
+        lis[i].className =  i%2 ? 'c1' : 'c2';
+        //把刚刚添加好的className存到每一个li的自己添加的一个属性身上。用来在划过或者离开的时候拿出来
+        //lis[i].selfClassName =  i%2 ? 'c1' : 'c2';
+        lis[i].zijideClass =  i%2 ? 'c1' : 'c2'; //把这种自己添加的属性叫做自定义属性，lis[i].className用这个也可以
+
+        //lis[i].className = 'c' + (i%2+1); //拼接字符串,要求事先定义好的class要和余数耦合
+        //滑过变成其他背景色，离开的时候再变回原来的背景色
+
+        lis[i].onmouseover = function (){ //给每一个li都需要做一个事件绑定，鼠标滑过的时候，改变划过的那个li的className的值为hover
+            //console.log(i); //就是这个i出了问题，这个i要是能保存下来就能搞定了
+            //console.log(this);
+            //this的一种用法：当事件发生的时候，执行的绑定的函数中的this就是触发事件的元素主体. 滑过哪个li，那么this就代表哪个li。
+            this.className = 'hover';   //这个i已经在事件发生的时候早就变成了最大值6，但是根本不存在第七个li
+            //Cannot set property 'className' of undefined  这种错误一般都是属性前面的主体不存在
+        }
+        lis[i]['onmouseout'] = function (){
+            //鼠标离开的是要执行的代码
+            this.className = this.zijideClass; //先去把事件发生之前已经存储好的放在自定义属性里面的那个className获取，然后再把获取来的这个值，重新赋值给自己的class。这样就再鼠标离开的时候恢复成了原来的背景色
+        }
+    }
+    //通过dom方式获取来的元素都是一个dom对象，只要是一个对象我就可以在对象的身上添加或者删除属性
+    //<li></li>
+</script>
+
+<script>
+    var lis = document.getElementById('list')/*范围*/.getElementsByTagName('li');
+    for(var i=0; i<lis.length; i++){
+        lis[i].className = i%2 ? "c2" : "c1";
+        lis[i].selfClassName = lis[i].className;
+        //鼠标离开的是要把内容还原，需要先把内容保存下来
+        lis[i].innerContent = lis[i].innerHTML; //innerHTML属性就能获取当前这个主体里自己的所有的html代码
+        lis[i].onmouseover = function (){
+            this.className = 'hover';
+            this.innerHTML = '哈哈，我刚刚被修改的';
+        }
+        lis[i].onmouseout = function (){
+            this.className = this.selfClassName;
+            this.innerHTML = this.innerContent;
+        }
+    }
+</script>

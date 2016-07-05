@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>定时器</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    *   定时器: 在一定的时间间隔内执行函数
+    *       window.setTimeout(函数,时间间隔);这个时间时间间隔是毫秒数,只执行一次
+    *       window.setInterval(函数,时间间隔); 不断执行
+    *
+    *       ps: 定时器不会阻塞代码的运行
+    *           定时器要等所有的代码运行结束之后才运行
+    *
+    *       定时器的返回值: 是数字，并且这个数字是不断累加的
+    *
+    *       清除定时器: window.clearTimeout(timer); 清除timer所代表的按个定时器数字
+    *                  window.clearInterval(2); 清除页面内第二个定时器
+    *
+    *       定时器任务队列: 1  interval    2  setTimeout          3          4
+    *                      1000ms       2000ms                3000ms     4000ms
+    * */
+    function fn(){
+        /*console.log(1);*/
+    }
+    var timer1 = window.setTimeout(fn,3000); //在1s中之后执行一次fn
+    var count = 0;
+    var timer2 = window.setInterval(function (){
+        if(count == 5){
+            window.clearInterval(2); //我要清除当前页面内的第二个定时器
+            return;
+        }
+        count++;
+        console.log(count);
+    },1000);
+
+    var timer3 = window.setTimeout(function (){ /*console.log(3)*/ },500);
+    var timer4 = window.setTimeout(function (){ /*console.log(3)*/ },500);
+    //console.log(4);
+/*
+    for(var i=0; i<100000; i++){
+        console.log(i);
+    }
+*/
+    console.log(timer1);
+    console.log(timer2);
+    console.log(timer3);
+    console.log(timer4);
+
+    //timer2 = 9;
+
+    //用setTimeout模拟setInterval 倒计时例子
+
+
+</script>

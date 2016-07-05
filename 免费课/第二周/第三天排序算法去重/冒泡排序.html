@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   冒泡排序:
+    *       每一轮相邻的两项两两比较，如果如果前一向大于后一项，那么就交换位置，当这一轮执行结束的时候，这一轮里的最大值已经放到了最后
+    *
+    * */
+
+    var ary = [1,2,3,4,5];
+    /*
+    *   第一轮比较     4次
+    *       第一次 : 1,3,5,4,2
+    *       第二次 : 1,3,5,4,2
+    *       第三次:  1,3,4,5,2
+    *       第四次:  1,3,4,2,5
+    *
+    *       经过4次比较之后把5这个最大值放到了末尾
+    *
+    *   第二轮比较     3次              1,3,4,2,5
+    *       第一次:   1,3,4,2,5
+    *       第二次:   1,3,4,2,5
+    *       第三次:   1,3,2,4,5
+    *
+    *
+    *    第三轮比较      2次           1,3,2,4,5
+    *        第一次:  1,3,2,4,5
+    *        第二次:  1,2,3,4,5
+    *    第四轮比较   1次
+    *        第一次 :  1,2,3,4,5
+    *
+    *
+    *     每一轮都会把一个最大值放在末尾，把length-1个最大值放在末尾，也就完成排序
+    *
+    * */
+    var posiFlag = false;
+    for(var i=0; i<ary.length-1; i++){ //这个循环代表的是轮数
+         //i=0   第一轮  4次    5-1-0  ary.length-1-i
+         //i=1   第二轮  3次    5-1-1  ary.length-1-i
+         //i=2   第三轮  2次    5-1-2  ary.length-1-i
+         //i=3   第四轮  1次    5-1-3  ary.length-1-i
+         //length = 5
+        for(var j=0; j<ary.length-1-i; j++){
+            console.log('haha');
+            if(ary[j]>ary[j+1]){ //前面的项大于后面的项，就需要交换位置
+                posiFlag = true; //现在有位置变化
+                var temp = ary[j+1]; //把后面的值放到这个临时的变量保存
+                ary[j+1] = ary[j];
+                ary[j] = temp;
+            }
+        }
+        if(posiFlag == true){ //在刚刚结束的这一轮有位置变化，下一轮还是有必要的
+            posiFlag = false;
+        }else{ //刚刚结束的那一轮就没有人变化位置
+            break; //如果没有变化位置就没有必要执行下一次循环了
+        }
+    }
+    console.log(ary);
+
+
+
+    var a = 12;
+    var b = 13;
+    //b = 12 a = 13
+
+    a = a+b; // a = 25
+    b = a-b; //b = 25 - 13 = 12;
+    a = a-b; //  a = 25 - 12 = 13;
+
+    function bubbleSort(a){
+        var flag = false;
+        for(var i=0; i< a.length-1; i++){
+            for(var j=0; j< a.length-1-i; j++){
+                if(a[j]>a[j+1]){
+                    flag = true;
+                    a[j] = a[j] + a[j+1];
+                    a[j+1] = a[j] - a[j+1];
+                    a[j] = a[j] - a[j+1];
+                }
+            }
+            if(flag){
+                flag = false;
+            }else{
+                break;
+            }
+        }
+        return a;
+    }
+    var  a = [5,3,4,6,7,8,9];
+    console.log(bubbleSort(a));
+
+
+</script>

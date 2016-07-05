@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>定时器</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    *   js中的定时器:
+    *       1 window.setTimeout(函数，时间间隔ms)
+    *       window.setTimeout(fn,1000) ==> 在1000ms之后执行函数fn一次
+    *
+    *       2 window.setInterval(fn,intetval) ==> 在interval时间间隔之后，不断的执行fn
+    *
+    *       定时器不阻塞代码运行，定时器要等页面内所有的代码执行之后才能启动一个定时器
+    *
+    *       定时器的返回值: 是代表这个定时器在当前这个页面中的第几个定时器,这是一个数字，并且这个随着页面内定时器的不断增加而累加
+    *       console.log(timer1,timer2,timer3) // 1 , 2 , 3
+    *
+    *       清除定时器:
+    *           window.clearTimeout(n) n是代表定时器的那个变量，或者直接是代表第几个定时器的那个数字
+    *           window.clearInterval(n)  同理
+    *
+    *
+    *
+    * */
+
+    function fn(){
+        //console.log('1');
+    }
+
+    var timer1 = window.setTimeout(fn,2000); //打印1  这个timer1就代表第一个定时器
+
+    var count = 0;
+    var timer2 = window.setInterval(function (){ //打印2  这个timer2所代表的那个数字2代表的是第二个定时器
+        //console.log(2);
+        count++;
+        if(count == 4){
+            //window.clearInterval(timer2); //我把timer2所代表的那个定时器清除
+            //window.clearInterval(2); // 清除掉页面中的第二个定时器
+            //return;
+        }
+        console.log(count);
+
+    },3000); //每间隔3秒钟就执行一次这个匿名函数
+
+    //console.log(3);
+
+    for(var i=0; i<10; i++){
+        //console.log(i);
+    }
+
+    var timer3 = window.setTimeout(function(){},1000);
+    console.log(timer1);
+    console.log(timer2);
+    console.log(timer3);
+
+    timer2 = null; //清定时器只能通过clearTimeout,clearInterval。曾经代表定时器的那个变量不会因为重新赋值改变定时器。仅仅是这个变量不再代表那个定时器而已
+
+
+
+</script>

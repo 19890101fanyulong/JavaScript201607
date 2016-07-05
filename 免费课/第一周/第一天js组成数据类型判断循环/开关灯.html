@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0; padding: 0;}
+        html,body{ width: 100%; height: 100%; }
+
+    </style>
+</head>
+<body id="body" style="background: white;">
+
+</body>
+</html>
+<script>
+    /*
+    *   思路 :  点击页面的任何位置，如果是白色(背景色)变成黑色，如果是黑色变成白色
+    *       1 获取网页内的body元素
+    *       2 和body做一个约定： 当我点击body的时候做个判断：如果是黑色变成白色，否则变成黑色 ==> 绑定事件
+    *       3 document.getElementById('id') document可以理解为是一个范围
+    *
+    * */
+    var body = document.getElementById('body'); //在整个文档内通过id获取元素
+    //var body = document.getElementsByTagName('body')[0]; //在js中0代表的是第一个,我们可以把0叫做索引
+    console.log(body);
+    //和body做一个约定,绑定事件的固定写法  ==> 把一个函数赋值给一个元素(dom获取的)的事件属性
+    body.onclick = function (){
+        //这里写的代码，事件发生的时候才执行
+        if(body.style.backgroundColor == 'black'){ //判断如果bdoy的背景色是黑色那那么我就把这个背景色重新赋值成白色
+            body.style.backgroundColor = 'white';
+        }else{ //如果不是黑色那么就赋值成黑色
+            body.style.backgroundColor = 'black';
+        }
+    }
+    //person1.name = 7;
+    console.log(body.onclick); //
+
+
+</script>

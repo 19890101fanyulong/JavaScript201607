@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>快速排序</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   快速排序:
+    *       1 每次获取一个中间位置的值
+    *       2 用刚刚拿出来的这个值循环和原有数组中的每一项比较，把比中间项小的放在左面，比中间项大的放在右面
+    *       3 然后每次分裂的在继续执行此操作，一直到分裂的项目没有为止
+    *
+    *
+    * */
+    var a = [5,4,2,1,3,5,6,7,8,9,0];
+    //获取中间位置的索引  quick([1])
+    function quickSrot(ary){
+        if(ary.length <= 1){ //每次在利用递归的时候，一定要记得递归结束的条件
+            return ary;
+        }
+        var middleIndex = Math.floor(ary.length/2);
+        //获取索引位置的项目,我要把这个中间项从原有数组中拿出来并且获取到
+        var middleItem = ary.splice(middleIndex,1)[0]; //从中间的索引开始删除1个，splice的返回值都是返回那个数组,splice的返回值是数组
+        //把刚刚拿出来的中间项分别和原来数组做比较，分别放在左右两边
+        var left = []; //[1]
+        var right = []; //[5,4,3]
+        for(var i=0; i<ary.length; i++){
+            ary[i] > middleItem ? right.push(ary[i]) : left.push(ary[i]);
+        }
+        console.log(left,right);
+        return quickSrot(left).concat(middleItem,quickSrot(right));
+        //[].concat(1,quickSrot([4,3,5,2])) ==> [].concat(1,[2].concat([3],quickSrot([4,5])))
+    }
+    console.log(quickSrot(a));
+
+
+
+</script>

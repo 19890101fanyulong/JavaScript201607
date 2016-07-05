@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *    数组方法:
+    *       length :  数组里面有多少项,代表的是数组的长度
+    *       索引 （index）:  可以理解是数组的一个特殊性，并且这个属性是从0开始依次累加1的，可以通过索引来获取数组项目, 最后一项的索引永远都是length-1
+    *       ary.length--是把数组的最后一项删除
+    *       ary[ary.length] = 'value' 向数组的末尾添加一项
+    *       ary[ary.length+2] = 'value1' 跳跃添加数组项，中间是用undefined自动补齐的
+    *       方法:
+    *           1 方法的作用  2 方法的参数  3 方法的返回值 4 原有数组是否改变
+    *
+    *           // 增加 修改 删除 查询
+    *           push 1 向数组的末尾添加一项
+    *                2 需要被添加的值，添加多项的时候也用","隔开
+    *                3 返回值数组的新长度
+    *                4 原有数组改变
+    *                ps: ary[ary.length] = 被添加的项目
+    *          unshift  1 向数组的开头添加一项
+         *              2 需要被添加的项目，如果是多个用逗号分隔
+         *              3 数组新长度
+         *              4 原有数组改变
+         *     pop   1 删除数组的末尾项目
+         *           2 不用参数
+         *           3  删除的最后一项
+         *           4 原有数组改变
+         *     shift  1 删除数组的开头项
+         *            2 不用参数
+         *            3  删除的开头项
+         *            4 原有数组改变
+         *
+         *
+         *     splice  1 删除任意数组项，还有添加功能
+         *             2 splice(n)  从索引n开始删除到末尾
+         *               splice(0)  从索引0开始删除到末尾,返回值是一个一模一样的新数组  ==>  克隆数组
+         *               splice(n,m) 从索引n开始删除m个
+         *               splice(n,m,x)  从索引n开始删除m个，然后把x插入到删除位置
+    *                  3  是删除项重新组成了一个数组
+    *                  4 原有数组改变
+    *                  模拟unshift  ary.splice(0,0,x);
+    *                  模拟 push    ary.splice(ary.length,0,'100');
+    *                   ps: 如果添加操作，默认插入的位置是索引开始的位置之前
+    *                   模拟shift   ary.splice(0,1);
+    *                   模拟pop  ary.splice(ary.length-1,1);
+    *        slice   1 复制数组
+    *                2 slice()  从索引n开始复制到末尾
+    *                  slice(n)   从索引n开始复制到末尾
+    *                  slice(0)   复制一个新的数组回来==> 克隆数组
+    *                  slice(n,m)  从索引n开始复制到索引m，但是不包含m
+    *               3 复制来的新数组
+    *               4 原有数组不变
+    *       //数组的拼接
+    *           concat  1 拼接数组
+    *                   2 需要被拼接数组或者数组项
+    *                   3 拼接好的数组
+    *                   4 原有数组不变
+    *                   concat([]) ==> 克隆数组
+    *                   concat()
+    *           join    1 把数组中的每一项按照执行的分隔符(可以是任意字符串)拼接成字符串
+    *                   2 参数就是按个指定的分隔符，如果没有参数默认是逗号
+    *                   3 拼接好的字符串
+    *                   4 原有数组不变
+    *                   ary.join("")
+    *                   eval: 可以把字符串当作js表达式去运行,去引号
+    *       //排序
+    *           reverse  1 倒序数组
+    *                    2 不用参数
+    *                    3 已经倒序的原有数组
+    *                    4 原有数组顺序改变
+    *
+    *
+    *           sort    1 按照指定的规则排序数组
+    *                   2 参数是代表排序规则的函数
+    *                   3 已经排好序的数组
+    *                   4 原有数组位置改变
+    *      // 兼容不好
+    *
+    *           indexOf  1 查看数组项在数组中出现的索引位置
+    *                    2  要查看的数组项
+    *                    3 如果这个项在数组中就返回对应的索引位置，否则返回-1
+    *                    4 原有数组不变
+    *           lastIndexOf 1 最后一次出现的索引位置
+    *                       2  要查看的数组项
+     *                     3 如果这个项在数组中就返回对应的索引位置，否则返回-1
+     *                     4 原有数组不变
+     *
+     *           //遍历数组
+     *           forEach 1 循环遍历数组
+     *                   2 参数是一个函数,函数执行的次数和数组的长度是相等的，在这个函数中可以获取到每一项，索引，原有数组
+    *                    3 undefined
+    *                    4 原有数组不变
+    *
+    *             map   1 循环遍历数组
+    *                   2  参数也是一个函数
+    *                   3  返回值是一个新数组，这个数组中和原有数组的长度相同。数组中每一项分别是匿名函数的返回值
+    *                   4 原有数组不变
+    *
+    * */
+    var ary = [1,2,3]; //字面量的方式
+    var ary1 = new Array(); //实例的方式
+    console.log(ary);
+    ary.length--; //自身的基础上减1
+    console.log(ary);
+    console.log(ary[ary.length-1]); //obj['0'] = 56;
+    //[1,2]
+   /* ary[ary.length] = 'x';
+    ary[ary.length+2] = 'y';*/
+
+    //push
+    var res = ary.push(4);
+    console.log(res);
+    console.log(ary);
+
+    //pop
+    var ary = [1,2,3,'haha'];
+    var res = ary.pop();
+    console.log(res);
+
+
+    //splice
+    var ary = [1,2,3,4,'x','y','z'];
+    /*var res = ary.splice(2,3);
+    console.log(ary);
+    console.log(res);*/
+
+    var res = ary.splice(1,3,'zhufeng','peixun');
+    console.log(ary);
+
+    ary.splice(0,0,0);
+    console.log(ary);
+    ary.splice(ary.length,0,100);
+    console.log(ary);
+
+    var ary = [1,2,3,4,5,6,'x'];
+   // var res = ary.slice(1,5);
+    var res = ary.slice();
+    console.log(res);
+
+    var ary1 = [1,2]
+    var ary2= ['x','y'];
+    var res =  ary1.concat(ary2,'z').splice(1,0); //链式写法==>最后的返回值一定是数组才行
+    console.log(res);
+    ary.pop();
+    var str = ary.join("+");
+    console.log(eval(str));
+
+    var ary = [1,2,3,4];
+    var res = ary.reverse();
+    console.log(ary)
+    console.log(res);
+    console.log(ary === res);
+
+    //sort
+    var ary = [5,4,10,3,2];
+    //var res = ary.sort(); //没有参数只能排10以内的
+    var res = ary.sort(function (a,b){return a-b;}); //升序
+    var res = ary.sort(function (a,b){
+        console.log(a,b); //代表排序时候的相邻两项
+        return b-a; //return的值才是是否换位置的依据
+    }); //降序
+    console.log(res);
+
+    var ary = [1,2,3,2,'x'];
+    var res = ary.indexOf(2);
+    console.log(res);
+
+    //forEach
+    var ary = [1,2,3,'x'];
+    var res = ary.forEach(function (item,index,originAry){
+        console.log(item,index,originAry);
+       //console.log(arguments); //arguments[0]分别代表的是数组中每一项,arguments[1]是每一项对应的索引,argumnets[2]遍历的那个数组
+    });
+    console.log(res);
+
+    //map
+    var ary = [1,'2','x','y'];
+    var res = ary.map(function (){
+        //arguments
+        return arguments[0]*100; //
+    });
+    console.log(res);
+
+
+
+
+</script>

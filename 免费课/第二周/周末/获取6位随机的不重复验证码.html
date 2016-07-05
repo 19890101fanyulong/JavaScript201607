@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{  margin: 0; padding: 0; }
+        .box{ width: 300px; height: 60px; line-height: 60px; text-align: center; font-size: 36px; font-weight: bold; border: 5px solid #ccc; background: lightpink; font-family: "microsoft yahei"; margin: 50px auto; cursor: pointer; -webkit-user-select:none;  }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <span>a8o94R</span>
+    </div>
+</body>
+</html>
+<script>
+    //获取要操作到元素
+    var box = document.getElementsByClassName('box')[0];
+    var span = box.getElementsByTagName('span')[0]; //需要具体到第一个
+    //console.log(span);
+    //规定这个随机字符的取值范围
+    var strRange = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; //这个字符串的长度是62，索引是0-61
+
+    function getCode(){
+        var spanStr = '';
+        while(spanStr.length<6){ //只要spanStr这个字符串的长度不足6那么就要去获取新的字符
+            //要获取0-61之间的随机数
+            var ran = getRandom(0,61); //调用函数执行结束后返回一个随机数
+            //通过这个随机索引获取随机字符
+            var ranChar = strRange.charAt(ran);
+            //把刚刚获取完的这个随机字符累加到spanStr上
+            // A4   a.toLowerCase()==>a
+            if(spanStr.toLowerCase().indexOf(ranChar.toLowerCase()) === -1){ //如果这个字符以前出现过不能要这个新获取来的随机字符了,但是我们需要把已经存在的字符转化成小写然后把刚刚获取来的这个随机字符也转化成小写
+                spanStr += ranChar;
+            }
+        }
+        span.innerHTML = spanStr;
+    }
+    //getCode(); //只要刷新浏览器就会运行这个函数
+
+    //box.onclick = function (){} //我只想把一个函数或者能够代表函数的变量或者函数名字赋值给一个元素的事件属性
+    box.onclick = getCode; //只要完成一个把函数的地址赋值给一个元素的事件属性就是绑定事件
+/*
+    box['onclick'](); //主动的去执行事件绑定的函数
+    box.onclick(); //主动的去执行事件绑定的函数
+*/
+    function getRandom(n,m){ //获取n-m之间的随机整数
+        //n-m之间的随机整数
+        n = Number(n);
+        m = Number(m);
+        if(isNaN(n) || isNaN(m) ){ //如果n和m只要有一个不是有效数字那么我就认为直接给你返回一个随机数就可以了
+            return Math.random();
+        }
+        if(n>m){ //我是要获取n到m之间的随机数，如果n大于m交换位置
+            var temp = m;
+            m = n;
+            n = temp;
+        }
+        return Math.round(Math.random()*(m-n)+n);
+    }
+
+</script>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>dom</title>
+</head>
+<body>
+    <div id="box" name="haha" tian="allen" >
+        <div class="c1">c1</div>
+        <p id="p" class="c2 c1">
+            <!--我是p里面的注释-->
+            <span>我是p里面的span</span>
+            <a href="###">我是p里面的链接</a>
+            <!--注释2-->
+        </p>
+        <!--注释3-->
+        <h2 id="h2"></h2>
+
+    </div>
+
+    <input type="radio" name="sex"/>
+    <input type="checkbox" name="sex"/>
+    <input type="text" name="sex"/>
+    <input type="text" name="gender"/>
+<!--
+    <div id="box">box</div>
+-->
+</body>
+</html>
+<script>
+    /*
+    *   获取dom元素的常用方法:
+    *       1 document.getElementById('id') 通过id获取元素
+    *            上下文context(获取范围)只能是document
+    *            如果这个id不存在默认返回一个null
+    *            如果页面内存在相同的id那么默认返回第一个
+    *            在低版本的id中表单的name属性也会当作id来使用
+    *            id区分大小写
+    *       2 context.getElementsByTagName('tagName')
+    *            通过标签获取来的是一组元素,有可能是空的类数组。 但是即使这个类数组中只有1项,也需要通过索引去获取
+    *            上下文context这个范围可以自己指定了
+    *            context.getElementsByTagName('*')  获取context范围内的所有标签
+    *       3 context.getElementsByClassName('className') 通过类名获取元素
+    *           同标签名一样获取到的都是一组元素(类数组),想要获取具体的某一个需要用索引来获取,不兼容低版本ie浏览器
+    *
+    *       4 document.getElementsByName('name') 一般应用于表单元素
+    *             也可以给其他元素加name属性然后通过name获取，给非表单元素添加name属性在低版本ie中是有问题的
+    *
+    *       5 document.documentElement   html
+    *       6 document.body    body
+    *       7 获取浏览器可视窗口的宽度和高度
+    *       document.documentElement.clientWidth||document.body.clientWidth 宽度
+    *       document.documentElement.clientHeight||document.body.clientHeight 高度
+    *       //兼容不好，一般可以应用于移动端
+    *       8 document.querySelector
+    *       9 document.querySelectorAll();
+    *               #id  通过id获取
+    *               .class 通过类名字获取
+    *               tagName  通过标签名获取
+    *               #id div 在这个id下面的所有div
+    *               input[type=radio] 把所有input中的radio获取到
+    *               input[type=radio][name=set] 通过两层属性过滤最后获取到额元素
+    *               这种获取元素的方式和jQuery获取元素方式语法差不多
+    * */
+    var box  = document.getElementById('box');
+    //console.log(box);
+
+    var names = document.getElementsByName('haha');
+    //console.log(names);
+
+    var classes = document.getElementsByClassName('c1');
+    //console.log(classes);
+
+    var tags = document.getElementsByTagName('*');
+    //console.log(tags);
+
+    var a = 6 || 7; //如果或者前面是false才会获取7
+    //console.log(a);
+
+    var box =  document.querySelectorAll('#box');
+    //console.dir(box);
+    var c1 = document.querySelectorAll('.c1');
+    var c1 = document.querySelectorAll('div');
+
+    var h2 = document.querySelectorAll("#box h2");
+    //console.log(h2);
+    //console.log(c1);
+
+    var input = document.querySelectorAll('input[type=text][name=sex]');
+    //console.log(input);
+    /*
+    *   dom结构中的节点关系属性:
+    *       parentNode: 父节点
+    *       childNodes:  获取当前所有的子节点 ==> 包括注释换行元素等
+    *       节点: 包括注释  换行 空格  标签元素等
+    *       children:  所有的元素子节点 ==> 这里只有标签，不包含换行注释等.不兼容比低版本ie浏览器
+    *       previousSibling 上一个哥哥节点  如果哥哥节点不存在返回null
+    *       previousElementSibling 上一个元素哥哥节点   不兼容
+    *       nextSibling   下一个弟弟节点
+    *       nextElementSibling  下一个元素弟弟节点 不兼容
+    *       firstChild   第一个子节点
+    *       firstElementChild  第一个元素子节点
+    *       lastChild 最后一个子节点
+    *       lastElementChild   最后一个元素子节点
+    * */
+    var p = document.getElementById('p');
+    console.log(p);
+    console.log(p.parentNode);
+    console.log(p.childNodes);
+    console.log(p.children); //所有的元素子节点
+    // div.children   body.children
+    function myChildren(ele){ //模拟children获取一个dom对象的所有元素子节点
+        //ele需要一个dom对象参数，传一个什么样的值就获取这个的所有元素子节点
+        //首先获取所有的子节点，然后在所有的子节点中挑出来元素子节点
+        //如果是一个元素节点那么依据是什么?
+        //如果支持ele.children
+        var a = [];
+        var childs = ele.childNodes; //获取所有的子节点
+        for(var i=0; i<childs.length; i++){
+            //a.push();
+            if(childs[i].nodeType == 1){
+                a[a.length] = childs[i]; //由于这个length每次都会变化
+            }
+        }
+        return a; //把获取到的元素节点留下
+    }
+    /*
+    *             元素            文本      注释       document
+    *  nodeType     1               3        8            9
+    *
+    *  nodeName   大写的标签名      #text    #comment   #document
+    *
+    *  nodeValue    null          文本内容     注释内容     null
+    *
+    * */
+
+    console.log(p.previousSibling);
+
+    function nextEleSibling(ele){ //模拟获取下一个弟弟元素节点
+        //如果存在一个弟弟节点那么判断是否是元素，如果是元素那么就不用向下去找了，如果不是那么还要继续，一直到找到一个元素弟弟为止，或者把所有的弟弟都过滤了一遍也没有找到一个元素弟弟那么也停下来(找到连一个弟弟都不存在)
+        var next = ele.nextSibling; //首先先获取一个弟弟来,这个next有可能是一个元素，有可能不是。如果不是我这个next就需要被替换
+        while(next && next.nodeType != 1){ //你弟弟存在但是你弟弟不是元素,我需要找你弟弟的弟弟
+            //如果next不是元素我才继续往下找，我就得替换next
+            //使用的while循环的时候，一定要想着循环的条件要不断的更新，更新要有终点。
+            next = next.nextSibling; //这个就是条件的不断更新
+        }
+        return next;
+
+    }
+
+    /*
+    *   在dom结构中（标签行内）添加属性
+    *       setAttribute('属性名字',属性值);
+    *       getAttribute('TIAN')  获取
+    *       removeAttribute('属性名') 移除行内属性
+    * */
+    var box = document.getElementById('box');
+    box.setAttribute('kaoshi','yihui'); // 设置或者修改属性
+    console.log(box.getAttribute('TIAN')); //获取已经存在的属性
+    box.removeAttribute('kaoshi');
+
+
+    /*
+    *   dom节点的增加修改删除查询
+    *       创建一个标签   document.createElement('div');
+    *       如果不主动添加到文档结构中是不会体现出来的
+    *       //添加到文档结构中
+    *       appendChild
+    *       父节点.appendChild(被添加的节点)，默认添加到最末尾位置
+    *       ps: appendChild对于一个已经存在的元素那么不是添加是移动
+    *
+    *       insertBefore
+    *       父节点.insertBefore(需要插入的新节点，在谁的前面插入);
+    *       //insertAfter自己回去模拟
+    *
+    *       //修改，替换
+    *       父节点.replaceChild(new,old);
+    *
+    *       //移除节点
+    *       父节点.removeChild(需要被移除的节点)
+    *
+    *       //克隆节点
+    *       dom节点.cloneNode(true);  深度克隆是连同所有的子元素一起克隆,默认是false。如果默认只克隆标签本身
+    *
+    *
+    * */
+
+    var div = document.createElement('div'); //添加到文档结构中
+    //把刚刚创建的这个div添加到文档结构中 <div></div>
+    div.innerHTML = '我是刚刚创建的，并且我的html是innerHTML添加的';
+    p.appendChild(div);
+
+    box.appendChild(p); //p是一个已经存在的元素
+
+    box.insertBefore(div,p);
+
+    //var img = new Image(); //图片的另外一种创建方式
+    var img = document.createElement('img');
+    //img.src = 'http://'; //给刚刚创建的这个img标签添加src属性用来获取图片
+    box.replaceChild(img,p);
+
+    //
+    box.removeChild(document.getElementById('h2'));
+
+    var res = box.cloneNode(true);
+    console.log(res);
+
+
+
+
+
+
+</script>

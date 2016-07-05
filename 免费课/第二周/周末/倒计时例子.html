@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; font-size: 36px;   }
+        .box{ width: 600px; height: 50px; margin: 100px auto; border: 5px solid lightpink; border-radius: 5px; background: lightgreen; line-height: 50px; text-align: center; -webkit-user-select: none; cursor: pointer; }
+        .box span{ color: darkred; }
+    </style>
+</head>
+<body>
+    <div id="box" class="box">
+         距离补考时间还有:&nbsp;<span>00:10:00</span>
+    </div>
+</body>
+</html>
+<script>
+    var box = document.getElementById('box');
+    var span = box.getElementsByTagName('span')[0];
+    //先获取当前时间
+    var timer = null;
+    function recordTime(){
+        window.clearTimeout(timer);
+        var curDate = new Date();
+        //设置一个目标时间
+        var targetDate = new Date('2016/07/03 18:00:00');
+        //分别求出这两个时间距离1970年的ms数
+        var curDate1970 = curDate.getTime();
+        var targetDate1970 = targetDate.getTime();
+        //求出这个两个时间的ms差
+        var duration = targetDate1970 - curDate1970;
+        //把这个时间差换算成小时分钟秒就行
+        var hour = Math.floor(duration/(1000*60*60));
+        console.log(hour);
+        //分钟
+        var min =Math.floor((duration - hour*60*60*1000)/(1000*60));
+        console.log(min);
+        //秒 把小时和分钟所占用的ms数都去掉然后换算成s就可以
+        var seconds = Math.floor( (duration - hour*60*60*1000 - min*60*1000)/1000 );
+        var timeStr = addZero(hour) +":"+ addZero(min) +":"+ addZero(seconds);
+        span.innerHTML = timeStr;
+
+        timer = window.setTimeout(recordTime,1000); //这个timer永远代表的是最后一次那个定时器
+    }
+
+    //recordTime();
+
+    //点击的时候停止倒计时再点击开始，是一个反复动作
+
+    box.onclick = function (){
+        if(!timer){ //如果定时器不存在那么就启动一个定时器
+            timer = window.setTimeout(recordTime,1000);
+        }else{ //如果已经存在定时器说明倒计时在进行中，那么我就停止
+            window.clearTimeout(timer);
+            timer = null; //即使清了定时器timer也有值。为了保证下次顺利启动的条件需要人为把条件设置为null
+        }
+    }
+
+
+
+
+    function addZero(n){
+        return n >= 10 ? n : "0" + n;
+    }
+</script>

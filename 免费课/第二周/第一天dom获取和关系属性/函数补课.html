@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>函数</title>
+</head>
+<body>
+    <div id="div1">
+        <p></p>
+        <span></span>
+    </div>
+</body>
+</html>
+<script>
+    /*
+    *   function 关键字
+    *   function 函数名字(参数1,参数2...){
+    *       //函数体
+    *   }
+    *   参数: 放在函数名字后面的小括号里，多个参数之间用","隔开，并且参数可以是任意数据类型的。并且参数可以理解为在函数体内部顶一个一个变量,并且这个变量是一个私有变量(定义才函数里面的变量，参数也可以理解为是定义在函数内部的一个私有变量)，直接暴露在scirpt这个标签里的变量我们可以理解这是一个全局变量
+    *   如果一个参数没传那么默认是undefiend
+    *   函数在执行的时候，如果函数中有私有变量那么优先使用私有变量，如果没有私有变量就去外面查找，如果到全局变量还没有。那么报错了。
+    *   通过dom的方式获取来的元素都是对象(引用)数据类型的  typeof == "object"
+    *   return 函数运行完留下来的结果就是return后面的值，如果想留下多个只能把多个结果组成一个数据比如对象，数组等，也可以return一个函数
+    *   return 下面的代码不执行，但是如果return后面是一个自运行函数那么这个自运行函数实要执行的，然后把这个自运行函数的运行结果(就是那个自运行函数中的return)返回出去
+    *   arguments:  内置在函数中的，包含着所有实参的一个类数组集合。只要是一个类数组，我们就可以通过索引和循环分别获取其中的每一项
+    *   arguments.callee： 当前这个函数本身
+    *
+    * */
+
+    /**
+     * @param num1 对应参数的描述
+     * @param num2 对应参数的描述
+     */
+    function sum(num1,num2){
+        //num1 和 num2
+        console.log(num1+num2); //求和
+        console.log(num2);
+    }
+    sum(1); //
+    function prevEleSibling(ele){ //函数在执行的时候，ele赋值为哪个元素，你就是要获取哪个元素的上一个元素哥哥节点
+        //如何确定参数：我们在函数体内需要外部的变量的时候就会想到一个参数
+    }
+
+    function myChildren(ele){ //我就是要获取ele的所有的元素子节点
+        //ele.style.backgroundColor = 'black';
+        //return;
+        //函数中的return，取决于函数的作用，如果是功能型函数(效果css,宽，高，背景色等)
+        var childs = ele.childNodes;
+        var ary = [];
+        for(var i=0; i<childs.length; i++){
+            var curNode = childs[i]; //curNode每次执行的时候都会变化一个子节点
+            if(curNode.nodeType == 1){
+                ary.push(curNode);
+            }
+        }
+        return ary;
+    }
+    //myChildren(div1); //函数执行，并且把div1当作实参传给myChildren函数
+    var div1 = document.getElementById('div1');
+    console.log(typeof div1); //object这是一个对象数据类型的
+    var fn = function (){ alert(2) };
+    //function fn(){}
+
+    function x(){ //x函数的作用就是，你传一个什么参数我就让这个参数执行。
+        //必须保证fn参数是一个函数才能被执行,否则就报错误了
+        //var fn = function (){ alert(3) };
+        if(typeof fn == 'function'){
+            fn();
+        }
+        console.log(fn);
+    }
+    x();
+
+
+    function feipao(fn){ //参数fn是入口
+        return fn; //出口
+    }
+
+    function sum(){
+        console.log(2);
+        //这个函数中没有return，这个函数运行完并不会留下任何值，但是会默认留下undefined做为返回值
+    }
+
+   feipao(sum)(); //把sum函数执行之后的留下来的结果重新赋值给feipao函数的形参，然后feipao函数也执行了
+
+
+    function haha(){
+        return function (){
+            console.log("haha");
+        }
+    }
+
+    var res = haha(); //
+    res();
+
+    //求和函数
+    function sum(){ //
+        console.log(arguments);
+        console.log(arguments.callee);
+        //既然是一个求和函数，到最后一定要把这个和留下来
+        var total = null; //null + 0 = 0
+        for(var i=0; i<arguments.length; i++){
+            var curArgument = arguments[i];
+            if(!isNaN(curArgument)){
+                total += Number(curArgument);
+            }
+        }
+        return total;
+    }
+    sum(1,2,'3',4,'5px');  //isNaN('3') ==> false  isNaN('3px') ==> true
+
+    ;(function (){
+        console.log(1);
+    })();
+    !function (){}();
+    +function (){}();
+    -function (){}();
+    ~function (){}();
+
+    function tianxi(){
+        return (function (){ //1是先执行自运行函数然后把自运行函数留下来的运行结果return出去  2直接把这个自运行函数return出去
+            alert('tianxi');
+        })();
+        alert();
+    }
+    var res = tianxi(); //
+    console.log(res);
+
+
+
+
+
+
+
+    //x(function (){alert(1)});
+
+
+</script>

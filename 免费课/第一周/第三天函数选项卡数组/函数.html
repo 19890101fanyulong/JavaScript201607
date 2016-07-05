@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>函数</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+/*
+*   声明一个函数用关键字function  实名函数和匿名函数
+*       function 函数名字(形参){  //如果用多个形参用","隔开
+*           //函数体
+*       }
+*
+*       函数的执行： 函数名字+(),函数体内的代码从上到下执行一遍
+*
+*       函数的赋值过程: 也是首先先去开辟一个新的堆内存地址，然后把函数体中的代码当作字符串存入到到这个堆内存中，最后把这个堆内存地址赋值给这个函数名字
+*
+*       形参和实参: 形参相当于在函数体内声明的变量，实参是在函数执行的时候，赋值给形参的值。如果函数执行的时候，形参没有传实参，那么这个形参就会默认为undefined
+*       arguments: 只要声明了一个函数，那么在函数体内就天生存在一个叫做arguments,这里存放的是所有传进来的实参。并且这些实参一次按照索引顺序排列好。这个arguments有索引，有length就是一个类数组
+*
+*       return : 一定是在函数中的return，如果想在函数运行结束之后留下任何值都需要用return。直接放在return后面就可以
+*
+*       如果函数中没有写return默认会返回一个undefined
+*
+*       如果函数留下的返回值以后还有用，那么就需要把函数执行之后留下来的这个返回值放到一个变量中
+*
+*       放在return下面的代码不会被执行了
+*
+*       如果想返回多个值那么可以用对象或者数组等
+*
+*       参数也可以是多种形式的比如：对象
+* */
+    var a = 5;
+    console.log(a);
+    var foo = function (){ //函数表达式
+        console.log(2);
+    }; //用foo就能代表这个匿名函数
+
+
+    function fn(){ //这个函数名字也可以理解为这是一个变量
+        console.log(1);
+    }
+
+    var fx = foo; // 把foo所代表的那个函数的引用地址赋值给fx一份。fx和foo此时公用一个堆内存地址
+
+    console.log(fn);
+    console.log(foo);
+
+
+/*
+    body.onclick = function (){}
+*/
+   /* console.log(1);
+    console.log(1);
+    console.log(1);*/
+
+    function sum(){
+        var num1 = 5;
+        var num2 = 6;
+        console.log(num1+num2);
+    }
+   // sum();
+
+    //我们不可能每次都求一个1+2
+    function sum(num1,num2){ //形势上参数，形参相当于在函数中声明的一个变量。并且赋值为实参
+        //console.log(num1);
+        //console.log(num2);
+        console.log(num1+num2);
+    }
+    //sum(5,6); //函数的执行的时候就会5赋值给num1，然后6赋值num2. 这个5和6我们叫做实参
+    //sum(7,8);
+    //sum(1234,543);
+
+    //那么现在我们就可以求两个任意数的和了
+
+   function sum(num1,num2,num3){
+       //如果num3没有传，那么就是undefined
+       var total = 0;
+       if(typeof num1 != "undefined"){ //不等于
+           total += num1;
+       }
+       if(typeof num2 != "undefined"){ //不等于
+           total += num2;
+       }
+       if(typeof num3 != "undefined"){ //不等于
+            total += num3;
+       }
+       //现在不能一次性加，要一个个做判断判断，然后再加。所以这会需要一个基数。然后一个个累加到这个基数
+       console.log(total); // 5+6+undefined
+   }
+    //sum(5,6,7); //num3 = undefined,如果多传了参数不会造成影响
+    //sum(10,20,'30'); //num3 = undefined,如果多传了参数不会造成影响
+    //但是虽然处理了漏传参数的问题，但是还不能做非数字判断
+
+
+    function sum(num1,num2,num3){
+        var total = 0;
+        if(typeof num1 != 'undefined'){ //这会只能过滤掉你传了没传的问题
+            //还要对传的参数是什么要做判断
+            if(!isNaN(num1)){ //如果不是NaN我才加
+                total += Number(num1);
+            }
+
+        }
+        if(typeof num2 != 'undefined'){ //这会只能过滤掉你传了没传的问题
+            //还要对传的参数是什么要做判断
+            if(!isNaN(num2)){ //如果不是NaN我才加
+                total += Number(num2);
+            }
+
+        }
+        if(typeof num3 != 'undefined'){ //这会只能过滤掉你传了没传的问题
+            //还要对传的参数是什么要做判断
+            if(!isNaN(num3)){ //如果不是NaN我才加
+                total += Number(num3); //!isNaN('3')这个判断也是通过的，但是我不能累加这个字符串"3"。 我需要把这个字符串'3'强制转化为数字
+            }
+
+        }
+        console.log(total);
+    }
+    //sum(1,2,"4px");
+
+    //如果我想求多个数的和呢？？？？，形参的个数就没有办法规定了
+    function sum(){
+        console.log(arguments); //
+        //console.log(arguments[arguments.length-1])
+        var total = 0;
+        for(var i=0; i<arguments.length; i++){
+            //这里就不用做是否传参数的判断了，要是没传我这个循环不能执行
+            //arguments: [1, 2, 3, 4, 5, "6", "adsfasfd"]
+            if(!isNaN(arguments[i])){
+                total += Number(arguments[i]);
+            }
+        }
+        //console.log(total);
+        //需要把这个和留下来
+
+        return total;
+        return {total: total};
+        return [total];
+        return function(){}; //return后面可以留下函数
+        alert(); //放在return下面的代码不执行了
+    }
+    var xx = 1;
+    var res = sum(xx,2,3,4,5,"6",'adsfasfd');
+    console.log(res);
+    //传的参数也可以是一个对象
+    function fn(obj){
+       console.log(obj.name);
+    }
+    var obj = {name:'zhufeng'}
+    fn(obj);
+
+
+
+</script>

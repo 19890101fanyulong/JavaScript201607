@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>数组去重</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    //双循环数组去重         1  2 3
+    var ary = [1, /*循环开始*/2,5,3, 4, 3, 2, 4, 4,1,2,3,4,3,2,1,2,3,4];
+    //for(var j= 1; i<5; j++)
+    //1(索引是0)    2,3,4,3,2,1,4(索引从1开始到末尾)  第一次把数组的第一项(1)拿出来   然后用这个第一项分别一次和2,3,4,3,2,1,4(1后面的所有项目)做比较，如果有相等的删除
+    for (var i = 0; i < ary.length - 1; i++) { //这个循环代表的是每次都需要拿出来一个数组项目，分别和它后面的所有数组项做比较
+        //当i=0的时候，把数组的第一项拿出来，第一次就是把1拿出来，和1后面的所有项目去做比较
+        //ary[i]   0
+        for (var j = i + 1; j < ary.length; j++) {
+            //a[j] 第一次代表的是从第二项(索引为1)开始到最后一项
+            if (ary[i]/*1*/ === ary[j]/*1*/) {
+                //ary.splice(j, 1); //只要这个条件满足我就删除当前j循环中的当前项
+                //如果把当前项目删掉会造成数组塌陷问题
+                ary[j] = ary[ary.length-1]; //把最后一项的值赋值给当前项，然后再从当前项比较
+                ary.length--; //最后一项就可以删除了
+                j--;
+            }
+        }
+    }
+    console.log(ary);
+
+    var a = [1,2,3,4,3,2,2,3,4,5,4,3,2,23];
+    for(var i=0; i< a.length-1; i++){
+        for(var j=i+1; j< a.length; j++){
+            if(a[i] === a[j]){
+                a[j] = a[a.length-1];
+                a.length--;
+                j--;
+            }
+        }
+    }
+    console.log(a);
+
+    //对象法数组去重
+    var ary = [1,2,3,4,,2,1];
+    var obj = {}; //
+    //for()
+/*
+    obj[1] = ary[0]; // obj={1:1,2:2,3:3,4:4, 3 } if(obj[3] == 3){}
+*/
+
+    var newAry = [1,2,3,4,2,1];
+    var obj = {}; //1：1，2：2 ,3 : 3,4 : 4,  2
+    for(var i=0; i<newAry.length; i++){
+        var cur = newAry[i];
+         //cur每次循环的时候分别代表数组的每一项
+        if(obj[cur] == cur){ //只要进入到这个判断，那么就说明这个属性以前出现过
+            //cur就是重复的
+            newAry.splice(i,1);
+            i--;
+            continue;
+        }
+        obj[cur] = cur; //添加的属性的操作
+    }
+    obj = null;
+    console.log(newAry);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

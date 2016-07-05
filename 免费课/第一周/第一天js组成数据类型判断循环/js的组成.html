@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .div{ width: 200px; height: 200px; background: red; }
+    </style>
+    <link rel="stylesheet" href=""/>
+</head>
+<body>
+    <div class="div" onclick="alert('123')"></div>
+<!--
+    <video src=""></video>
+    <audio src=""></audio>
+-->
+
+</body>
+</html>
+<script>
+    /*
+    *   行内样式:   把样式写在style这个属性内
+    *   内嵌样式：  写在style标签
+    *   外链方式:   link标签的href属性
+    * */
+    /*
+    *   js的引入方式：
+    *       1 行内js  不建议使用
+    *       2 内嵌   把脚本代码写在script标签内  比较常用的
+    *       3 外链   script的src属性 路径问题 ../ 里面就不要再写js代码了，写了也不执行
+    *
+    * */
+    /*
+    *   js的组成：
+    *       css2  css3(比css2多了属性)  html4   html5
+    *       1 DOM document object model 文档对象模型  是针对网页内的元素的
+    *       2 BOM broswer  object model  浏览器对象模型  是针对浏览器的
+    *       3 ECMAScript 5  6  7  js的核心部分,规定的变量和数据类型，语法和操作语句等
+    * */
+    /*
+    *   ECMAScript
+    *       变量      可以理解为是容器，用来存放一些我们可能要从操作的网页内的元素或者一些值,还可以重新赋值
+    *               声明一个变量用var a;  告诉浏览器声明了一个叫做a的一个变量
+    *               命名规范：
+    *                   可以用： 字母，美元符，下划线开头
+    *                   不可以用：数字不能开头  不能使用关键字和保留字(以后可能要用到的)
+    *                   声明一个变量名字要具有代表性意义 eg: teacherName
+    *                   驼峰命名法: 第一个有意义的单词小写，从第二个有意义的单词开始首字母大写
+    *                   匈牙利命名法: 第一个字母代表的数据类型
+    *               数据类型：
+    *                   基本数据类型：
+    *                       1 数字  number  正数 负数 小数(浮点数) NaN(not a number)
+    *                            parseFloat  可以提取字符串中整数和小数部分，如果第一个字符串不是数字那么返回了一个NaN
+       *                         parseInt  用法同float相同，但是它只能提取整数部分
+       *                         parseInt和parseFloat都会默认去强制类型转换
+       *                         Number强制把其他数据类型转换成数字数据类型
+       *                               Number(true) = 1   Number(false) = 0;
+       *                         isNaN() 判断是不是一个有效数字，先强制转化为数字Number
+    *                       2 字符串 string  用单引号或者双引号包含起来的就是字符串
+    *                           "" 空字符串   " "空格字符串  "ab"
+    *                           内置方法：暂时先不学
+    *                           字符串中的加法 "a"+"b" = "ab" 一个数字和字符串其实也是拼接字符串   "a"-"b" = NaN   "5"-"6" = -1
+    *                       3 布尔  boolean  ture/false
+    *                           '='  '==' '==='的区别
+    *                           '='等号是赋值运算
+    *                           '=='两个等号是比较 结果只有true和false
+    *                                规律:1两个引用数据类型(对象数据类型)永远不相等
+    *                                    2  对象 == 字符串  把对象转化成字符串然后再比较    对象.toString()转化成字符串之后再比较
+    *                                    3  对象 == 数字   对象转化成数字 ==> 先把对象转化成字符串，然后再把字符串强制转化为数字
+    *                                    ps: 任何数据类型之前转换，如果等号两边有数字的都转化成数字，如果没有数字也都转化成数字
+    *                                    4 null == undefined true
+    *                                    5 null和undefined和其他任何数据类型做比较都是false                                NaN == NaN  false
+    *                                    自身做布尔运算为false 5个：
+    *                                       number:     0 NaN
+    *                                       string:     ''
+    *                                       null:        null
+    *                                       undefined:   nudefined
+    *
+    *                                    ! 先转化成布尔数据类型，然后再去反
+    *                                    !! 强制转换为布尔数据类型 Boolean
+    *
+    *                           '===' 绝对比较 ==> 如果数据类型不相同那么就是false
+    *
+    *                       4 null 空    只有null自己
+    *                       5 undefined  未定义 只有一个值就是undefined
+    *                   引用数据类型：
+    *                       1 对象  { 属性:属性值,属性名: 属性值  }
+    *                               由一组或者多组属性名和属性值组成，键值对，key value,组与组之间用","分开
+    *                         打印一个根本不存在的属性的值是undefined
+    *                         修改属性：对于一个已经存在属性重新赋值
+    *                         对象的属性的增加：person1.xxx  对象.属性名(任意取) = 属性值
+    *                         penson1['name'] = 'zhufeng';  另外一种添加方式
+    *                         person1[变量] = 'value'; 如果用变量代表的字符串当作属性名字只能用[]的方式添加
+    *
+    *                    验证数据类型的几种方式:
+         *                    1 typeof 结果："number" "string" "boolean" "undefined" "object" "function"
+         *                    2 instanceof
+         *                    3 constructor
+         *                    4 Object.prototype.toString.call()
+         *
+         *               常用的操作语句:
+           *                判断: if else ==>条件小括号里的代码都会最终转化为一个布尔值
+    *                           if(条件1){
+    *                               条件1成立的时候执行的代码
+    *                           }else if(条件2){
+    *                               条件2成立的时候执行的代码
+    *                           }else if(条件3){
+    *                               条件3成立的时候执行的代码
+    *                           }else{
+    *                               以上条件都不成立的时候执行的代码
+    *                           }
+    *                        判断2: switch case ==> 一般用于我知道值可能出现的几种情况,每一种情况下面的break不能不写
+    *                               var num = 6;
+                                    switch (要判断的值){
+                                        case 第一种情况:
+                                        第一种情况执行的代码
+                                        break;
+                                        ...
+                                        default:
+                                        以上都不是的执行的代码
+                                    }
+                               三元运算符 ==> 就是简单的一个if else
+                                    条件 ? 条件成立的时候执行的代码 : 条件不成立的时候执行
+                                    条件 && 条件成立的时候执行
+
+
+                           循环： 重复去做
+                            1  for循环
+                            for(var i=0; i<10; i++){
+                                continue; //继续  当次循环停止(从contune向下的代码就不用执行了),下次循环继续.  就说明i++是要执行的
+                                break; //破坏    只要代码能执行到break这一行循环就停止了。下一次循环也不会继续了。 其实i++就不执行了
+                            }
+                            循环执行的步骤： 从i=0开始，0符合小于10的条件，然后执行循环体内的代码,代码执行结束之后执行i++，用i++之后i的值去和i<10这个条件做比较，如果条件成立继续执行循环体内的代码， i++是为了保证循环的下一次执行
+
+                            2 while循环  更多的应用于条件循环
+                            while(条件){ //只要条件为真，这个循环体内的代码就会执行
+
+                            }
+
+                            3 for in  循环  是用来循环遍历对象的
+                            var person = {name:'tianxi',age:30}
+                            for(var key in person){
+                                循环执行的次数和有多少组属性相同
+                                key分别每次都代表不同的属性名字
+                                person[key]代表每次循环的属性值
+                            }
+       *
+    * */
+
+    var fFri = 6;
+    console.log(fFri);  //在控制台中打印,输出到控制台
+    var vF = 'hadfasdf&…………%￥￥￥#';
+    var b = "xyz";
+    var c = true;
+    var d = false;
+    var d6 = null;
+    var $ = undefined;
+////////////////////////////////////////////
+    var person1 = { name:'zhufeng',age:7,address:"huilonguan",teacher:["tian","geng"],students:{} }; //对象
+
+    var _this = [{},[],3]; //数组
+    var _continue = /^\d+\w$/; //正则
+    var _break = new Date(); //时间
+    var teacherName = function (){} //函数
+
+    var a = 5;
+    var b = a; //5
+    //console.log(b); //5
+    var b = 6; //给b重新赋值
+    var b = 7;
+
+
+
+    var person1 = { "age":7,address:"huilonguan",teacher:["tian","geng"] }; //对象
+    //person1.name = "zhufengpeixun";
+    person1.xxx = 89;
+    console.log(person1.age); //7
+    console.log(person1.students); //
+    console.log(person1);
+    delete person1.name;
+    console.log(person1);
+
+
+    var name = 'zhufeng';
+    person1.name = 99;
+
+    person1[name] = 98; //也可以做到操作对象的属性
+    console.log(person1);
+    var s;
+    person1['asdf'] = 's';
+
+
+
+
+
+</script>
+<script src="js/index.js">
+    alert(789); //这里的代码是不执行的
+</script>
+<script>
+/*
+     alert("456"); //ECMAScrit已经规定好的了
+     alert("456"); //ECMAScrit已经规定好的了
+*/
+    var num = 5;
+    if(0){
+        alert(5);
+    }else{
+        alert(0);
+    }
+
+    var num = 6;
+    switch (num){ //我要判断的值
+        case 0:
+            alert(0);
+            break;
+        case 1:
+            alert(1);
+            break;
+        case 6:
+            alert('haha');
+            break;
+        default :
+            alert('以上都不是')
+    }
+
+    //num = num + 1; //7
+    num += 1; //在num的基础上累加1  num = num + 1的简写
+    //num *= 5;
+    if(num == 7 ){
+        console.log(7)
+    }
+
+    num == 7 ? console.log(7) : console.log('not 7'); //分号结束
+
+    num == 7 && console.log(7); //没有else的一个简单的if
+    console.log(1);
+    for(var i =0;  i<5; i++){
+        // i =0; 循环从哪里开始
+        //i<10; 循环执行的条件，符合这个条件才执行  i++每次把i累加1 ==> 这个动作发生在执行完循环体内的代码之后再累加
+        //在花括号内的代码叫做循环体
+        console.log(i);
+        //i--;
+
+    }
+    //console.log(i);
+
+    for(var i=1; i<9; i++){
+        if(i<=3){
+            console.log(i);
+            i += 1;
+            continue;
+        }
+        console.log(i);
+        i += 2;
+
+        break;
+        console.log(i);//不执行
+    }
+    console.log(i);
+
+
+    var total = 0;
+    for(var k=1; k<=10; k++){
+        if(k%3==0){    // %取模 ==> 取余数
+            total += k;
+        }
+    }
+    console.log(total);
+
+    var num = 0;
+    while(num < 5){
+        num++;
+        console.log(num);
+    }
+
+
+    for(var i=0; i<4; i++){
+
+    }
+
+    var i=0;
+    while(i<4){
+       //
+        console.log(i);
+        i++;
+    }
+
+
+    var person = {
+        'name':'tianxi',
+        age:30,
+        tel : 18800019819,
+        height:175,
+        weight: '*'
+    };
+
+    //遍历
+    for (var key in person){
+        console.log(key);
+        console.log(person[key]);
+    }
+
+
+
+</script>

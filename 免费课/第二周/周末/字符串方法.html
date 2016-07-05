@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>string</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+        字符串方法
+    *   属性: length  字符串的长度 ==> 字符串中有多少个字符
+    *   索引 :  也可以通过索引来获取字符串中指定的字符
+    *   //通过索引获取指定字符
+    *   str.charAt(索引)  通过索引获取指定字符   获取一个根本不存在索引位置字符是""
+    *   str.charCodeAt(索引)  通过索引获取指定字符的编码  ASCII,在这个表中字符都是按照顺序去排列的   如果需要输入汉字那么对应汉字编码是有区间的，如果你的编码不再这个区间我就不让你通过验证
+    *
+    *   //截取字符串
+    *   substr(n,m)  从索引n开始截取m个
+    *   substr(n) 从索引n开始截取到末尾
+    *
+    *   substring(n,m)  从索引n开始到索引m不包含m
+    *   substring(n) 从索引n开始截取到末尾
+    *
+    *   slice() 和substring用法相同 ，不同：支持负数索引，是默认在负数索引的基础上累加字符串的长度
+    *
+    *   //转化大小写
+    *   toUpperCase()  转化成大写
+    *   toLowerCase()  转化成小写
+    *
+    *   //查找字符在字符串中出现的索引位置  数组中的indexOf和lastIndexOf有兼容性问题，字符串没有,也可以判断一个单词在字符串中出现的索引位置
+    *   indexOf(字符)  如果这个字符在字符串中出现那么返回对应的索引位置，否者不出现返回-1
+    *   lastIndexOf(字符)  最后一次出现的索引位置，不出现返回-1
+    *   window.navigator.userAgent ==> "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.4 Safari/537.36";
+    *   window.navigator.userAgent.indeOf('Chrome') >= 0
+    *   window.navigator.userAgent.indeOf('MSIE 10.0') !== -1
+    *   可以通过indexOf来判断当前浏览器是什么浏览器
+    *
+    *   //split()  按照指定的分隔符把字符串拆分成数组
+    *   和数组的join方法对应着记
+    *   split(正则)  split的参数还可以是一个正则
+    *
+    *   //replace 替换字符串
+    *   replace(old,new)
+    *   ps : replace的返回值才是那个替换好的字符串，而字符串没有变化
+    *        str = str.replace(old,new); 一般应用的这个用法比较多
+    *
+    *   str.replace("xxx",function (a,b,c){ //第二个参数为函数的情况
+    *       a ==> 匹配的字符串
+    *       b ==> 匹配的字符串的对应在原有字符串中的索引
+    *       c ==> 原有字符串
+    *       如果用arguments分别也是这三项
+    *       return 值;  return的这个值才是真正要替换xxx的
+    *   });
+    *
+    *   str.replace(正则,function (){ //正则
+    *
+    *   });
+    *
+    *   //match 用来匹配正则用的和正则的exec方法一起学
+    *
+    * */
+    var str = 'zhufeng2015peixun2016';
+    console.log(str.length); //
+    console.log(str[str.length-1]); //
+
+    var res = str.charAt(str.length+5);  //通过0索引获取0索引位置的字符
+    console.log(str.charCodeAt(0)); //
+    //sbustr
+    var str = 'zhufeng2015peixun2016';
+    var res//= str.substr(0,5); //从索引0开始截取5个
+    var res = str.substr(3); //从索引0开始截取5个
+    console.log(res);
+
+    //substring
+    var str = 'zhufeng2015peixun2016';
+    var res = str.substring(3,7); //feng
+    var res = str.substring(3,1); //hu
+    var res = str.substring(3); //hu
+    console.log(res);
+
+    //slice
+    var str = 'zhufeng2015peixun2016';
+    var res = str.slice(-7,-3); //在这两个负数参数的基础上都加上了字符串的长度
+    //var res = str.slice(14,18); //在这两个负数参数的基础上都加上了字符串的长度
+    console.log(res);
+
+    //indexOf
+    var str = 'zhufeng2015peixun2016';
+    var res = str.indexOf('x'); //14
+    console.log(res);
+
+    //lastIndexOf
+    var str = 'zhufeng2015peixun2016';
+    var res = str.lastIndexOf('xun');
+    console.log(res);
+
+    //split
+    var str = 'tian&xi';
+    var res = str.split('&'); //['tian','xi']
+    var res = str.split(''); //['tian','xi']
+    console.log(res);
+
+    //replace
+    var str = 'abcd';
+    var res = str.replace('a','A');
+    str = str.replace('a','A'); //
+    console.log(str);
+    //Abcd
+    str = str.replace('c',function (a,b,c){
+        //console.log(a,b,c);
+        console.log(arguments); //[c,2,'Abcd']   匹配到的字符串 , 索引 , 原有字符串
+        //是用这个函数的返回值去替换第一个参数匹配到的字符串
+        return '下课';
+    });
+
+</script>

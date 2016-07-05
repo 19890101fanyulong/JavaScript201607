@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>99乘法表</title>
+    <style>
+        *{ margin: 0; padding: 0; font-family: "microsoft yahei"; }
+        #wrap{ margin: 30px auto; width: 920px;  }
+        #wrap ul{ width: 900px; padding: 10px; border: 2px solid #ccc; border-radius: 5px; list-style: none;  }
+        #wrap ul li{ height: 30px; line-height: 30px; text-align: center;  }
+        #wrap ul li span{ display: block; float: left; width: 100px; height: 30px; }
+        .c0{ background: red;  }
+        .c1{ background: yellow; }
+        .c2{ background: blue; }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <ul>
+            <li>
+                <span> 1 * 1 = 1</span>
+            </li>
+            <li>
+                <span> 1 * 2 = 2 </span><span> 2 * 2 = 4</span>
+            </li>
+            <!--
+                第9行应该有9个span，这个span在拼接到第九个li的是里面的span要拼接9个
+            -->
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+    var wrap = document.getElementById('wrap'); //获取了最外层那个包裹元素
+    var ul = wrap.getElementsByTagName('ul')[0]; //从获取到的多个ul中获取第一个，即使只有一个也需要通过索引0来获取
+    console.log(ul.innerHTML); //
+    //innerText
+    //console.log(ul.innerText); //忽略掉标签，只是把里面的文本拿出来了
+    console.log(typeof ul.innerHTML); //我要先查看innerHTML的类型是什么,通过打印得知，这些都是字符串。
+    var str = ""; //声明了一个空字符串，我是要在这个空字符串身上不断累加，要累加9个li，还要在每个li中累加不同数量span
+   for(var i=1; i<=9; i++){
+       //首先累加9个li,我们外面的for循环其实循环拼接的是li标签。而这个for循环内声明的变量i其实可以理解为代表是第i行
+       str += '<li>';
+            //累加span  <span> 1 * 1 = 1 </span>
+            for(var j=1; j<=i; j++){ //这个i分别代表第n行，而第n行正好最多有n列
+                str += '<span>';
+                    //span里面还需要拼接 1*4 =4 等
+                    str += j + '*' + i + '=' + j*i;
+                str += '</span>';
+            }
+       str += '</li>';
+   }
+    ul.innerHTML = str; //str是累加好的字符串
+    var spans = ul.getElementsByTagName('span');
+    for(var i=0; i<spans.length; i++){
+        spans[i].className = 'c'+i%3;
+    }
+</script>

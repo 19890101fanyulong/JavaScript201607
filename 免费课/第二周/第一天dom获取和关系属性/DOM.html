@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>DOM</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        #outer{ width: 200px; height: 200px; padding: 50px; background: #ccc; }
+        #outer #middle{ width: 100px; height: 100px; background: red; padding: 50px; /*box-sizing: border-box;*/   }
+        #outer #middle #inner{ width: 100px; height: 100px; background: green; }
+        /*input[type=radio]{  }*/
+        #outer.tianxi{ background: black; }
+    </style>
+</head>
+<body>
+    <div id="outer">
+        <!--middel-->
+        <div id="middle">
+            <!--我是middle里面的注释-->
+            <div id="inner"></div>
+            <!--asdfasdf-->
+            <span id="innerSpan"></span>
+            <!--66-->
+        </div>
+    </div>
+    <input type="radio" class="haha" id="boy" name="sex" value="男" />
+    <input type="radio" class="haha" id="girl" name="sex" value="女" />
+    <input type="radio" class="haha" id="girl" name="gender" value="女" />
+    <input type="text"/>
+    <!--<div id="middle">middle</div>-->
+</body>
+</html>
+<script>
+    var middle = document.getElementById('Middle');
+    console.log(middle);
+    var inner = document.getElementById('inner');
+    //var sss = document.getElementsByName()
+    //middle.getElementById is not a function
+    /*
+    *   js中常用的获取元素的dom方法:
+    *       1 document.getElementById('id')  通过id获取元素,获取回来的是一个元素
+    *           ps: 在低版本的ie中,name的属性会当作id来用
+    *               如果这个id在页面中不存在，默认返回了一个null
+    *               如果页面中存在了两个相同的id那么获取第一个
+    *               通过id获取元素的上下文context(范围)只能是document
+    *               大小写区分
+    *       2  context.getElementsByTagName('标签名') 通过标签名获取元素
+    *            ps: 获取来的是一组元素，即使没有获取到返回的也是一个空的类数组，如果想具体获取中的某一个只能通过索引获取
+    *                通过标签获取元素可以指定上下文范围
+    *       3 context.getElementsByClassName('类名字') 通过类名获取元素
+    *           ps : 和标签名一样也是获取来的一组元素，返回值也是一个类数组。索引 length
+    *                不兼容低版本ie浏览器 正式课部分写一个全兼容的方法
+    *
+    *       4   document.getElementsByName  通过name属性获取元素,一般应用于表单元素
+    *           ps： 获取来的也是一组元素
+    *       5   document.documentElement 代表的就是html
+    *       6   document.body            代表的就是body  document.getElementsByTagName('body')[0]  ==> 只要获取回来的是一个集合，那么就需要通过指定具体的索引来获取具体的某一个
+    *       //应用于移动端较多
+    *       7 document.querySelector() 不兼容  获取一个
+    *       8 document.querySelectorAll()  不兼容  获取多个
+    *           id就在小括号内('#id')通过id获取元素
+    *           class就在小括号内('.class')通过class获取元素
+    *           tagName就在小括号内('tagName')通过标签名获取元素
+    *           如果在某范围内获取  querySelectorAll('#outer div') 在中间位置加空格
+    *           过滤条件：document.querySelectorAll('input[type=radio][name=gender]');
+    *       9 获取浏览器可视窗口的宽度和高度
+    *       document.documentElement.clientWidth||document.body.clientWidth  宽度
+    *       document.documentElement.clientHeight||document.body.clientHeight  高度
+    *       ps: 或者一定要有，并且前后顺序不能颠倒
+    * */
+    var inner = document.querySelectorAll('#outer div');
+    var haha = document.querySelectorAll('.haha');
+    var haha = document.querySelectorAll('div');
+    var inputs = document.querySelectorAll('input[type=radio][name=gender]');
+    console.log(inputs);
+    //console.log(haha);
+    console.log(inner);
+
+
+    /*
+    *   在dom结构中用来描述节点关系的属性:
+    *       node: 注释 换行 空格 标签
+    *
+    *       parentNode: 父节点 是唯一的
+    *       childNodes: 所有的子节点(不仅仅包括元素还有注释换行等)，是一个有索引有长度的类数组
+    *       children: 所有的元素子节点，有索引有长度的类数组
+    *       previousSibling: 上一个哥哥节点，如果上一个哥哥节点不存在，返回一个null
+    *       nextSibling : 下一个弟弟节点(有可能是换行，注释)
+    *       previousElementSibling :  上一个元素哥哥节点(不兼容低版本ie)
+    *       nextElementSibling : 下一个元素弟弟(不兼容低版本ie)
+    *       firstChild : 第一个子节点(包含换行注释等)
+    *       lastChild : 最后一个子节点(包含换行注释等)
+    *       firstElementChild: 第一个元素子节点(不兼容低版本ie)
+    *       lastElementChild:  最后一个元素子节点(不兼容低版本ie)
+    *
+    * */
+    var middle = document.getElementById('middle');
+    console.log(middle.parentNode.parentNode); //node
+    console.log(middle.childNodes);
+    console.log(middle.children);
+    var inner = document.getElementById('inner');
+    console.log(inner.previousSibling.previousSibling.previousSibling.previousSibling);
+    console.log(inner.nextSibling);
+    console.log(inner.previousElementSibling);
+    console.log(middle.firstChild); //第一个孩子
+    console.log(middle.lastChild); //最后一个孩子
+    //previousElementSibling
+
+    /*
+    *           元素(标签)        文本      注释         document
+    * nodeType       1             3         8              9
+    *
+    * nodeName    大写的标签名字   #text     #comment    #document
+    *
+    * nodeValue    null          文本内容    注释内容      null
+    *
+    * */
+
+    console.log(middle.nodeType);
+    console.log(middle.nodeName);
+    console.log(middle.nodeValue);
+    console.log(middle.childNodes[1].nodeType);
+    var innerSpan = document.getElementById('innerSpan');
+    function prevEleSibling(element){ //这个方法用来获取某元素的哥哥元素节点
+        var pre = element.previousSibling; //获取第一个哥哥,可能是null,如果第一个哥哥恰好就是一个元素，我就没有必要向上找了。如果第一个哥哥不是元素，那么需要继续向上找下去，知道找到一个元素哥哥为止，如果到最后都没有一个元素哥哥(最后的哥哥为null)的时候就没有必要再找下去了
+        while( pre && pre.nodeType != 1){
+            pre = pre.previousSibling; //让这个循环的条件在执行的过程中一定要停下来
+        }
+        return pre;
+    }
+    var res = prevEleSibling(innerSpan); //我是要获取inner的元素哥哥节点
+    console.log(res);
+
+    //
+    function myChildren(ele){ //获取元素的所有元素子节点
+        var ary = [];//声明一个容器
+        var childs = ele.childNodes; //这里包含所有的节点(注释，文本等)
+        for(var i=0; i<childs.length; i++){
+            if(childs[i].nodeType == 1){ //判断当前的这个节点是不是元素节点,只能通过节点类型来判断
+                ary[ary.length] = childs[i]; //push
+            }
+        }
+        //[div,span]
+        return ary; //把这个容器留下来
+    }
+    console.log(myChildren(middle,'DIV')); //<div id='inner'>    <span>
+
+    /*
+    *   写函数的时候注意： 1 第一点你要明确你的这个函数的作用
+    *                     2 函数中参数的确定完全取决于这个函数在执行的时候是否需要一个外边的变量
+    *                     3 函数的返回值也不是必须的。要取决于函数运行结束后是否需要留下来值
+    *
+    * */
+
+    //作业: 自己模拟一个nextEleSibling方法
+
+    /*
+    *   dom节点的增加/删除/替换/克隆
+    *       //创建
+    *       1 创建一个标签  document.createElement('tagName') 参数是标签名字
+    *       //添加
+    *       2 父级元素.appendChild(被添加元素) 追加在末尾位置了
+    *           ps：只能由父级元素调用
+    *               对于一个已经存在元素子节点如果是appendChild其实位置的改变，并没有新添加一个在末尾
+    *       3  父级元素.insertBefore(新的元素，放在谁前面)
+    *       //替换
+    *       父级元素.replaceChild(newChild,oldChild); 参数1：新节点  参数2：被替换的旧节点
+    *
+    *       4 删除节点
+    *       父级元素.removeChild(被移除的节点);
+    *
+    *       5 克隆节点
+    *       要被克隆的元素.cloneNode(true) 参数是一个布尔值，默认是false，如果是true是深度克隆==>把里面的子节点全部克隆一份
+    *
+    *
+    * */
+    var p = document.createElement('p'); //创建了一个p标签，此时这个p标签并没有在任何的dom结构中
+    p.innerHTML = "我是通过innerHTML添加进来的";
+    var inner = document.getElementById('inner');
+    middle.appendChild(inner);
+    middle.insertBefore(p,inner);
+
+    function insertAfter(newEle,oldEle){ //我想让newEle插入到oldEle的后面
+        //先找他弟弟
+        var next = oldEle.nextElementSibling; //先把作业完成，用作业提供写的方法把这个地方重新获取下
+        //next只有两种情况，要么获取到弟弟元素节点，要么null
+        if(next){
+            //如果oldEle的元素弟弟存在，那么直接插入到这个弟弟的前面就可以了，insertBefore只能父级元素调用oldEle.parentNode
+            oldEle.parentNode.insertBefore(newEle,next);
+            return;  //我什么也不想留下，还想让代码不再运行了。。。return是一个拦截动作
+        }
+        //只要代码能运行到这，说明没有next
+        oldEle.parentNode.appendChild(newEle); //如果没有弟弟元素节点，那么直接追加到末尾就可以了
+    }
+
+    var img = document.createElement('img');
+    //middle.replaceChild(img,inner);  替换节点
+    middle.removeChild(inner); //移除节点
+    console.log(middle.cloneNode(true));
+
+    /*
+    *   给标签元素添加行内属性
+    *       1 setAttribute('属性名字','属性值');
+    *       2 getAttribute('属性名字');
+    *       3 removeAttribute('属性名字');
+    *
+    * */
+    var outer = document.getElementById('outer');
+    //outer.setAttribute('class','tianxi');
+    outer.setAttribute('teacher','tianxi');
+    console.log(outer.getAttribute('teacher'));
+    outer.removeAttribute('teacher');
+    console.log(outer.getAttribute('teacher'));
+</script>

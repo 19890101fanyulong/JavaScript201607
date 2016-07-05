@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>验证码</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        #code{ width: 200px; height: 80px; border: 2px solid #999; background: lightgrey; text-align: center; line-height: 80px; margin: 100px auto; cursor: pointer; -webkit-user-select: none; }
+        #code span{ font-size: 50px; font-weight: bold;  }
+    </style>
+</head>
+<body>
+    <div id="code">
+        <span class="codeSpan">j89u</span>
+    </div>
+</body>
+</html>
+<script>
+    //获取可能要操作到的元素
+    var code = document.getElementById('code');
+    var codeSpan = code.getElementsByTagName('span')[0];
+    console.log(codeSpan);
+    //刷新页面的时候需要更换codeSpan里面的HTML就可以,点击的时候也需要更换一个
+    //由于span里的html取值是有范围的，所以我们要规定好范围
+    function changeCode(){
+        var strRange = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; //一共62个字符，索引是从[0-61]
+        //每次从这个范围内拿出来4个就可以了,用每次拿出来一个字符拼接成一个4个字符的字符串
+        var spanHtml = "";
+        for(var i=0; i<4; i++){ //拿四次
+            //每次都随机在这62个字符中拿出来一个
+            //strRange[61]
+            //strRange[0]
+            //strRange.charAt(0)
+            //strRange.charAt(61)
+            //只要索引这个位置是随机的就可以,索引这个位置的随机数是从0到61
+            var ran = Math.round(Math.random()*(61-0)+0); //每次都从0-61中间获取一个随机整数，用来当作索引来从范围字符串获取一个随机字符
+            var ranChar = strRange.charAt(ran);  //由于索引是随机的，每次获取回来的字符也是随机的
+
+            spanHtml += ranChar;
+        }
+/*
+        codeSpan.innerHTML = spanHtml; //把已经拼接好的4位随机字符串赋值给span的innerHTML
+*/
+        return spanHtml;
+        //点击的时候需要重新更换
+    } //这个函数就是用来更换随机验证码
+
+    //codeSpan.innerHTML = changeCode(); //函数执行才能有效果
+   /* code.onclick = function (){
+        codeSpan.innerHTML = changeCode();
+    }*/
+
+/*
+   code.onclick =  function (){
+       changeCode();
+   } //在给元素绑定事件的时候，只要赋值一个函数就可以。不一定是一个匿名函数
+*/
+//以前出现过的字符不能出现，大小写也不能重复
+
+    function xxxx(){
+        var strRange = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var str = "";
+        for(var i=0; i<4; i++){
+            var ran = Math.round(Math.random()*61);
+            var ranChar = strRange[ran];
+           // ranChar = strRange.charAt(ran);
+            if(str.indexOf(ranChar.toLowerCase()) === -1 && str.indexOf(ranChar.toUpperCase())===-1  ){
+                str += ranChar; //'A6'  a/A   i=2;  indexOf -1
+            }else{ //刚刚拿过来的这个字符曾经出现过
+                i--;
+            }
+        }
+        codeSpan.innerHTML = str;
+    }
+    xxxx();
+    code.onclick = xxxx;
+    //   'abc' a indexOf
+
+
+
+</script>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>string方法</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   string的常用方法：
+    *       属性: length字符串的长度，字符串中字符的个数
+    *             通过索引str[index]获取指定的字符
+    *       //获取指定字符
+    *       1 charAt(索引)  参数是一个索引，通过索引数获取索引对应位置的字符
+    *       2 charCodeAt(索引)  通过索引获取索引指定位置字符编码 ASCII,例如：在输入框的时候要求输入汉字,可以判断当前的字符是否是汉字对应的ASCII码区间
+    *
+    *       //截取字符串
+    *       3 substr(n,m) 从索引n开始截取m个字符
+    *       4 substring(n,m) 从索引n开始到索引m不包含m
+     *        substring(0) 截取整个字符串
+     *        substring()  也是截取整个字符串
+    *       5 slice(n,m) 用法和substring相同，但是slice支持负数索引
+    *         slice的参数是负数索引，默认在每个参数的基础上加上字符串的长度
+    *
+    *       //转换大小写
+    *       6 toUpperCase() 把字符串转化成大写的
+    *       7 toLowerCase()  把字符串转化成小写
+    *
+    *       //判断字符在字符串中出现的索引位置
+    *
+    *       8 indexOf() 可以支持单词，如果在字符串中出现过那么就返回对应的索引，否则返回-1
+    *       9 lastIndexOf   最后一次出现的索引位置，如果没有出现返回-1
+    *       ////////////////////////////////////////////////////////
+    *       10 split 按照指定分隔符把字符串拆分成数组  和数组方法join对应记忆
+    *           "123".split("") ==> [1,2,3]
+    *           split(正则)
+    *
+    *       11 replace(old,new)  替换字符串
+    *          replace操作并不会改变原有字符串，返回了一个新的已经替换好的字符串
+    *          str = str.replace(old,new);
+    *          第二个参数是一个函数的时候，用这个函数返回值来替换第一个参数
+    *
+    *       12 match和正则一起讲
+    *
+    * */
+
+    var str = "zhufengpeixun2016";
+    //console.log(str.length); //
+    //console.log(str[str.length-1]);
+    //charAt
+    console.log(str.charAt(3));
+    console.log(str.charCodeAt(5));
+    console.log(str.substr(3,3));
+    console.log(str.substring(-1,-3));
+    console.log(str.slice(-3,-1));
+
+    var str = "zhufengpeixun2016";
+    console.log(str.indexOf('peiun'));
+    //str = str.replace('2016',"二零一六");
+    str = str.replace('2016',function (){
+        console.log(arguments); //["2016",13,'zhufengpeixun2016']
+        console.log(arguments[1]); //要替换的那个字符串的索引
+        return "二零一六";
+    });
+
+
+</script>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        #div1{ width: 100px; height: 100px; background: red; }
+    </style>
+    <link rel="stylesheet" href=""/><!--href外链文件存放的位置-->
+</head>
+<body>
+    <!--
+        121170784  田喜   18800019819
+    -->
+    <div id="div1" class="div1" onclick="alert('我是写在行内的脚本')" ></div>
+    <img src="" alt=""/>
+    <input type="text"/>
+</body>
+</html>
+<script type="text/javascript">
+    /*
+    *   js的引入方式
+    *       1 行内  onclick="alert('我是写在行内的脚本')"   不推荐使用
+    *       2 内嵌  用一个script标签包含起来
+    *       3 外链  使用的是script的src属性  最常用的引入方式
+    *       ps: 如果script用来src属性外链其他js文件的时候，里面就不用写js代码了。这里的代码是不执行的
+    * */
+    //alert('我是内嵌');
+    /*
+    *   js的组成：
+    *       DOM : document object model 文档对象模型  获取和操作网页内的元素的
+    *       BOM ： browser object model 浏览器对象模型  刷新  跳转到指定位置
+    *       ECMAScript : js的核心部分都是在这规定的，比如： 变量，数据类型，语法，操作语句等
+    *           变量： 用来存储值和代表值的.并且这个变量的值是可以随意更换的
+    *                  var 关键字 声明一个变量
+    *           变量命名:  不能用数字开头
+    *                      不能使用关键字(在js现在有特殊意义的单词或者字母)
+    *                              保留字(现在没用以后可能用到的)
+    *                      可以使用$ _下划线 字母开头
+    *                      可以使用驼峰命名法,匈牙利命名法 oDiv
+    *                      ps: 在声明一个变量的时候，我们尽量让变量的名字有代表意义。
+     *
+    *           数据类型:  我们可以给这个变量赋值不同的数据类型
+    *                   基本数据类型:
+    *                       number：数字
+    *                           正数，负数，小数(浮点数) NaN(not a number)不是一个数
+    *                           parseInt 在字符串中提取数字：从左向右依次把整数部分提取，如果第一个字符不是一个数，那么就直接返回NaN
+    *                           parseFloat 用法和parseInt完全相同，只不过parseFloat可以把浮点数部分也能提取出来
+    *                           Number 把其他数据类型强制转换为数字
+    *
+    *                           Number('5px') ==> NaN
+    *                           Number("")  ==> 0
+    *                           Number('  ') ==> 0
+    *                           Number(true) ==> 1
+    *                           Number(false) ==> 0
+    *                           Number(null) ==> 0
+    *                           Number(undefined) ==> NaN
+    *
+    *                           isNaN  判断你是否是一个有效数字,返回值只有2种 true false。但是在isNaN的运算过程中，都会把其他数据类型先强制转化为数字Number，然后再判断
+    *                       string : 字符串 用单引号或者双引号包含起来的  "" 空字符串  " "空格字符串
+    *                           string的内置方法，下周学
+    *                           字符串中的"+"运算就是拼接字符串
+    *                           "str"+6 ='str6'
+    *
+    *                       boolean : 布尔  true 真  false 假
+    *                           Boolean() ==>自身做布尔运算
+    *                           自身做布尔运算时false的：
+    *                               0 NaN "" null undefined
+    *
+    *                           "="  "==" "==="区别
+    *                           "="赋值动作
+    *                           "=="
+    *                               1 两个引用数据类型永远不相等
+    *                               2 对象 == 字符串   把对象转换成字符串然后再比较
+    *                                  对象.toString()  这个小括号一定要有，相当于一个开关
+    *                               3  除了对象和字符串做比较，把对象转化为字符串之外，其他只要等号两边有数字的转化成数字，没有的也都转化成数字，对象转化成成数字需要先转化成字符串(toString())，然后再转化成数字
+    *                                  [] == "" true
+    *                                  [].toString() = ""
+    *                                  [] == false true
+    *                                  对象 == 布尔  把对象和布尔都转化成数字再比较
+    *                                  对象==>数字，首先把对象转化成字符串，然后再把这个字符串转化成数字  布尔==>数字  Number(布尔值)
+    *                                  NaN == NaN  false
+    *
+    *                               4 null == undefined true
+    *                               5 null和undefined和任何其他数据类型做比较都不相等
+    *                           "===" 绝对比较  如果类型不相等就是false
+    *                               !和!!的区别：
+    *                                   1 一个感叹号是取非 先转化成布尔数据类型然后再取反
+    *                                   2 两个感叹号是取反再取反，其实也就是转化为布尔数据类型  !! ==  Boolean()
+    *                       null : null 空
+    *                       undefined : undefined 未定义
+    *
+    *
+    *
+    *                   引用数据类型(对象数据类型):
+    *                       对象 由一组或者多组属性名和属性值组成，属性名和属性值之间用冒号隔开，组和组之间用逗号隔开  { 属性名:属性值,属性名:属性值 }   键值对  key:value
+    *                       增加属性  对象.属性名 = 属性值
+    *                       修改： 对于一个存在的属性重新赋值就是修改
+    *                       删除属性   delete 对象.属性名
+    *
+    *                       对象[属性名] ps: 属性名字可以是字符串，也可以是一个代表字符串的变量
+    *                       ps: 如果对象的属性名是数字，需要用   对象[number]的方式去添加,属性名字是变量也需要用中括号的方式去添加或者修改
+    *
+    * */
+
+    /*
+    *   判断数据类型几种方法：
+    *       1 typeof // "number","string","boolean","object","undefined","function"   只有这么6种
+    *       2 instanceof
+    *       3 constructor
+    *       4 Object.prototype.toString.call();
+    *
+    *
+    * */
+    var a;   //我声明了一个叫做a的变量，声明了一个容器。但是现在容器内还没有装任何的东西
+    a = 5; //
+    //基本数据类型
+    var a = 5;  //直接把a这个变量赋值为5
+    var b = "afdadsfasdf"; //字符串: 用单引号和双引号包含起来的就叫做字符串
+    var b = '*&&^%$$#@@'; //字符串: 用单引号和双引号包含起来的就叫做字符串
+    var c = true; //false 布尔类型
+    var d = null; //空
+    var e = undefined; //未定义
+    var s9;
+/*
+    var this;
+    var $;
+    var *;
+    var ^;
+    var %;
+*/
+    //引用数据类型
+    var f = {name:"zhufeng",age:7}; //对象
+    var g = [1,2,3,{}]; //数组
+    var h = /^\d+$/; //正则表达式
+    var i = new Date(); //时间
+    var j = function (){} //函数
+    var todayDate;
+
+    var x = 'car';
+    //x = 6;
+    var person = { "name":'tianxi', 'age':30, height:175, weight:90 };
+    console.log(x+5);
+    person[x] = 'toyoya';
+    person.x = '';
+    //person.x = 'VOLVO';
+    //person['x'] = 'volvo';
+    person[5] =6;
+    console.log(person);
+
+/*
+    person.zuojia = 'BMW7';
+    console.log(person);
+    person.car = 'BENZ';
+    console.log(person);
+    console.log(person.car);
+    delete person.car;
+    console.log(person);
+*/
+
+    /*
+    *   判断:
+    *       if(条件1){
+    *           这里面的代码条件1成立的时候执行
+    *       }else if(条件2){
+    *           条件2成立执行
+    *       }else if(条件3){
+    *
+    *       }else{
+    *           以上条件都不成立执行
+    *       }
+    *       条件只有成立和不成立，要们是true要么是false
+    *       ps: 放在条件位置的代码到最后就会转化成一个布尔数据类型
+    *
+    *       switch case 判断 ==>一般应用于我知道值可能出现的几种情况
+    *           ps switch是绝对比较
+    *
+    *        switch(要判断的值){
+    *           case 情况1：
+    *               情况1成立的时候执行的代码
+    *               break;
+    *           case 情况2：
+       *           情况2成立的时候执行的代码
+       *           break;
+       *
+       *        default:
+         *        以上情况都不成立的时候执行
+    *
+    *        }
+    *
+    *        三元运算符 这就是一个简单的if else
+    *           条件 ? 条件成立的时候执行的代码 : 条件不成立的时候执行的代码
+    *           经常使用的两种赋值方式
+    *           //var a =  0 ? 5 : 6;
+                //var a = undefined || 6;
+
+            条件  && 条件成立的时候执行的代码
+    *        num == 6 && console.log(6);  //if(num == 6){ console.log(6) }
+    *
+    *
+    * */
+    //debugger; //断点，当代码执行到这的时候会被主动拦截，需要自己人工执行了,在浏览器中需要把控制台打开然后重新刷新
+    var num = 10;
+    if(num > 0){
+        console.log('我是正数');
+    }else if(num < 0){
+        console.log('我是负数');
+    }else{
+        console.log(0);
+    }
+
+   /* if(5==6){
+        console.log("haha");
+    }*/
+    var num = 5;
+    switch (num){
+        case 2:
+            //
+            break;
+        case 3:
+            //
+            break;
+        case 5:
+            //
+                alert(5);
+            break;
+        default :
+            alert('haha');
+    }
+
+    var num = 6;
+    if(num == 6){
+        console.log(6);
+    }else{
+        console.log('not 6');
+    }
+
+    num == 6 ? console.log(6) : console.log('not 6');
+
+    //
+    //var a =  0 ? 5 : 6;
+    //var a = undefined || 6;
+    console.log('a是'+a);
+
+    num == 6 && console.log(6);  //if(num == 6){ console.log(6) }
+
+
+
+    /*
+    *   循环
+    *       1 for循环  一般应用于我们知道循环和结束的次数
+    *
+    *       循环步骤
+    *            1 设置一个初始条件
+    *            2 初始条件和循环条件做比较
+    *            3 执行循环体内的代码
+    *            4 执行累加步长 i++的操作 ==> i++步长的累加是为了保证下次循环执行的根本因素
+    *            如果在循环体中出现：
+    *            continue  当次循环停止(continue下面的代码不会再执行) 下次循环继续(其实就是i++的动作还是执行的)
+    *            break  直接跳出循环(i++也不执行了)
+    *
+    *
+    *
+    *       2 while循环  一般应用于条件循环=> 我不知道循环多少次，但是我知道什么时候不执行           while(条件){
+    *               循环体
+    *               ps: 在使用while循环的时候，一定想着如何能把这个循环停下来==> 因为循环的执行而破坏掉循环的条件
+    *           }
+    *
+    *       3  for in 循环遍历 ：用来循环遍历对象
+    *
+    *          ps: 如果打印一个对象中根本不存在的属性那么返回值就是undefined
+    *
+    * */
+
+    for(var i=0; i<5; i++){ // i = i+1
+        //循环体
+        console.log(i); //01234
+        //i--;
+    }
+    //console.log(i); //5
+
+    for(var i=0; i<10; i++){
+        if(i<=5){
+            console.log(i);
+            i += 3; //在自身的基础上累加
+            continue;
+        }
+        console.log(i);
+        i += 2;
+        console.log(i);
+        break;
+        console.log(i)
+    }
+    console.log(i);
+
+    var num = 0;
+    while(num < 5){ //小括号内放的是循环的条件
+        console.log(num);
+
+        num++;
+    }
+
+    for(var k=0; k<5; k++){
+        console.log(k);
+    }
+
+    //把一个for循环修改成while循环
+    var k=0;
+    while(k<5){
+        console.log(k);
+        k++
+    }
+
+    var person = {
+        name: 'zhufeng',
+        age : 7,
+        height: 185,
+        weight : '101kg'
+    };
+    //person['girlFriend'] = null;
+
+    for(var key in person ){
+        //console.log(1); //执行了4次,取决于遍历的这个对象有多少组属性
+        console.log(key); //分别每次打印的都是对象的属性名字 ==>key这个变量每次循环执行的时候都分别代表不同对象属性名字
+        //console.log(person.key);
+        console.log(person[key]);
+        console.log(typeof key); //对象中的属性名字都是字符串
+    }
+
+
+
+
+
+
+
+
+</script>
+<script src="js/common.js">
+    //alert('我是写在外链标签内的');
+</script>
+

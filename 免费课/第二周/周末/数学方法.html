@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Math</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   Math.abs()  取绝对值   Math.abs('-6px') ==> NaN
+    *   Math.ceil()  向上取整
+    *   Math.floor()  向下取整
+    *   Math.max(1,2,3,4,5,4,3,2) ==>5 在一堆数种找出一个最大值，如果参数有非数字先转化成数字
+    *   Math.min(1,2,3,4,5) ==> 1 取最小值
+    *   Math.round() 四舍五入   ps: 在负数的时候临界点6
+    *   Math.random()  获取0-1之间的随机小数(浮点数)
+    *   (0.123456).toFixed(n) ==> 取小数点后n位
+    *
+    *   获取[n-m]之间的随机整数
+    *   Math.round(Math.random()*(m-n)+n);
+    *
+    * */
+
+    function getRandom(n,m){ //获取n-m之间的随机整数
+        //n-m之间的随机整数
+        n = Number(n);
+        m = Number(m);
+        if(isNaN(n) || isNaN(m) ){ //如果n和m只要有一个不是有效数字那么我就认为直接给你返回一个随机数就可以了
+            return Math.random();
+        }
+        if(n>m){ //我是要获取n到m之间的随机数，如果n大于m交换位置
+            var temp = m;
+            m = n;
+            n = temp;
+        }
+        return Math.round(Math.random()*(m-n)+n);
+    }
+</script>

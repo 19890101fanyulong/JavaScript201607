@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    *   时间:
+    *       var date = new Date();
+    *       var date = new Date("1986/03/19 12:12:24");
+    *       如果在new Date()的过程中，传值一个时间格式的字符串就会把这个字符串转化为一个时间格式的对象
+    *       date.getFullYear() 年
+    *       date.getMonth() 月 月份的返回值比当前真实月小1  [0-11]
+    *       date.getDate()  日
+    *       date.getDay() 星期 [0-6] 星期日的返回值是0
+    *       date.getHours()  小时
+    *       date.getMinutes() 分钟
+    *       date.getSeconds() 秒
+    *       date.getMilliseconds() 毫秒
+    *       date.getTime()  获取距离1970-01-01 00:00:00 的ms数
+    * */
+    var date = new Date(); //实例创建方式 typeof == object
+    var date1 = new Date("1986/03/19 12:12:24"); //把一个时间格式的字符串变成一个时间对象
+    var date2 = new Date("2016/06/29 18:00:00"); //把一个时间格式的字符串变成一个时间对象
+    console.log(date1.getFullYear());
+    console.log(date1);
+/*
+    var ary = []; //字面量方式
+    var ary = new Array(); //实例创建一个数组
+*/
+    console.log(date);
+    // Monday Tuesday Wednesday Thursday Friday Saturday Sunday
+    //January February March April May June July August September October November December
+    console.log(typeof date); //object,这个date对象包含着年月日。。。
+    console.log(date.getFullYear()); //年
+    console.log(date.getMonth());// 月[0-11]
+    console.log(date.getDate()); //日
+    console.log(date.getDay()); //星期
+    console.log(date.getHours()); //小时 h
+    console.log(date.getMinutes()); //分钟 m
+    console.log(date.getSeconds()); //秒 s
+    console.log(date.getMilliseconds()); //毫秒 ms
+    //可以利用这些值拼接成一个时间字符串
+    console.log(date.getTime()); //当前的这个date时间距离1970年1月1日0时0分0秒的毫秒数
+    console.log(date2.getTime()); //date2距离1970/1/1 00:00:00
+
+</script>

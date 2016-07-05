@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>递归</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    //求1-100所有不被3整除的和
+    var total = 0 ;
+    for(var i=1; i<=100; i++){
+        if(i%3 !== 0 ){
+            total += i;
+        }
+    }
+    console.log(total); //3367
+    //while
+/*
+    var total = 0;
+    var i=1;
+    while(i<=100){
+        if(i%3 !== 0 ){
+            total += i;
+        }
+        i++;
+    }
+*/
+
+    //递归在函数中自己调用自己
+    /**
+     *
+     * @param n 是一个number类型
+     */
+
+    //求1-100所有不被3整除的和
+    function sum(n){
+        //拦截条件
+        if(n == 0){
+            return 0;
+        }
+        if(n%3 === 0){ //符合这个条件的都是被3整除的,能被3整除的不要，
+            return sum(n-1);
+        }
+
+        return  n + sum(n-1); // n才是我真正要加的值，sum(n-1)是为了我这个函数继续递归下去
+
+    }
+    //sum(100) ==> 100+sum(99) ==> 100 + 99 + sum(98) ==> 100 + 99 + 98 + sum(97)...   100 + 99 + 98 + ..... 3 + 2 + sum(1) ==> 100+99+...2 + 1 + sum(0)==>  100 + 99 + 98 +...+ 2 + 1 + 0
+    console.log(sum(100)); //5050
+
+    /*
+    *   需求： 在有序的数字中挑出来符合条件的数字 ==> 递归
+    *
+    * */
+
+    //求一个所有被2整除的积
+
+    function multiply(n){
+        if(n===1){
+            return 1;
+        }
+        if( n%2 != 0 ){
+            return  multiply(n-1);
+        }
+        return n * multiply(n-1);
+    }
+
+    console.log(multiply(10));  // 10 * multiply(9) ==> 10 * multiply(8) ==> 10 * 8 *multiply(7) ==> 10 * 8 * 6 * 4 * 2 * 1
+
+
+
+
+
+</script>

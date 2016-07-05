@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>选项卡</title>
+    <style>
+        *{ margin: 0; padding: 0; font-family: "microsoft yahei";  }
+        .tab{ width: 300px; margin: 30px auto; }
+        .tab ul{ list-style: none; height: 30px; clear: both;  }
+        .tab ul li{ width: 80px; height: 30px; margin: 0 10px; line-height: 30px; text-align: center; float: left; cursor: pointer; background: lightcoral;  }
+        .tab ul li.selected{ background: lightgoldenrodyellow;  }
+        .tab .content div{display: none; width: 300px; height: 200px; font-size: 30px; font-weight: bold; text-align: center; line-height: 200px;  }
+        .tab .content div.selected{ display: block; background: lightgoldenrodyellow; }
+       /* .clearFix{ content: ""; display: block; width: 0; height: 0; clear: both; visibility: hidden;  }*/
+    </style>
+</head>
+<body>
+    <div id="tab" class="tab">
+        <ul>
+            <li class="selected">娱乐</li>
+            <li>八卦</li>
+            <li>视频</li>
+        </ul>
+        <div class="content">
+            <div class="selected">娱乐内容</div>
+            <div>八卦内容</div>
+            <div>视频内容</div>
+        </div>
+
+    </div>
+</body>
+</html>
+<script>
+    //获取范围：以后要操作的元素都是在这个范围内获取
+    var tab = document.getElementById('tab');
+    var lis = tab.getElementsByTagName('li'); //所有的li集合
+    var divs = tab.getElementsByClassName('content')[0]/*获取来的第一个content*/.getElementsByTagName('div');
+    for(var i=0; i<lis.length; i++){
+        var curLi = lis[i]; //在每次循环的时候分别代表每一个li
+        curLi.zidingyishuxing = i;
+        curLi.onmouseover = function (){
+            tabChange(this.zidingyishuxing); //在鼠标滑过的时候传给函数一个什么样的实参(滑过的那个li的索引)，就把滑过的那个li的索引传给tabChange这个函数就可以
+            /*for(var j=0; j<lis.length; j++){
+                lis[j].className = '';
+                divs[j].className = "";
+            }
+            this.className = 'selected';
+            divs[this.zidingyishuxing].className = 'selected';*/
+        }
+    }
+
+    function tabChange(xxx){
+        for(var j=0; j<lis.length; j++){ //把所有的lis或者divs默认的选中样式清除
+            lis[j].className = '';
+            divs[j].className = "";
+        }
+        //让谁显示的问题了
+        lis[xxx].className = 'selected';
+        divs[xxx].className = 'selected';
+    }
+</script>

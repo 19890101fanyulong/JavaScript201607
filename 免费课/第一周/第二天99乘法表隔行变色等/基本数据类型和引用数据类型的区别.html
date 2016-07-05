@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>基本数据类型和引用数据类型的区别</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    var num1 = 10;
+    var num2 = num1; //把num1所代表的值赋值给num2一份
+    num2 = 11;
+    console.log(num1); //10  num2 = 11
+    var obj1 = {
+        num : 10
+    };
+
+    //obj1.xxx = [{assss:123123},[{},[]],{}]
+    var obj2 = obj1; //把obj1所代表的赋值给obj2一份，此时obj1和obj2公用同一个内存地址
+    obj2.num = 11; //通过自己刚刚得到的内存地址把里的num属性重新赋值
+    console.log(obj1.num); //11   ？？为什么??由于刚刚被obj2修改过，所以等于11
+
+    var obj3 = obj2; //这一行代码就是把自己的内存地址告诉别人了
+    obj3.num = 14;
+    console.log(obj2.num); //14
+    //堆内存是用来存储值，栈内存==> 是用来提供运行环境的,这个运行环境就叫作用域
+    //只要网页打开就会提供一个供js代码运行的最大的那个环境==>这个最大的栈内存我们叫做全局作用域，用window代表
+    /*
+    *  //引用数据类型赋值过程：
+    *        当浏览器解析到一个引用数据类型赋值过程的时候，首先浏览器先去开辟一个新的堆内存,然后把这个对象的属性名和属性值当作字符串存储到这个堆内存当中，最后把这个新开辟的堆内存地址赋值给这个变量。
+    *
+    *
+    * */
+
+    //alert();
+
+</script>

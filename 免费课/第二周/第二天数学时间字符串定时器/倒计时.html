@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>倒计时</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 400px;
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+            font-family: microsoft yahei;
+            font-size: 30px;
+            border: 2px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 30px auto;
+        }
+
+        .box span {
+            color:  red;
+        }
+    </style>
+</head>
+<body>
+<div class="box">距离下课还有:&nbsp;&nbsp;<span>01:45:50</span></div>
+</body>
+</html>
+<script>
+    //获取可能要操作到的元素
+    var span = document.getElementsByClassName('box')[0].getElementsByTagName('span')[0]; // 获取到span
+    // console.log(span);
+    var timer = null;
+    function daojishi(){
+        window.clearTimeout(timer);
+        var curDate = new Date(); //获取当前时间
+        var targetDate = new Date('2016/06/29 19:00:00'); //把目标时间字符串转化为一个目标时间对象
+        //分别求出这两个时间距离1970年元旦凌晨的时间ms数
+        var curDate1970 = curDate.getTime();
+        var targetDate1970 = targetDate.getTime();
+        //求出两个时间之间的ms差。把1970年可以理解为是一个参照物
+        var time = targetDate1970 - curDate1970;
+        //把这个时间差换算成小时分钟秒
+        var hour =  Math.floor(time/(1000*60*60)); //把ms换成s然后换成min换成h
+        console.log(addZero(hour)); //成功求出来了小时
+        //求出分钟所占用的ms数 = 总的ms数 - 小时所占用的ms数,然后再把求出来的ms换算成分钟
+        var min =Math.floor((time - hour*3600*1000)/(1000*60));
+        console.log(min);
+        //把所有的小时还有分钟所占用的ms数都排除掉，然后换成秒就可以了
+        var s = Math.floor((time - hour*3600*1000 - min*60*1000)/1000);
+        // 01:05:45
+        span.innerHTML = addZero(hour) + ":" + addZero(min) + ":" + addZero(s);
+
+        timer = window.setTimeout(daojishi,1000); //timer就代表定时器了
+    }
+
+    daojishi();
+
+    function addZero(n){
+        return n < 10 ? '0' + n : n;
+    }
+
+/*
+    window.setInterval(daojishi,1000);
+*/
+
+    //如果能帮着在单位时间内不断的执行我的函数
+    //window.setTimeout(daojishi,1000);
+</script>

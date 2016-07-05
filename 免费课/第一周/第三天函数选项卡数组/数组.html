@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>数组</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   数组属性:
+    *       length: 代表的就是当前这个数组有多少项，它会数组项的增加和减少而变化
+    *       索引: 可以通过索引来获取数组中每一项 ary[ary.length-1] 最后一项的索引
+    *       ary.length-- 就可以直接删除数组的最后一项
+    *       ary[ary.length] = value；给比最后一项还大1的那一项赋值，其实也就是给数组追加最后一项
+    *       如果直接赋值比数组长度还大的数组项目，那么中间被跨越的部分都是用undefined
+    *
+    * */
+    /*
+    *   数组方法：  1 方法的作用   2 方法的参数   3 方法的返回值  4 是否改变原有数组
+    *           增删改查
+    *
+    *               push 1 向数组的末尾增加一项或者多项，如果是多项用","隔开
+    *                    2 需要添加的项
+    *                    3 数组的新长度   ary.length
+    *                    4 原有数组改变
+    *
+    *               unshift  1  向数组开头添加项,如果要添加多项用","隔开
+    *                        2  需要添加的项目
+    *                        3 数组的新长度
+    *                        4 原有数组改变
+    *
+    *               pop   1 删除数组的末尾项目
+    *                     2 不需要参数
+    *                     3 被删除末尾项
+    *                     4 原有数组改变
+    *
+    *               shift 1 删除数组的开头项
+    *                     2 不需要参数
+    *                     3 被删除的开头项目
+    *                     4 原有数组改变
+    *
+    *               splice 1 删除数组中的任意项
+    *                      2 splice(n)  从索引n开始一直删除到末尾
+    *                        splice(n,m) 从索引n开始删除m个
+    *                        splicce(n,m,x) 从索引n开始删除m个，并且把x添加到删除那个位置,如果一项都不删除splice(n,0,x)的时候，这个x会放在n的前面
+    *                      3 删除的数组项目 ==> 是一个数组,即使一个都不删除返回一个空数组
+    *                      4 原有数组改变
+    *
+    *                       模拟push   ary.splice(ary.length,0,x)
+    *                       模拟pop    ary.splice(ary.length-1,1)
+    *                       模拟unshift   ary.splice(0,0,x)
+    *                       模拟shift     ary.splice(0,1)
+    *                       splice(0) 从0开始删除到末尾==>全部删除的操作 ==>返回所有数组项 ==> 克隆数组
+    *
+    *               slice   1 复制数组
+    *                       2 slice()  复制一个新数组 slice(0) ==> 克隆数组
+    *                         slice(n) 从索引n开始一直复制到末尾
+    *                         slice(n,m)  复制从索引n开始到索引m(但是不包含m)
+    *                       3 返回值是复制到的新数组
+    *                       4 原有数组不变
+    *
+    *
+    *          拼接
+    *              concat  1  把一个数组和另外的数组拼接在一起
+    *                      2  要拼接数组，还可以是数组项，如果要拼接多个就用","隔开
+     *                     3  拼接好的数组
+     *                     4  原有数组不变
+     *                     ps: 如果没有参数或者参数是一个空数组==> 克隆数组
+     *
+     *             join    1 把数组中每一项按照指定的分隔符拼接成字符串
+     *                     2 参数就是那个指定的分隔符,如果没有参数默认是","
+     *                     3 返回值拼接好的字符串
+     *                     4 原有数组不变
+     *
+     *                     eval(string) ==> 可以把小括号中的参数当作js代码执行==>去掉引号
+     *
+     *
+     *         排序: reverse 1 倒序数组
+     *                       2 不用参数
+     *                       3 返回值已经倒序后的原有数组
+     *                       4 原有数组改变
+     *               sort   1 数组排序
+     *                      2 参数： 如果没有参数只能排序10以内的
+     *                               参数是匿名函数: 这个匿名函数执行多少次取决于有多少个数组项 ==> 冒泡排序
+     *                               sort(function (a,b){ return a-b })  升序
+     *                               sort(function (a,b){ return b-a }   降序
+     *                      3 排好序的数组
+     *                      4 原有数组改变
+     *
+     *
+     *         兼容不好：
+     *               indexOf  1 获取项在数组中出现的索引位置
+     *                        2 要获取索引位置的项
+     *                        3 如果存在就返回对应的索引位置，如果不存在返回-1
+     *                        4 原有数组不变
+     *               lastIndexOf  1 获取项在数组中最后一次出现的索引位置
+     *                            2 要获取索引位置的项
+     *                            3 如果存在就返回对应最后一次出现的索引位置，如果不存在返回-1
+     *                            4 原有数组不变
+     *               forEach   1 循环遍历数组
+     *                         2 参数是一个匿名函数
+     *                         3 默认返回undefined
+     *                         4 原有数组不变
+     *
+     *               map     1 循环遍历数组
+     *                       2 参数也是一个匿名函数
+     *                       3 在匿名函数中的return的值会组成一个新的数组并且返回
+     *                       4 原有数组不变
+     *
+    * */
+    //push
+    var ary = [1,2]
+    var res = ary.push('3'); //用res这个变量去接收ary.push('3')这个方法运行之后的返回值
+    console.log(res); //查看返回值
+    console.log(ary);
+    //unshift [1,2,'3']
+    var res = ary.unshift(-2,-1,0);
+    console.log(res);
+    console.log(ary);
+
+    //pop
+    var res = ary.pop("3adsfa");
+    console.log(res);
+    console.log(ary);
+
+    //shift
+    var res = ary.shift();
+    console.log(res);
+    console.log(ary);
+
+    //splice
+    var ary = [1,2,3,4,5,'x'];
+    //[1, 2, 3, 4, "haha"]
+
+    var res = ary.splice(4,2,'haha');
+
+    // ary.splice(ary.length-1,1); ==> pop
+    //[1,2,3]
+    //var res = ary.splice(0); //克隆数组==>利用的就是删除的返回值
+    console.log(ary);
+    console.log(res);
+
+    var ary = [1,2,3];
+    //ary.push(4);
+    ary.splice(ary.length,0,4);
+    console.log(ary);
+    ary.splice(0,0,0);
+
+    //slice
+    var ary = [1,2,3,4,5,'6','7'];
+    var res = ary.slice();
+    console.log(ary == res);
+    console.log(res);
+    //我要从第n项到第m项
+    //slice(n-1,m);
+
+    //concat
+    var ary1 = [1,2,3];
+    var ary2 = [4,5,6];
+    var ary3 = [7,8,9];
+    var res = ary1.concat(ary2,ary3).concat(10,11,[12]);
+    console.log(res);
+
+    var res1 = ary1.concat();
+    console.log(ary1 == res1)
+
+    //join
+    var ary = [10,11,12];
+    var res = ary.join("+");
+    console.log(eval(res));
+
+    //reverse
+    var ary = [1,2,3,4];
+    var res = ary.reverse();
+    console.log(ary);
+    console.log(res);
+    console.log(ary === res);
+
+    //sort
+    var ary = [3,5,4,20,1];
+    var res = ary.sort(function (a,b){
+        console.log(a,b);
+        return b-a;
+    });
+    console.log(res);
+    console.log(ary);
+
+    //indexOf
+    var ary = [1,8,3,'zhufeng','peixun','zhufeng'];
+    var res = ary.indexOf('zhufeng');
+    console.log(res);
+    var res = ary.lastIndexOf('zhufeng');
+
+
+    //forEach
+    var ary = ["1x",2,"3"];
+    var res = ary.forEach(function (item,index){
+        console.log(item,index);
+    });
+
+
+    //map
+    var ary = ['10',11,'12'];
+    var res  = ary.map(function (item,index){
+       //console.log(arguments);
+        //console.log(item,index);
+        return item*10; //return的这个值就是新的数组中每一项
+    });
+    console.log(res);
+
+
+
+
+
+
+</script>

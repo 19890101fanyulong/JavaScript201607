@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>数组</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    //Array数组，包含索引并且有length的可以叫做类数组
+
+    //console.dir(ary); //打印的比log方式更详细
+
+    /*
+    *   数组的常用方法和属性:
+    *       length: 代表的数组的长度，并且它会随着数组项的多少而变化
+    *       数组的最后一项: ary[ary.length-1]
+    *       ary.length--可以删除数组的末尾项
+    *       ary[ary.length] = 'xx'  向数组末尾追加一项
+    *
+    * */
+
+    var ary = [1,2,3,'zhufeng'];
+    //ary.length--;
+    //console.log(ary);
+    //ary[1] = 'xxx';
+    //ary[5] = 'yyy'; //如果用跳跃的方式给数组项直接赋值，那么中间被跳跃的项默认都是undefiend
+    //ary[ary.length] = 'haha';   //在数组末尾追加一项
+    ary[ary.length] = 'zhufeng';  //ary[3] = 'zhufeng' ary[4] = 'zhufeng'
+    console.dir(Array.prototype); //数组所有的方法我都能在这里看到
+    console.dir([].__proto__); //同上
+
+    /*
+    *   数组的常用方法：
+    *       通过四个维度:  1 方法是做什么的  2 参数是什么(放在小括号里的)   3 方法的返回值(方法执行之后留下的东西)  4 是否改变原有数组
+    *
+    *       //增删改查
+    *       push()  1 向数组的末尾追加一项
+    *               2 参数：要追加的项
+    *               3 返回值是数组的新长度
+    *               4 原有数组改变
+    *               ps: 如果添加多个项目，那么在小括号中用','隔开
+    *       unshift()  1  向数组的开头添加一项
+    *                  2 要添加的项
+    *                  3 返回值是数组的新长度
+    *                  4 原有数组改变
+    *                  ps: 如果添加多个项目，那么在小括号中用','隔开
+    *
+    *       pop()   1 删除数组的末尾项
+    *               2 参数没用
+    *               3 返回值是删除的数组项
+    *               4 原有数组改变
+    *
+    *       shift()  1 删除数组的
+    *
+    *
+    * */
+    var ary = [1,2,'x'];
+    var res = ary.push('y'); //ary[ary.length] = 'y'
+    console.log(res);
+    console.log(ary);
+
+    ary.unshift(-1,'0');
+    console.log(ary);
+
+    var res = ary.pop();
+    console.log(res);
+
+
+
+
+
+
+
+</script>
