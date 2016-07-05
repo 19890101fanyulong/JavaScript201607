@@ -1,0 +1,35 @@
+git 安装上  
+github.com  用户名和密码  
+git clone 地址  
+git pull origin master  更新  .git
+
+git init把当前文件夹初始化成一个仓库
+git remote add origin 地址  让本地仓库建立和远程仓库的连接
+git pull origin master 
+
+git add -A  把添加的文件添加到暂存区 
+git commit -m'本次提交的描述'  版本号
+git push origin master 提交到github远程仓库
+
+.ignore忽略上传的文件放在这里
+
+免费课的知识点的梳理....哪个例子不会一定要恶补
+
+预解释: var，function 区别: 带var只声明不赋值,当代码执行到才赋值 
+		            带function 声明+赋值
+
+预解释: 6种不按照套路出牌的....
+
+函数执行的步骤: 1 形参赋值   2 预解释当前作用域内带var和function  3 代码逐行执行
+
+形参:  相当于当前作用域内的私有变量  全局变量  
+
+对象类型: 赋值过程
+
+背景色 :  body.style开关灯
+
+
+
+
+
+

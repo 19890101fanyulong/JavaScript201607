@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+    </style>
+</head>
+<body>body
+</body>
+</html>
+<script>
+    var body = document.body;
+    var bg = body.style.backgroundColor;
+    //console.log(typeof bg);
+    //console.dir(body);
+    body.onclick = function () {
+        var style = body.style/*对象*/.backgroundColor/*基本数据类型*/;
+        var bg = body.style.backgroundColor; //这个变量保存的是"black"这个字符串
+        if (style.backgroundColor == 'white') {
+            style.backgroundColor = 'black';
+            //bg = "white"; //仅仅是把bg这个变量的值重新修改成了新的其他字符串
+        } else {
+            style.backgroundColor = 'white';
+        }
+    }
+
+    /*
+     *   元素的样式只能通过  body.style修改,如果用一个变量去保存到这个style那么这个变量和body.style公用一个内存地址。所以只要一个修改就会导致另外一个修改
+     *
+     *
+     *
+     * */
+    console.log(num); //
+    var num = 10;
+    console.log(num);  //10
+
+    console.log(sum);
+    function sum() {
+        console.log(1);
+    }
+
+    //console.log(haha);
+    console.log(fn);
+    var fn = function haha() {
+    }
+    console.log(fn);
+    /*
+     *   浏览器在运行js代码之前: 1 先把所有带var的和function的都会被提前声明，
+     *                         2 但是带var的只是把这个变量名字提前声明，并没有赋值，但是浏览器会默认赋值一个undefined,当代码运行到赋值这行之后才把这个值赋值给变量
+     *                         3 带function不仅仅提前声明了，还把这个函数的堆内存地址赋值给函数名字了
+     * */
+
+    console.log(num1); //undefined
+    console.log(num2); //undefined
+    //console.log(num3); 如果num3是当前作用域内的就不会报错，如果被function包含起来了，那么这个num3就变成了私有变量。在这打印就会报错了
+    var num1 = 11;
+    var num2 = 12;
+    console.log(num2); //12
+    function sum(num2) {
+        //var num1 = 100; 300 var num2 = 200;
+        console.log(num1); //100 如果num1是私有变量，默认先去获取自己的私有变量，如果私有变量没有去上一级找num1. 如果一直找到window全局作用域还没有那么就会报错了
+        var num3 = 13;
+        num1 = num1 + num2; //先把等号右面的计算出来的300赋值给num1，如果num1是私有变量那么修改的就是私有的num1.如果私有的没有那么就默认去向上一级查找
+    }
+    sum(100, 200);
+    console.log(num1);
+    console.log(num2);
+
+    ////////////////////////////////////////////////////////////////////
+    /*  var zhanghao = 'wusuowei';
+     //console.log(zhanghao); //
+     console.log(window.zhanghao);
+     */
+
+
+
+    //没有报错，这个a被提前声明了,预解释不理会条件
+    console.log(a);
+    //if(false){
+    if ('a' in window) {
+        var a = 100; //代码执行到这一行的时候只剩下赋值动作了
+    }
+    //}
+    console.log(a);
+
+    /////////////////////////////////////////////////////////
+    //console.log(foo); //自运行函数不会被预解释
+    ;
+    (function foo() {
+        console.log('foo');
+    })();
+
+    //////////////////////////////////////////////////////////
+    console.log(a); //预解释只发生当前的作用域.
+    function foo1() {
+        var a = 10000;
+        console.log(num); //在return下面的代码是否被预解释???
+        //console.log(foo2); //返回的函数是否会被预解释???
+        return function foo2() {  //return后面的函数是当作一个整体返回的，没有被预解释。如果这个函数是一个自运行函数是要先执行。然后把这个自运行函数的返回结果留下来当作一个值继续foo1返回
+            alert('我是return后面函数中的代码');
+        };
+        var num = 1000; //这个num虽然永远都不会被赋值，但是这个num是会被预解释的
+    }
+    var a;
+    foo1();
+
+    ////////////////////////////////////////
+
+    fnnn();
+    function fnnn() {
+        console.log(1)
+    }
+    fnnn();
+    var fnnn = 1000;
+    //fnnn();
+    function fnnn() {
+        console.log(2)
+    }
+    //fnnn();
+
+    var fnnn = 100000000;
+
+    ///////////////////////////////////////////
+    console.log(total); //undefined
+    var total = 0;
+    function sum(num1, num2) {
+        console.log(num1);
+        console.log(total); //undefined
+        var num1 = 9999;
+        total = num1 + num2;
+        console.log(total); //3000
+    }
+    sum(1000, 2000);
+    console.log(total); //0
+
+
+    /*
+     *   预解释一点节操都没有，不按套路:
+     *       1 预解释不看等号右面的值   var fn = function x(){}
+     *       2 预解释不理会条件      if("a" in window){ var a = 1000;  }
+     *       3 预解释只发生在当前作用域  在函数内部定义的变量或者函数是不会被预解释的(函数里面的变量只有当这个函数执行的时候才会被预解释)
+     *       4 return下面定义的变量是会被预解释的，return后面即使return一个实名函数也不会被预解释  ps: 如果return后面是一个自运行函数，是运行函数然后把运行结果return
+     *       5 自运行函数即使是一个自运行的实名函数也不会被预解释  (function fx(){})()
+     *       6 函数名字和变量重名的时候，预解释一定是以最后一个函数为准。当代码执行到变量赋值之后那么函数名字就是这个变量的值了
+     *
+     * */
+
+    /*
+     *   函数的执行：  1 形参赋值
+     *                2 预解释当前函数里所有带var和function的
+     *                3 代码从上向下执行
+     *                ps: 形参可以理解为当前作用域内的私有变量。并且这个变量在预解释之前就已经被赋值了
+     *                ps: 函数执行会形成新的私有作用域,并且这个作用域内所有的变量和函数都是私有的。
+     *
+     * */
+    fnnn;
+
+    console.log(getRun);
+    for (var i = 0; i < 5; i++) {
+        var getRun;
+
+    }
+
+
+</script>
