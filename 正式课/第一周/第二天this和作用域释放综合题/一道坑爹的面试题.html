@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>this和作用域综合应用</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    var num = 12; //声明了一个全局变量  window.num = 12   14(给obj.fn属性赋值过程的中改变的) ，由于第一运行f()的时候中的this是window导致14被修改成了17
+    var obj = { //obj是地址
+        num : 3, //由于第二次运行小函数中的this是obj，把3修改成了6
+        fn : (function (num){ //这个num形参，相当于当前这个自运行函数里的私有变量
+            // var num = 12; 3
+            this.num += 2; //自运行函数中的this是window==> window.num(12)==>14
+            var num = 3; //num不会被预解释，因为和形参重名，形参已经声明过。把当前作用域内的私有变量num = 3;
+            return function (){ //把这个匿名函数的引用地址返回给obj.fn的属性。这个引用地址被obj.fn占用。符合内存不释放的条件。导致这个自运行函数执行的时候产生的那个作用域不被释放。从而这个作用域内的所有的私有变量不会被释放  num
+                this.num += 3; //f()  this是window  window.num+=3 在14的基础上+3
+                // 第二次执行obj.fn() obj.num += 3;
+                num += 4; //在当前函数中没有一个叫num的变量，去上一级作用域去查，把上一级作用于的num=3 修改成了7
+                //第二次obj.fn()执行的时候，去上一级作用域去查找。上一级作用域一直都没有被释放，上一级作用域内的num是第一次f()运行之后修改成了7.  7+=4 ==》11
+                console.log(num); //f()第一次打印7
+                //第一次执行之后，上级作用域的num被修改成了7，全局num被修改成了17
+                //第二次执行打印11
+            }
+        })(num) //num获取的全局的num12
+    }
+    var f = obj.fn; //把obj.fn所代表的值赋值给f一份。其实f就是返回的那个小函数的引用地址
+    f(); //小函数运行  7
+    obj.fn(); //还是会找到那个小函数，11
+    console.log(window.num,obj.num); //17   6
+</script>
+
+<script>
+    var num = 10;
+
+    var obj = {
+        num : 20,
+        fn : (function (num){
+            this.num += 10;
+            num += 20;
+             var num = 15;
+            return function (){
+                this.num += 15;
+                num -= 10;
+                console.log(num);
+            }
+        })(num)
+    }
+    var fn = obj.fn;
+    fn();
+    obj.fn();
+    console.log(window.num,obj.num);
+    //5 -5 35 35
+
+
+
+
+
+
+
+
+
+</script>

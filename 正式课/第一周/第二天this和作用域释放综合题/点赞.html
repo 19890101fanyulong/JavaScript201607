@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        .box{ width: 400px; height: 40px; background: lightgreen; text-align: center; margin: 30px auto; line-height: 40px; border: 2px solid #000; -webkit-user-select: none; cursor: pointer; }
+        .box span{ color: red; padding: 0 10px; }
+    </style>
+</head>
+<body>
+    <div class="box">认为王彪很懒点赞<span>0</span></div>
+</body>
+</html>
+<script>
+    var box = document.getElementsByClassName('box')[0];
+    var span = box.getElementsByTagName('span')[0];
+    //每次点击的时候在自身基础累加1
+/*
+    var count = 0; //这是一个全局变量，是任何函数执行的时候都能找到全局变量。所以不安全
+    box.onclick = function (){
+        count++; //
+        span.innerHTML = count;
+    }
+*/
+
+    //如何把这个count变成私有变量，如何能造一个闭包出来这样这个count就成了私有作用域里的私有变量就安全了
+
+    (function (){
+        var count = 0; //count被一个匿名自运行函数包含，就变成了一个私有变量。只有函数内部才能使用。所以count就相对安全了
+        box.onclick = function (){
+            span.innerHTML = ++count;
+        }
+    })();
+
+
+    //第二种方式
+
+    box.onclick = (function (){
+        var count = 0;
+        return function (){
+            span.innerHTML = ++count;
+        }
+    })();
+
+
+    //无论以上哪种方式都是需要把count留下来，留在那个私有作用域中。这个私有作用域也不能被释放
+    //我的本意就是让count留下来，我只是不想留在全局变量里。
+
+
+    box.count = 0; //给box这个dom对象添加了一个自定义属性，除了box谁也不能用
+    box.onclick = function (){ //通过自定义属性的方式达到把count留下来的效果
+        //this?????   这个this一定是box
+        //this.count++; //我先把我的自定义属性累加1
+        //this.getElementsByTagName('span')[0].innerHTML = ++this.count;
+        span.innerHTML = ++this.count;
+    }
+
+
+    //
+    box.onclick = function (){
+        //span.innerHTML = span.innerHTML++; //span.innerHTML是字符串＂０＂
+        ++span.innerHTML;
+        //++span.innerHTML; i++ 和  ++i都有强制把i转化成数字的功能
+
+    }
+
+
+
+
+</script>

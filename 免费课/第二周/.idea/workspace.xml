@@ -28,7 +28,7 @@
       <file leaf-file-name="预解释.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../正式课/第一周/第一天/预解释.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.5321101">
+            <state vertical-scroll-proportion="0.0">
               <caret line="152" column="44" selection-start-line="152" selection-start-column="44" selection-end-line="152" selection-end-column="44" />
               <folding />
             </state>
@@ -109,6 +109,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -157,7 +158,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -624,7 +624,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../正式课/第一周/第一天/预解释.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5321101">
+        <state vertical-scroll-proportion="0.0">
           <caret line="152" column="44" selection-start-line="152" selection-start-column="44" selection-end-line="152" selection-end-column="44" />
           <folding />
         </state>

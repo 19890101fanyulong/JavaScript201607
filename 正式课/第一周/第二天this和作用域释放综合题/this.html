@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>this</title>
+</head>
+<body>
+    <div id="div1" style="width: 200px; height: 200px; background: green;"></div>
+</body>
+</html>
+<script>
+/*
+*   js中this的常见用法:
+*       1 在事件绑定的时候，事件函数中的this就是触发事件的那个行为主体 99乘法表
+*       2 函数中的this只有函数执行的时候才知道。函数执行时候这个函数中this就是调用函数的主体 ==> 函数执行的时候，"."前面是谁this就是谁。如果没有"."那么this就是window
+*       3 自运行函数中的this一直都是window
+*       //
+*       4 构造函数中的this是当前实例
+ *      5 用关键字call和apply可以强制改变this指向
+ *      ps: 定时器中的this一般都是window
+*
+* */
+    //console.log(this);//window
+
+    //事件中的this
+    var div1 = document.getElementById('div1');
+    div1.onclick = function (){
+        console.log(this); //div1
+    }
+
+    //我们所学的this一般指的是函数中的this
+    function fn(){ //函数定义的时候
+        console.log(this);
+    }
+
+    //fn(); //函数执行的时候 this => window
+
+    var obj = {
+        age : 7,
+        fn : fn
+    };
+    obj.fn(); //obj
+
+    var oo = {
+        age : 7,
+        xx : function (){
+            console.log(this); //????oo
+            fn(); //this ?
+        }
+    };
+    oo.xx();
+
+
+    var obj1 = {
+        fn : (function (){ //先执行这个自运行函数，然后把这个自运行函数的返回结果复制给fn;
+            console.log(this);
+            return function(){
+
+            }
+
+        })()
+    };
+    //obj1.fn(); //以后都是return出来的小函数执行了，自运行函数只执行一次。
+
+
+    //定时器中的this
+    function fx(){
+        console.log(this);
+    }
+    var obj = {
+        num : 100,
+        fx : fx
+    }
+    //fx(); //window
+    //obj.fx(); //this=>obj
+    window.setTimeout(fx,1000);
+    setInterval(obj.fx,1000);
+
+</script>
