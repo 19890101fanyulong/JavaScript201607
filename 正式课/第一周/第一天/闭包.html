@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    *   闭包: 函数执行的时候会形成一个新的私有作用域(代码运行的环境)， 并且这个作用域内的变量和函数都是私有的，在外界访问不到。我们把这种保护私有变量不受外界干扰的机制就叫闭包
+    *
+    * */
+
+    //var obj = {name:'tianxi',age:30};
+
+    var num = 12;
+    function sum(){
+        var num = 120;
+        return function (){
+            //var num = 1200;
+            console.log(num);
+        }
+    }
+    var f =  sum(); //把sum函数运行完的结果赋值给f这个变量. sum函数的返回值是一个匿名函数.(这是一个堆内存地址) ==> sum函数的返回值和f都知道这个堆内存地址，共享一个.
+    f(); //通过刚刚得到的这个地址找到这个函数，然后执行.
+
+    ;(function (){
+        var num = 1200;
+        f();//f在这里执行打印的num仍然是120。
+    })();
+
+    /*
+    *   如何查找上一级作用域:  1 上一级作用域是谁我只看这个函数在哪里定义的
+    *                         2 如果自己的私有作用域内没有，那么就会通过作用域链查找到上一级作用域，如果上一级有那么直接使用，如果没有继续向上查找一直到顶级作用域window。如果还没有那么就报错   num  is not define;(num未定义)
+*                          ps: 就看被哪个function包含
+    *
+    * */
+</script>

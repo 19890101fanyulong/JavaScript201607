@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>var</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+
+/*
+    var num = 100;
+    function fn(){
+        var num = 200;
+    }
+    console.log(num); //100
+    console.log(window.num); //100?  全局变量可以看作是window的一个属性
+*/
+
+    //修改
+/*
+    function fn(){
+        var num = 200;
+    }
+    console.log(num); //我把num当作变量去用的，报错
+    console.log(window.num); //undefined
+*/
+
+
+    //修改
+    //var num1 = 1;
+    function fn(){
+        (function (){
+            num = 200; //这行代码是一个赋值动作，这种直接赋值的动作，相当于添加一个全局变量
+        })();
+
+        function foo(){
+            num1 = 1000; //当前自己的私有作用域内没有num1变量，向上一级作用域查找num1.如果上一级有num1相当于给上一级的num1重新赋值。如果查找到顶级window还没有，相当于给window添加了一个属性。而window的属性又可以当作全局变量
+        }
+        foo();
+    }
+    fn(); //相当于添加一个全局变量，num = 200;
+    console.log(window.num); //200
+    console.log(num); //200
+    console.log(num1);
+
+    //
+    //window.haha = 99;
+    console.log(haha); //
+    var haha = 999; //如果把这个var去掉给window的赋值动作还是会有，但是不会被预解释了
+    console.log(haha);
+
+</script>

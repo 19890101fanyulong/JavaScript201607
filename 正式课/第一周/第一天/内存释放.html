@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="div1" style="width: 100px; height: 100px; background: red;">1</div>
+</body>
+</html>
+<script>
+    var obj = {'name': "tianxi", age: 30};
+    var obj2 = {};
+    obj2.haha = obj; //现在有obj2.haha还有obj同时占用这个对象的堆内存
+    var obj = null; // 我让obj去代表一个新的null值。 obj和对象没有关系了
+    /*
+     *   堆内存的释放: 如果这个堆内存没有任何变量或者属性所占用，那么浏览器会好一个合适的时间主动释放这些没有用的内存
+     *
+     *   栈内存作用域不释放: 1 函数在执行的过程中，函数中某一部分(引用数据类型)被函数外的变量或者对象的属性所占用那么这个作用域(这个栈内存作用域是运行这个函数产生的)就不能被释放
+     *                      2 函数在执行的时候，函数中的某一部分被函数外面的元素的事件属性所占用，导致这个函数运行时候产生的作用域不被释放
+     *                      3 函数的返回值也是一个函数，并且立刻执行。属于不立即释放
+     *
+     * */
+    //函数中某一部分被外面的变量所占用
+    function sum(num2) { //var num2 = 2000;
+        var num = 120;
+        var num1 = 1000;
+        return function () {
+            console.log(num);
+        }
+    }
+    var f = sum(2000); //小f占用着sum(2000)的返回值。我们返回值不能被释放，还有由于运行sum() 所产生的作用域也不能被释放
+
+
+    /* for(var i = 0; i<lis.length; i++){
+     (function (i){
+     lis[i].onclick = function (){
+     lis[i].className = 'selected'; //当时报错了是因为这i变成最大值
+     //如果这个i能保存下来，分别保存一个0，1，2，3那么就可以不使用自定义属性饿了
+     }
+     })(i);
+     }*/
+
+    /*
+     var div1 = document.getElementById('div1');
+     div1.onclick = function (){
+     console.log(1);
+     }
+     */
+
+    //函数中某一部分(引用数据类型),被dom元素的事件属性所占用
+    var div1 = document.getElementById('div1');
+
+
+    div1.onclick = (function (num) {//var num = 100;
+        return function () {
+            console.log(num);
+        }
+    })(100);
+
+
+    ;
+    (function (num) {
+        div1.onclick = function () {
+            console.log(num)
+        }
+    })(1000);
+
+
+    //第三种情况
+
+    function fn(i) { // i=2  i = 3;  var i = 3;  i=4;
+        return function (n) {
+            console.log(n + ++i); //这个i不是这个函数内的私有变量，通过作用域链向上查找。
+        }
+    }
+    //fn(2)(); //属于不立刻释放
+    var f = fn(3); //我得到的fn第一次执行的返回值
+    f(3); //7
+    fn(4)(3); //?
+    fn(5)(6); //
+    f(6); //11
+    //f(5); //11
+    //var obj = {fn: f}; //
+    //obj.fn(); //8
+
+/*
+    var f = fn(4); //我得到的是fn第二次运行的返回值
+    f();
+*/
+
+
+    /*
+     *  ++i 和  i++ 的区别:
+     *       i++ 是先运算后累加
+     *       ++i 是先累加后运算
+     *       ps： 如果单独放一行其实没有区别
+     *
+     * */
+
+    //var i = 2; //3  4  5  6
+    //i++;
+    //++i;
+    // console.log(2 + i++); //4
+    //console.log(2 + ++i); //5
+    //console.log( 2 + i++ + ++i /*8*/+ i++ /*12*/ + ++i /*18*/ ); //?12  12  18    12   18
+
+
+  /*  var f = (function (i){
+        return function (){
+            console.log(i);
+        }
+    })(1000);*/
+
+    //
+    var f = (function (i){ //是每次都运行自治性函数还是？？
+        return function (n){
+            console.log(n + i++);
+        }
+    })(100)
+
+
+
+</script>

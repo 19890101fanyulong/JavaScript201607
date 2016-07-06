@@ -67,11 +67,13 @@
     var num1 = 11;
     var num2 = 12;
     console.log(num2); //12
+    //console.log(haha);
     function sum(num2) {
         //var num1 = 100; 300 var num2 = 200;
         console.log(num1); //100 如果num1是私有变量，默认先去获取自己的私有变量，如果私有变量没有去上一级找num1. 如果一直找到window全局作用域还没有那么就会报错了
         var num3 = 13;
         num1 = num1 + num2; //先把等号右面的计算出来的300赋值给num1，如果num1是私有变量那么修改的就是私有的num1.如果私有的没有那么就默认去向上一级查找
+        function haha(){}
     }
     sum(100, 200);
     console.log(num1);
