@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var num = 10; //  -8 -3  7 17
+    var obj = {num : 2}; //7
+    obj.fn = (function(num){ //var num = 2 -8
+        num -= 10; //
+        this.num = num; //
+        var num = 20; //var num = 20 30 25 35 30
+        return function(){
+            this.num += 5; //obj
+            num += 10;
+            return function (n){
+                this.num += 10; //
+                num -= 5;
+                console.log(num + n++); //40
+            }
+        }
+    })(obj.num); //2
+    var fn = obj.fn;
+    fn()(5); //30
+    obj.fn()(10); //40
+    console.log(window.num,obj.num); //17 7
+    //30 40  17 7
+
+
+
+</script>

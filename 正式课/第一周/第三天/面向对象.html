@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面向对象</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   1 单例模式  就是一个破对象 ==> 在开发过程中使用比较多 ==> 把函数都放在一个对象的属性内做到区分
+    *               命名空间: nameSpace
+    * */
+    var tianxi = {
+        fn : function (){
+            console.log(1);
+        }
+    }
+
+    var zhanghao = {
+        fn : function (){
+            console.log(1);
+        },
+        foo : function (){
+            console.log(2);
+            this.fn();  //zhanghao.fn();
+        },
+        fx : function (){
+            console.log(3);
+            this.foo();
+        }
+    }
+    zhanghao.foo();
+
+    //tianxi.fn();
+    //zhanghao.fn();
+    //需要不断的重新声明一个对象
+
+
+    //单例模式虽然解决了命名空间的问题，但是不能解决批量生产，利用函数每次执行都给我留下一个对象
+    //工厂模式   这就是一个函数 ==> 都是先在函数内部声明一个对象，然后再把这个对象返回。每次执行函数都会留下一个对象，就省着每次都像单例模式那样需要不断的声明一个对象。==> 函数的封装  可以把公共的部分拿到函数内部添加了
+    function foo(fn){
+        var obj = {}; //
+        obj.fn = fn; //等号右面的fn是参数
+        return obj;
+    }
+    var tianxi = foo(function (){console.log(1)}); //这是一个地址
+    function fn2(){
+        console.log(2);
+    }
+    var zhanghao = foo(fn2);
+    console.log(zhanghao);
+    zhanghao.foo = function (){};
+
+    /*
+    * 构造函数模式  Number Array Object 内置类远远不够用 通过构造函数可以自己创建一个类。
+    *   构造函数在定义的时候我们并不知道这是一个函数还是一个类，只有执行的时候如果用new的方式去执行。那么就是当作类使用，否者小括号直接执行就是当作一个普通函数执行
+    *   构造函数中的this就是当前实例
+    *   每一个实例都是对象数据类型的 ==> 实例和实例永远不相等
+    *   当作构造函数执行的时候返回实例的动作是默认的。不用写return
+    *   如果在构造函数中返回一个基本数据类型并不会影响实例返回,如果人为返回一个对象数据类型那么就会破坏原有实例的返回
+    *   在构造函数中声明的私有变量如果当作类来执行的时候不会影响实例
+    *   在构造函数中通过this添加的都是私有属性
+    * */
+    function FE(name){ //构造一个叫做FE的类 (前端开发工程师)
+        var num = 1000; //
+        this.name = name; //当前实例 this.name当前实例的一个属性
+        this.codeJs = function (){
+            console.log('我能写js');
+        }
+        //this.num = 1000;
+/*
+        return this; //this是代表当前实例的那个对象,虽然破坏默认的实例返回。但是并没有影响效果
+        return [];
+        return "123";
+*/
+    }
+    //  FE(); //普通函数
+    var fe1 = new FE("huzhenzhen");  //构造函数
+    var fe2 = new FE("chuxiaoyun");  //构造函数
+    console.log(fe1);
+    console.log(fe2);
+    console.log(fe1 == fe2); //false
+
+    //用来检测是否是对象自己的私有属性 hasOwnProprety
+    function isOwnProperty(obj,prop){
+        return obj.hasOwnProperty(prop);
+    }
+
+    //原型模式
+    /*
+    *   1 每一个类Human(函数)都会天生自带一个属性叫prototype，并且这个属性的值仍然是一个对象数据类型的。这个对象也天生自带两个属性，一个是constructor的值是Human这个类本身
+    *   Human.prototype.constructor == Human  true
+    *   ary instanceof Array
+    *   2 每一个实例天生自带一个属性叫__proto__，这个属性的值是自己所属类原型
+    *   person1.__proto__ == Human.prototype  true
+    *   person1.__proto__.constructor
+    *   3 添加在类的原型上的属性和方法都是公有的，这个类的任何一个实例都可以使用,是通过实例的__proto__属性找到的
+    *   person1.__proto__ == person2.__proto__
+    *   person1.fnn == person2.__proto__.fnn
+    *
+    *   4 原型上的属性可以通过实例的__proto__属性修改，修改之后其他实例再去调用的时候就被改变了
+    *   person1.__proto__.fxx = function(){} person1通过__proto__找到了原型并且在原型上添加了一个新的方法
+    *   person1.fxx === person2.fxx    true
+    *
+    *   5 实例在查找属性的时候，先查找自己的私有属性。如果没有再去原型上去找，如果原型上也没有怎么办???
+    *   6 
+    * */
+
+    function Human(name,sex){
+        this.name = name;
+        this.sex = sex;
+       /* this.fn = function (){
+            console.log('都是领导人');
+        }*/
+    }
+    Human.haha = 'aaaaa';
+    console.log(Human.haha);
+
+
+    var person1 = new Human('obama','boy');
+    var person2 = new Human('anbeijinsan','girl');
+    console.dir(Human.prototype); //这是对象数据类型
+    Human.prototype.fnn = function(){
+        console.log("我是领导人");
+    }
+
+    person1.__proto__.fnn();
+    person1.fnn();
+    //
+    person1.fnn = function (){}; //我给person1添加一个私有属性叫fnn
+    person1.__proto__.fxx = function (){};
+    console.log(person1.fxx === person2.fxx); //??
+    console.log(person1.fnn === person2.fnn);//??
+
+
+</script>
