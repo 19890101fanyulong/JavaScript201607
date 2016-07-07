@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    Array.prototype.unique = function (){
+        //数组的原型添加的方法，任何一个数组都能调用
+        console.log(this);
+        //就把this去重就行了
+        var obj = {};
+        for(var i=0; i<this.length; i++){
+            var cur = this[i];
+            if(obj[cur] ==  cur){
+                this.splice(i,1);
+                i--;
+            }
+            obj[cur] = cur;
+        }
+        obj = null;
+        return this;
+    }
+
+/*
+    Array.prototype.unique(); //执行
+    [].__proto__.unique(); //
+    [].unique(); //最常用的调用方式
+
+    [1,2,3].unique();
+*/
+    var ary = [1,2,3,4,3,2,2];
+    console.log(ary.unique());
+    //unique中的this是.前面的那个数组,谁调用我那么就把谁去重
+
+
+    ary.unique().slice(0).concat().splice(1)//我们把这种写法叫做链式调用
+
+    //5.plus(6).reduce(7).multiply(8)如何实现这种链式的家加减法调用????
+
+
+
+
+
+
+
+</script>

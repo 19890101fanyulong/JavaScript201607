@@ -62,6 +62,7 @@
     *   如果在构造函数中返回一个基本数据类型并不会影响实例返回,如果人为返回一个对象数据类型那么就会破坏原有实例的返回
     *   在构造函数中声明的私有变量如果当作类来执行的时候不会影响实例
     *   在构造函数中通过this添加的都是私有属性
+    *   任何一个对象数据类型都是Object这个类的一个实例
     * */
     function FE(name){ //构造一个叫做FE的类 (前端开发工程师)
         var num = 1000; //
@@ -105,7 +106,7 @@
     *   person1.fxx === person2.fxx    true
     *
     *   5 实例在查找属性的时候，先查找自己的私有属性。如果没有再去原型上去找，如果原型上也没有怎么办???
-    *   6 
+    *   6
     * */
 
     function Human(name,sex){
@@ -133,6 +134,62 @@
     person1.__proto__.fxx = function (){};
     console.log(person1.fxx === person2.fxx); //??
     console.log(person1.fnn === person2.fnn);//??
+
+
+    ////////////////////////////////////////////////////////////////
+    Object.prototype.x = 300;
+    function Fn(){
+        this.x = 100;
+        this.y = 200;
+        this.getX = function (){
+            console.log(this.x);
+        }
+    }
+    Fn.prototype.y = 400;
+    Fn.prototype.getX = function (){
+        console.log(this.x + this.y);
+    }
+    Fn.prototype.getY = function (){}
+    Fn.prototype.getZ = function (){}
+    /*
+    *   批量在原型添加公有属性和方法:
+    *       1 就是把一个新的对象的引用地址替换原有的prototype的引用地址
+    *       2 导致默认的constructor属性丢失，需要在新的对象中添加上
+    * */
+    Fn.prototype = {
+        constructor : Fn, //保证实例的所属类保持不变
+        y: 400,
+        getX: function (){
+
+        },
+        getY : function (){
+
+        }
+    };
+
+    var f1 = new Fn();
+    var f2 = new Fn();
+    console.log(f1.constructor); //??Object
+    f1.getX(); //100 ==> 注意this的用法
+    f2.__proto__.getX(); //这个getX里面的this是Fn.prototype//undefined
+
+    console.log(f1.getX === f2.getX); //false
+    console.log(f1.__proto__.getX === f2.getX); //false
+    console.log(f1.hasOwnProperty === f2.__proto__.__proto__.hasOwnProperty); //true
+
+
+    /*
+    *   函数的三种角色: 1 普通函数  ==> 普通函数执行的步骤
+    *                  2  构造函数(类) ==> 实例  __proto__ prototype
+    *                  3 本身还是Function的一个实例
+    * */
+    //实现链式写法到最后一定要return一个实例
+    Number.prototype.plus = function (n){
+        //this
+        return this + Number(n); //要想实现链式写法，到最后必须return一个实例
+    }
+
+
 
 
 </script>

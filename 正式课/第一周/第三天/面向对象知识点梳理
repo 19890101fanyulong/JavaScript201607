@@ -1,0 +1,39 @@
+1 单例模式 ==>  破对象   { fn: funciton (){},  fx : function (){  this.fn() } }     如果在一个属性中去调用另外一个属性用this
+
+ 2 工厂模式: 函数  ==> 创建一个对象 ，在对象中添加属性和方法可以使用外部传进来的参数，返回这个对象
+
+ 3 构造函数(类) ==> 实例和类  1普通函数执行  2new当作一个构造函数执行 this是谁  3 默认返回实例的动作但是如果return一个对象就破坏了，如果当作一个构造函数执行私有变量是没用的
+
+ 4 原型模式:  公有方法的问题
+     任何一个函数都天生有prototype属性，值是一个对象数据类型，天生的constructor， __proto__
+     原型的constructor的值是类本身,原型上的__proto__指向的是原型所属类的原型Object.prototype
+     任何一个实例(任何一个对象数据类型)都天生自带一个属性叫__proto__，指向自己所属类的原型，原型上的方法相对于实例来说，是公有方法。任何一个实例都可以调用。并且还可以通过实例的__proto__修改或者添加原型上的方法
+     原型链: 实例可以通过 __proto__ 一直查找到Object.prototype
+     任何一个对象数据类型都是Object这个类的一个实例
+     函数的三种角色: 1 普通函数   2构造函数  3 Function的一个实例
+     Array.prototype.unique ==> this是谁
+     5.plus(6)链式写法的原理
+     批量设置公有属性会导致constructor丢失,需要自己添加。如果不添加就会拿到Object
+     作业: 模拟slice方法 (n,m) (n) ()
+
+     Array.prototype.slice = function (n,m){
+        //this
+         var ary = [];
+         if(arguments.length == 0){
+            for(var i=0; i<this.length; i++){
+                ary[ary.length] = this[i];
+            }
+         }
+
+         //一个参数的情况,for循环从n开始
+         //两个参数的情况 ，从n开始到m
+         //n > m
+         //n和m不是有效数字。。。。。
+         return ary;
+
+
+     }
+
+
+
+
