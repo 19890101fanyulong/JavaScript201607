@@ -49,17 +49,43 @@
     var tab = document.getElementById('tab');
     var lis = tab.getElementsByTagName('li'); //所有的li集合
     var divs = tab.getElementsByClassName('content')[0]/*获取来的第一个content*/.getElementsByTagName('div');
-    for(var i=0; i<lis.length; i++){
+    for(var i=0; i<lis.length; i++){ // i = 3; 每次都能把i留下就好了
+
+        //i=0
+        (function (index){ //每次执行这个自运行函数都会形成一个新的私有作用域
+            //var index=0;
+            //var index=1;
+            //var index=2
+            //就是想把每次执行的这个index留下来
+            lis[index].onmouseover = function () {
+                for(var i=0; i<lis.length; i++){
+                    divs[i].className = '';
+                    lis[i].className = "";
+                }
+                lis[index].className = "selected";
+                divs[index].className = "selected";
+            }
+        })(i); //0
+
+    }
+
+
+
+
+   /* for(var i=0; i<lis.length; i++){
         var curLi = lis[i]; //在每次循环的时候分别代表每一个li
         curLi.zidingyishuxing = i;
-        curLi.onmouseover = function (){
+
+
+
+        lis[i].onmouseover = function (){
             tabChange(this.zidingyishuxing); //在鼠标滑过的时候传给函数一个什么样的实参(滑过的那个li的索引)，就把滑过的那个li的索引传给tabChange这个函数就可以
-            /*for(var j=0; j<lis.length; j++){
+            /!*for(var j=0; j<lis.length; j++){
                 lis[j].className = '';
                 divs[j].className = "";
             }
             this.className = 'selected';
-            divs[this.zidingyishuxing].className = 'selected';*/
+            divs[this.zidingyishuxing].className = 'selected';*!/
         }
     }
 
@@ -72,5 +98,5 @@
         lis[xxx].className = 'selected';
         divs[xxx].className = 'selected';
     }
-
+*/
 </script>

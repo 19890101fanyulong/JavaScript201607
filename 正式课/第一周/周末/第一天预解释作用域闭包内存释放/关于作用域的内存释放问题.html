@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>内存释放</title>
+</head>
+<body>
+    <div id="div1" style="width: 100px; height: 100px; background: red; margin: 30px auto;"></div>
+</body>
+</html>
+<script>
+    /*
+    *   堆内存释放: 如果这个堆内存没有变量或者对象的属性占用浏览器就会找个恰当时间点释放这个堆内存
+    *   栈内存不被释放: 1 如果函数(fn)在执行的时候，函数中(fn)的某一部分(一般是一个引用数据类型)被函数(fn)外面的变量(f)或者对象的一个属性所占用(赋值),那么导致函数(fn)运行时候产生的那个作用域(栈)不会被释放,这个作用域内的私有变量或者私有函数也不会被释放
+    *                  2  再事件绑定过程中，如果绑定的函数是一个子自运行函数，那么这个自运行函数的返回值(引用数据类型)被dom元素的事件属性占用。那么也符合内存不释放的条件。
+    *                  3 不立刻释放: 函数运行完留下的返回值函数立刻执行，属于不立即释放
+    *   ps: 作用域和作用域之间是相互独立的
+    * */
+
+/*
+    var obj = {}; //obj占用着照这个对象的引用地址
+    var fn = function (){};
+    var obj1 = { fn:fn };  //obj1.fn属性占用着fn所代表的函数的堆内存地址
+    var obj2 = { fn: fn }; //
+    obj1 = null; //主动释放
+    fn = null;
+    obj = null;
+*/
+
+    //
+    function fn(i){
+        //var i = 10;  11
+        var num = 120;
+        return function (){
+            console.log(num + ++i);
+        }
+    }
+    var f = fn(10); //
+    f(); //131 这个f执行每次产生的作用域立刻就会被释放，这个f里没有引用数据被外部占用
+    f(); //132
+    fn(11)(); //132
+    f(); //133
+    var ff = fn(10);
+    ff(); //131
+    f(); //134]
+    fn(10)(); //暂时不释放 ?? 131
+    ff(); //132
+    var fff = fn(10);
+    fff(); //131
+
+
+
+
+
+    //i++和++i的区别  i++先运算后累加 ,++i先累加后运算
+
+
+/*
+    var i=1; //2 3 4 5
+    //console.log(2 + i++); //3  先用2和i累加打印之后再把i累加1
+    //console.log(2 + ++i); //4  先把i累加1然后再和2去相加再打印
+    console.log(2 + i++ /!*3*!/ + ++i /!*6*!/ + ++i /!*10*!/ + i++); //14
+    console.log(i); //5
+*/
+
+    var div1 = document.getElementById('div1'); //null
+
+    console.log(typeof div1); //object
+    div1.onclick = function (){}; //这是一个赋值动作，我是把这个匿名函数的堆内存地址赋值给div1的onclick属性
+    div1.onclick = (function (){
+        var num = 1000;
+        return function (){
+            console.log(++num);
+        }
+    })();
+    div1.onclick(); //也可以主动的去执行事件属性绑定的函数
+    console.log(div1.onclick);
+
+    //div1.onclick = function (){}
+/*
+    var obj = {
+        fn: function (){ alert(123) }
+    }
+    obj.fn();
+*/
+    (function (){
+        var num = 1000;
+        div1.onclick = function (){
+            console.log(++num);
+        }
+    })();
+
+    //不立刻释放的
+
+
+
+
+
+
+
+
+
+</script>

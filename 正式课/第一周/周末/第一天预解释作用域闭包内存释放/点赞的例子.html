@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; font-family: microsoft yahei;  }
+        html,body{  width: 100%; height: 100%; }
+        #div1{ width: 500px; height: 40px; margin: 30px auto; line-height: 40px; text-align: center; cursor: pointer; font-size: 36px; border: 2px solid red; padding: 10px; -webkit-user-select: none;  }
+    </style>
+</head>
+<body style="background: white">
+    <div id="div1">认为今天很热的请点赞<span style="color: red;">0</span></div>
+</body>
+</html>
+<script>
+    //获取需要的元素
+    var div1 = document.getElementById('div1');
+    var span = div1.getElementsByTagName('span')[0];
+    //
+
+    (function (){
+        var count = 0;
+        div1.onclick = function (){
+            span.innerHTML = ++count;
+        }
+    })();
+
+
+    //利用内存不释放来保留count的值
+
+    div1.onclick = (function (){
+        var count = 0;
+        return function (){
+            span.innerHTML = ++count;
+        }
+    })();
+
+
+
+    //目的: 我就是想把count留下来，利用自定义属性
+
+    div1.count = 0;
+    div1.onclick = function (){
+        //span.innerHTML = ++this.count;
+        this.children[0].innerText = ++this.count;
+    }
+
+
+    //
+    div1.onclick = function (){
+        ++span.innerHTML; //span.innerHTML是一个字符串，++i可以把其他数据类型转化成数字
+    }
+
+    //body
+    var body = document.body; //获取body
+    console.dir(body);
+    body.onclick = function (){
+        var bg = body.style.backgroundColor; //"white",这是基本数据,bg仅仅代表一个字符串，bg跟body一点关系都没有
+        var style = body.style; //style变量保存的是一个body.style的引用地址
+        if( style.backgroundColor == 'white'){
+            bg = 'black';
+            //body.style.backgroundColor = 'black';
+            style.backgroundColor = 'black';
+        }else{
+            bg = 'white';
+            //body.style.backgroundColor = "white";
+            style.backgroundColor = 'white';
+        }
+    }
+
+    /*
+    *   dom元素对象的style属性: 只能获取写在行内的样式，通过style属性去赋值也是把样式赋值在行内了
+    *   如果通过style修改样式，变量只能保存到body.style
+    *   window.getComputedStyle(div1,null);
+    * */
+
+
+
+
+
+</script>

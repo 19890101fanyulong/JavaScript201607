@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>预解释</title>
+</head>
+<body>
+<div></div>
+</body>
+</html>
+<script>
+    console.log(num);
+    console.log(obj);
+    console.log(fn);
+
+    var num = 12;
+    var obj = {name:"zhufeng",age:7};
+    function fn(){
+        console.log('fn');
+    }
+
+    console.log(num);
+    console.log(obj);
+    console.log(fn);
+
+    /*
+    *   对象数据类型赋值步骤:
+    *       1 先去开辟一个内存地址
+    *       2 把这个对象的属性名字和属性值存储到这个内存中
+    *       3 把这个堆内存地址返回并且赋值给这个变量
+    *
+    * */
+
+    /*
+    *   预解释(变量提声):
+    *       1 当浏览器开始解析js代码之前，会把所有带var和function的都提前声明
+    *       2 带var仅仅是把变量声明了，但是却没有被赋值
+    *       3 带function是声明和赋值都完成了
+    *
+    *       区别：带var的变量会在预解释阶段默认赋值一个undefined,当代码执行到赋值动作这一行的时候，才会把值赋值给这个变量，function在代码执行到function定义这一行的时候，浏览器会直接跳过这个定义函数的动作
+    *
+    *   堆内存和栈内存：堆内存一般是用来存储对象数据类型值，而栈内存是用来运行代码的
+    *    ps: 只要浏览器打开一个网页，首先就会提交一个供代码运行的空间(栈)，我们在js中把这个运行空间也叫作用域,把这个浏览器打开就会提供的作用域叫做全局作用域用window表示,我们把定义在全局作用域内的变量叫做全局变量
+    *   ps: 预解释只放生在当前作用域
+    *
+    *
+    * */
+    console.log(total);
+    var total = 0;
+    function sum(num1,num2){ //var num1 = 100;  var num2 = 200;
+        //console.log(num1); // 100
+        //var num1 = 100000;
+        console.log(total); //全局变量total
+        total = num1 + num2;//total是谁? ==> 如果当前作用域内没有total，那么到上一级作用域去查找total,是把上一级作用域也就是全局的total修改成了300
+        console.log(total); //300
+    }
+    sum(100,200);
+    console.log(total); //我打印的是当前全局的total，刚刚被sum执行的时候修改成了300
+
+    /*
+    *   函数执行: 首先开辟一个新的作用域(栈)
+    *             1 形参赋值的动作是发生在预解释之前的
+    *             2 预解释当前函数中的所有带var和function
+    *             3 代码从上向下执行
+    *
+    *       ps: 如果在函数执行的时候形成的那个新的私有的作用域内，形参和变量的名字相同，那么变量的预解释动作就没有意义了。因为形参已经声明并且赋值了。==> 可以这样去理解，函数的形参可以理解是当前作用域内的私有变量
+    *
+    * */
+    /*
+    * 私有变量和全局变量: 定义在函数中的变量就是私有变量，定义在全局中的变量就是全局变量
+    *
+    * */
+    /*
+    *   闭包: 函数在执行的时候会形成一个新的私有作用域，然后这个作用域内的变量都是私有变量。我们把这种函数执行的时候形成私有作用域保护私有变量不被外界干扰的机制叫做闭包k
+    *
+    * */
+    /*
+    *   作用域链: 如果函数执行的时候，如果当前自己的私有作用域内有这个变量，那么优先使用私有变量。如果当前作用域内没有那么到上一级作用域去查找。如果还没有那么一直查找到顶级作用域window，如果window还没有那么就报错这个变量未定义的错误  xxx is not defined
+    * */
+
+    var num = 12;
+    function fn(){
+        var num = 120;
+        return function (){
+            console.log(num);
+        }
+    }
+    var f = fn(); //先去执行fn,然后把fn这个函数执行完留下来的结果赋值给f
+    //fn();
+    (function (){
+        f();
+    })();
+    /*
+    *   上一级作用域如何查找:  上一级作用域是谁和函数在哪里执行的没有关系，只看函数在哪里定义的。上面例子: f函数是在fn这个函数中定义的。那么f的上一级作用域就是fn运行时候产生的那个私有作用域 ==> 上一级作用域就是包含着自己的那个函数
+    *
+    * */
+
+
+    //console.log(newTotal);
+    var newTotal = null;
+    function foo(){
+        (function (){
+            newTotal = 1000; //这个赋值动作赋值给全局的window添加了一个属性
+        })()
+    }
+    foo();
+    console.log(window.newTotal);
+
+    console.log(xxx);
+    var xxx = 'zhufeng';
+    console.log(window.xxx); //
+
+    /*
+    *   全局作用内带var和不带var的区别： 是否会被预解释
+    *       ps: xxx = 'zhufeng'这是一个赋值动作，如果在全局作用域内相当于给window添加了一个xxx的属性   window.xxx = 'zhufeng'
+    *       ps: 任何一个全局变量都可以理解是window的一个属性
+    *       ps: xxx = 'zhufeng'这个赋值动作无论被多少个函数包含，只要代码能执行到这一行就会不断的向上一级作用域查找xxx变量，如果能找到变量就是重新赋值，如果没有那么默认给window添加了一个属性。
+    *
+    * */
+
+    /*
+    *   预解释中不按套路的:
+    *       1 预解释变量的时候之看值，即使等号右面是一个函数那么也不会被预解释
+    *       2 预解释不理会条件  ==> 在不同版本浏览器有可能存在差异
+    *       3 自运行函数不会被预解释
+    *       4 return 后面即使返回一个实名函数，这个函数也不会被预解释,return下面的代码虽然不被执行，但是却是要被预解释的
+    *       5 如果函数名字和变量重名，那么在预解释阶段以最后一个函数为准。当代码执行到变量赋值的时候，以赋的值为准
+    *       ps: 预解释只发生在当前作用域
+    * */
+    //console.log(zhufeng);
+    var zf = function zhufeng(){}
+    //
+    console.log(haha);
+    if(!('haha' in window)){
+        var haha = "hh";
+    }
+    console.log(haha); //undefiend由于在预解释阶段haha已经被声明成一个全局变量了。haha已经是window的一个属性了。那么haha in window就是true,取反之后就是false了。所以这个赋值的动作不执行，所以打印的时候还是默认在预解释阶段赋值的undefiend
+    function summer(){
+        //console.log(fly);
+        (function fly(){
+
+        })();
+    }
+    summer();
+
+    //
+    function fxx(){
+        console.log(fyy);
+        return (function fyy(){
+            alert();
+        })()
+        var fyy = null;
+    }
+    fxx();
+    /////////////////////////////////
+
+    fnn(); //2
+    function fnn(){  //预解释阶段fnn被声明并且赋值一个函数地址的引用
+        console.log(1);
+    }
+    fnn(); //2
+    var fnn = "zhufeng"; //fnn已经被声明过了，所以预解释到这的时候就没有必要了,当代码执行到这一行的时候fnn被重新赋值了
+    fnn(); //由于fnn已经被重新赋值所以fnn再执行会报错已经不是一个函数了
+    function fnn(){ //这个fnn虽然被预解释，但是函数的预解释是需要赋值的。所以fnn被重新赋值了。所以fnn在预解释阶段就是最后一个函数
+        console.log(2);
+    }
+    fnn();
+
+
+
+
+
+
+
+
+
+
+
+</script>
