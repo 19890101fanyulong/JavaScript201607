@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>this</title>
+</head>
+<body>
+    <div id="div1" style="width: 200px; height: 200px; background: yellow;">
+
+    </div>
+</body>
+</html>
+<script>
+    /*
+    *   this: 我们关注的一般是函数中的this
+     *   1 绑定事件： 事件触发的时候，函数中的this就是那个触发事件的元素
+    *    2 函数在执行时候，函数中的this就是调用函数的那个主体. 函数在执行的时候就看函数前面有没有"."，如果有那么"."前面是谁this就是谁。如果没有那么默认就是window
+    *   ps: this只要被函数包含那么这个this只有在执行的时候才知道
+    *    3 自运行函数中的this一直都是window
+    *
+    *    //
+    *    4 构造函数中的this是当前实例
+    *    5 call和apply会强制改变this指向
+    *    6 定时器中的this一般都是window，回调函数中的this一般也都是window
+    *
+    *
+    * */
+    /*
+    *   1 setTimeout(fn,1000)
+    *   2 setInterval(fn,2000)
+    *   while(true){}
+    *
+    * */
+    //
+    //console.log(this); //window
+    //绑定事件函数中的this
+    var div1 = document.getElementById('div1');
+    div1.onclick = function (){
+        console.log(this); //div1
+    }
+
+    //
+    function fn(){
+        console.log(this);
+    }
+    //window.fn();
+    fn(); //window
+    var obj = {
+        age:7,
+        fn : fn
+    }
+    obj.fn(); //obj
+
+    //
+    var obj1 = {
+        name : "123",
+        fn : function (){
+            console.log(this); //obj1
+            fn(); //window
+        }
+    }
+    obj1.fn(); //?
+
+    //
+    (function (){
+        console.log(this);
+    })();
+
+    var obj = {
+        foo : (function (){
+            console.log(this);
+            return function (){}
+        })() //在给obj.foo属性赋值的时候，这个自运行函数就执行了，然后把自运行函数的执行结果(这个函数中的return)赋值给foo这个属性==> 这个自运行函数只在obj赋值的过程中执行一次，以后每次obj.foo都是用的这个自运行函数的返回值
+
+    }
+    var obj2 = {
+        fn : function (){
+            console.log(this);
+        }
+    }
+    obj2.fn(); //obj2
+    var timer = window.setInterval(obj2.fn,1000);
+</script>

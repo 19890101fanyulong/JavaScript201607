@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    var num = 10; //8 11
+    var obj = {
+        num: 4, //7 这是由于obj.fn()导致的
+        fn : (function (){
+            this.num -= 2; //window.num -=2
+            num += 5; // num的值undefined  undefined+=5  NaN
+            var num = 6; //6
+            //var num = 6  fn第一次执行的时候，由于自己没有私有的num，把num修改成了8
+            //由于第一次执行fn的时候，这个6被改成了8。第二次执行obj.fn的时候，再原有8的额基础上再累加2   10
+            return function (){
+                this.num += 3; //fn()的时候，fn前面没有没有"."==> window.num += 3
+                // obj.fn() 此时的this是obj, obj.num += 3
+                num += 2; //当前作用域内没有num变量
+                //obj.fn()的时候仍然没有私有的num，去上一级作用域去查找
+                console.log(num); //8
+            }
+        })(this.num) //window
+    };
+    var fn = obj.fn; //obj.fn代表的自运行函数的返回值也就是小函数的地址
+    fn(); //、8
+    obj.fn(); //10
+    console.log(window.num,obj.num); //11   7
+    /////////////////////////////////////////////////////////////////
+
+    var num = 10; //12  15  17 19
+    var obj = {
+        num : 5, //8
+        fn : (function (num){ //var num = 10;
+            this.num += 2; //window.num += 2;
+            num += 5; //var num = 15 17 18 20 21
+            return function (){
+                this.num += 3;
+                num += 2;
+                return function (){
+                    //console.log(this); //window
+                    this.num += 2;
+                    num += 1;
+                    console.log(num);
+                }
+            }
+        })(num)
+    }
+    var fn = obj.fn; //
+
+    fn()(); //18
+    obj.fn()(); //21
+    console.log(window.num,obj.num); //18 21 19 8
+
+
+    ////////////////////////////////////////////////////////////////////
+
+
+    var ary = [1,2,3]; //对象数据类型，ary代表的是这个数组的地址  [1,2,4]
+    function fxx(ary){
+        //ary是不是在这个私有作用域内的私有变量,ary的值就是全局ary的地址,私有的ary和全局的qry共用同一个地址==> 任何一个修改了堆内存中的属性都会改变
+        ary.length--; //删除ary的最后一项，就是把全局ary那个数组里面的3删除
+        ary[ary.length] = 4; //向数组的末尾添加一项
+
+        //ary = []; //这又是一个赋值过程，把新的堆内存地址赋值给ary,赋值之后私有的ary就和全局的那个数组[1,2,4]没关系了,ary代表的就是新的空数组了
+        ary = ary.slice();
+        ary[ary.length] = 0; //我已经是新的空数组的地址了，[] ==> [0]
+        console.log(ary); //[0]
+    }
+    fxx(ary); //这个ary是实参,是把这个实参所代表的堆内存地址赋值给ary形参一份
+    console.log(ary); //[1,2,4]
+
+
+
+
+
+
+
+
+
+</script>
