@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>JSON</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    *  JSON :  属性名字用双引号包含起来,如果属性值是字符串也用双引号
+    * */
+    var obj = {name:'zhufeng',age:7}; //js对象
+    var objJson = {"name":"zhufeng","age":7}; //json格式的对象
+    var jsonStr = JSON.stringify(objJson); //"{"name":"zhufeng","age":7}"  把json格式的对象转化成一个json格式的字符串
+    var jsonObj = JSON.parse(jsonStr); // 把json格式的字符串转化成json格式的对象
+    //在低版本的ie中不存在JSON属性
+    function jsonParse(jsonStr){ //把一个json格式的字符串转化成一个json格式的对象
+        return 'JSON' in window ? JSON.parse(jsonStr) : eval("("+jsonStr+")");
+    }
+
+</script>

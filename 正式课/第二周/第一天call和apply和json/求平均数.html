@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <li></li>
+    <li></li>
+    <li></li>
+</body>
+</html>
+<script>
+    function avg(){
+/*
+        var ary = [];
+        for(var i=0; i<arguments.length; i++){
+            ary.push(arguments[i]);
+        }
+*/
+        //var ary = arguments.slice();
+        var ary = Array.prototype.slice.call(arguments);
+        //var ary = [].__proto__.slice.apply(arguments);
+        ary.sort(function (a,b){return a-b});
+        ary.pop();
+        ary.shift();
+        return (eval(ary.join("+"))/ary.length).toFixed(2);
+    }
+    console.log(avg(1,2,3,4,5,6,7,8));
+
+    Array.prototype.myslice = function (n,m){
+        //console.log(this); //arguments
+        var ary = [];
+        for(var i=n; i<= m-1; i++){
+            ary.push(this[i]);
+        }
+        return ary;
+    }
+
+    function listToArray(likeArray){ //把类数组转化成数组
+        //如果能直接使用call方法那么直接用call就可以了，如果不行那么用for循环这种最笨的方法
+        try{
+            //即使这里报错也不会阻塞代码运行
+            return Array.prototype.slice.call(likeArray); //likeArray借用Array.prototype.slice方法
+            //throw new Error("哈哈,报错了");
+        }catch (e){
+            var ary = [];
+            for(var i=0; i<likeArray.length; i++){
+                ary[ary.length] = likeArray[i];
+            }
+            return ary;
+        }
+    }
+    var lis = document.getElementsByTagName('li'); //类数组
+
+    var lisAry = listToArray(lis);
+    console.log(lisAry);
+    /*
+    *   js中容错   try  catch
+    *
+    * */
+
+
+
+</script>

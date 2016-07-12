@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+     var ary = ['a',"b","c"];
+     ary.forEach(function (a,b,c){
+     //a: item  b: index  c: ary
+     console.log(this); //这个函数执行多少次，取决于数组的长度
+     console.log(a,b,c);
+     },document.body);
+     */
+
+    //forEach是定义在Array.prototype上的,如果forEach的第二个参数传了，那么就会修改第一个匿名函数参数中的this
+    /**
+     * 模拟forEach
+     * @param callback 数组有多长需要执行多少次这个函数
+     * @param context  用来修改callback中的this
+     */
+/*
+    Array.prototype.myForEach = function (callback, context) {
+        context = context || window;
+        /!*if('forEach' in Array.prototype){
+         this.forEach(callback,context);
+         return;
+         }*!/
+        for (var i = 0; i < this.length; i++) {
+            callback.call(context, this[i], i, this);
+        }
+    }
+*/
+    var ary = [5, 6, 7, 8, 9];
+    //ary.myForEach();
+    var b = [7,8,9];
+    //b.myforEach();
+    //function fn(){}
+    b.forEach(function(){
+
+    })
+    //ary.myForEach(); //this => ary
+    //[].myforEach(); //
+
+    /*
+     [1,2,3].myforEach(function (a,b,c){
+     console.log(a,b,c);
+     },document.body); //
+     */
+    var ary = [1, 2, 3];
+   /* ary.myForEach(function (item, index, ary) {
+        console.log(item, index, ary);
+    }, document.body); //*/
+
+    //map
+    var newAry = ary.map(function (item,index,ary){
+        return 1;
+    },document.body);
+    console.log(newAry); //[undefined,undefined,undefined]
+
+
+   Array.prototype.myMap = function (callback,context){
+       context = context || window; //如果context没传那么context指定为window
+/*
+       if('map' in Array.prototype){
+           return this.map(callback,context);
+
+       }
+*/
+       var ary = [];
+       for(var i=0; i<this.length; i++){
+           var val = callback.call(context,this[i],i,this);
+           ary.push(val);
+       }
+       return ary;
+   }
+
+    var ary = [1,2,3];
+    var newAry = ary.myMap(function (item,index,ary){
+        return item*100;
+    },document.body); //[100,200,300]
+    console.log(newAry);
+
+</script>

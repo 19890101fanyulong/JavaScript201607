@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>call</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    function Fn(){
+
+    }
+    Fn.__proto__ === Function.prototype; //Fn作为一个函数，可以调用定义在Function上的所有方法
+    console.dir(Function.prototype);
+    var f = new Fn();
+    f.__proot__ === Fn.prototype //true;
+
+    /*
+    *   Fn 1 普通函数  2 new Fn() 构造函数   3 Function
+    * */
+
+    /*
+    *   call的作用:  Fn.call()   1 首先通过Fn.__proto__到Fn所属的Function这个函数类的原型上找到call方法
+     *                           2 把Fn中的this修改成call方法的第一个参数
+     *
+     *                           3 Fn然后再执行
+    *
+    * */
+
+    function Fn(){
+        //console.log(this); //把这个this修改成call的第一个参数obj
+        console.log(1); //
+        //
+    }
+    Fn(); //this=> window
+
+    var obj = {fn : Fn};
+    //obj.fn(); //this => obj
+
+
+    Fn.call(obj); //Fn先找到原型上的call方法，然后把Fn中的this修改成call的第一个参数，然后再执行Fn
+    //Fn.call(document.body);
+
+    Function.prototype.mycall = function (obj){ //
+        console.log(this); //这个this就是任何调用这个方法的函数实例
+        //如果 Fn.mycall(obj)  那么this就是Fn,那么我就是是要把Fn中的this修改成obj
+        //this是任何一个调用mycall的函数, ==>
+        console.log(obj);
+        //2 把this(Fn)中的this修改成obj
+
+        // 3
+        f2();
+    }
+
+    function x(){}
+    x.mycall();
+    var f = function (){}
+    f.mycall();
+
+    Fn.mycall(document.body); //把Fn中的this修改成body
+
+    //
+
+    function f1(){
+        console.log(1);
+        //this();
+    }
+    function f2(){
+        console.log(2);
+    }
+
+    f1.call(f2); // 1
+    f1.call.apply.call.apply(f2); //2
+    (function (){}).call.call.call(f2); //2
+
+/**   f1.call(f2) 这是把f1中的this修改成f2，然后f1执行
+*   f1.call.call.call(f2) 这里利用f1找到call方法定义的位置，然后把call方法中的this修改成f2,然后是call方法执行
+*   ps: f1.call(param) ==> f1这个函数已经执行结束了
+*   参数: call的第一个参数使用来改变调用call方法的函数实例中的this的， 从第二个参数开始才是传给调用call方法的函数实例的
+* */
+
+    function sum(num1,num2){
+        //console.log(num1,num2);
+        console.log(arguments);
+        console.log(num1+num2);
+    }
+
+    //sum.call(null,100,200); //300
+    sum.apply(null,[100,200,300,"hh",false]); //把数组中的每一项当作参数传给调用apply的函数实例
+
+    /*
+    *   apply和call的用法是相同的，都是修改this关键字的。不同点是call方法是传参数是用逗号","隔开的。但是从第二个参数是用数组方式传给调用apply的函数实例的
+    *   ps: apply和call一样都是会把调用apply的函数执行结束
+    * */
+
+
+    /*
+    *   bind: 也是用来改变this关键字的。call和apply都会把函数执行结束。但是bind不会。bind是返回一个已经修改过this的函数.call和apply把处理this和执行同时进行了，而bind是预先处理this。==> 预处理思想
+    *   编程： 假设的思想
+    *
+    * */
+
+    function fn(n1,n2){
+        console.log(this);
+        console.log(n1+n2);
+    }
+    var f = fn.bind(document.body); //把fn中的this修改成body
+    console.log(f);
+/*
+    f(100,200); //300
+    f(100,"aaa"); //100aaa
+*/
+
+    //数组的最大值
+
+    var ary = [1,2,3,45,6,7,4,6,7,7,8];
+    //先排序
+    ary.sort(function (a,b){ return a-b; });
+    //ary.reverse();
+    console.log(ary[ary.length-1]);
+
+    //Math.max()
+    var res = Math.max(ary); //Math.max(1,3,45,5,6);
+    console.log(res);
+
+    var res = Math.max.apply(null,ary);//没有利用apply改变this关键字，利用apply特殊的传参方式
+    console.log(res);
+
+    //假设
+    var max = ary[0]; //假设第一个就是最大值
+    for(var i=1; i<ary.length; i++){
+        if(ary[i]>max){
+            max = ary[i];
+        }
+    }
+    console.log(max);
+
+
+
+    var ary = [1,2,3,45,6,7,4,6,7,7,8];
+    //eval   Math.max(1,2,3,45,6,7,7);
+    var res = Math.max(eval(ary.join())); //'1,2,3,4,5,45,6,8,9'
+    var res =  eval('Math.max('+ary.join()+')'); //"Math.max(1,2,3,4,5)"
+    console.log(res);
+
+    var fx = function (){
+        console.log("fx");
+    }
+    var fy = function (){
+        console.log("fy");
+    }
+
+
+
+
+
+
+
+
+
+
+</script>

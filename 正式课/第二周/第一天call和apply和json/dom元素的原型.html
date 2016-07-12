@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <p id="p" style="width: 100px; height: 30px; background: red;"></p>
+    <a id="a" href=""></a>
+    <ul>
+        <li>田喜</li>
+        <li>珠峰</li>
+        <li>张振</li>
+        <li>殷世琦</li>
+    </ul>
+</body>
+</html>
+<script>
+    var p = document.getElementById('p');
+
+    console.dir(p);
+    //HTMLParagraphElement => HTMLElement => Element => Node => EventTarget => Object
+    // HTMLAnchorElement
+    console.dir(document.getElementById('a'));
+
+    //
+
+    var lis = document.getElementsByTagName('ul')[0].getElementsByTagName('li');
+    var lisAry = Array.prototype.slice.call(lis,0);
+    lisAry.sort(function (a,b){ //[li,li,li]
+        console.log(a,b);
+
+        //return a.innerHTML- b.innerHTML; //a,b分别代表的是要排序的那个li元素,我想以li的innerHTML排序
+        return a.innerHTML.localeCompare(b.innerHTML); //字符串做比较的方法,返回值是number
+    });
+    console.log(lisAry);
+
+    var person1 = {name:'tianxi',age:30 };
+    var person2 = {name:'zhangzhen',age:18};
+    var person3 = {name:'yinshiqi',age:19};
+    var person4 = {name:'zouyangping',age:16};
+    var ary = [person1,person2,person3,person4];
+    ary.sort(function (a,b){
+        return a.age- b.age; //排序的时候一定要看好，a和b分别代表的是什么。如果是对象可以根据对象的属性去排序
+    });
+    console.log(ary);
+
+
+
+</script>
