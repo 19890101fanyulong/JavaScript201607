@@ -1,0 +1,24 @@
+1 DOM映射  页面内的元素和通过dom方法获取来的对象这种一一对应关系
+2 DOM回流  页面内元素的增加删除和位置的改变
+3 DOM重绘  页面内元素自己本身样式等改变
+
+4 表格排序
+5 表格排序中获取元素  tHead  rows行  cells列 Bodies[0]
+6 通过ajax获取数据   1 new XMLHttpRequest() 创建一个异步对象
+                    2 xhr.open(以什么样的方式，到哪里去拿，false/true);
+                    3 xhr.onreadystatuschange
+                        xhr.readyState == 4  xhr.status == 200
+                        xhr.responseText ==> 数据
+                    4 xhr.send()
+7 绑定数据：数据的长度就是行数，每行有多少列就是代表哪一行的数据有多少组属性，通过文档碎片的方式添加进来的,使用了循环嵌套
+           在数据绑定的过程中需要处理性别问题，就是一个判断
+
+8 绑定事件，点击表头的时候执行排序函数 ==> 只给带cursor绑定事件
+9 排序函数: 函数中的this，点击的时候通过call传过来的  ==> 排序sort方法中的索引问题
+            sort(function (){ 这个函数中的this问题 })
+            把排序好的数组重新添加到页面中
+
+10 男女问题 正序倒叙问题  字符串需要用localeCompare  点击其他恢复列的排序默认标识
+
+
+

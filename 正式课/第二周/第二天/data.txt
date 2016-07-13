@@ -3,7 +3,6 @@
     { "name":"张振", "sex":1, "age":18, "height":175, "weight":80 },
     { "name":"张浩", "sex":1, "age":25, "height":170, "weight":70 },
     { "name":"王倩", "sex":0, "age":19, "height":165, "weight":50 },
-    { "name":"王磊", "sex":1, "age":30, "height":175, "weight":69 },
-    { "name":"王彪", "sex":1, "age":20, "height":185, "weight":70 },
-    { "name":"徐婷", "sex":0, "age":18, "height":165, "weight":51 }
+    { "name":"王磊", "sex":1, "age":30, "height":175, "weight":69 }
+
 ]

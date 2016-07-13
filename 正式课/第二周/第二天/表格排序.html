@@ -9,6 +9,7 @@
         .tabBox table thead{ background: lightcoral; -webkit-user-select: none; }
         .tabBox table thead th,.tabBox table tbody td{ width: 100px; height: 40px; line-height: 40px; text-align: center; font-size: 20px;  }
         .cursor{  cursor: pointer; }
+        .bg{ background: lightgreen; }
     </style>
 </head>
 <body>
@@ -16,35 +17,14 @@
     <table  class="tab" cellspacing="0" cellpadding="0">
         <thead>
         <tr>
-            <th>姓名</th>
-            <th>姓别</th>
+            <th class="cursor">姓名</th>
+            <th >姓别</th>
             <th class="cursor">年龄</th>
-            <th>身高(cm)</th>
-            <th>体重(kg)</th>
+            <th class="cursor">身高(cm)</th>
+            <th class="cursor">体重(kg)</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>田喜</td>
-            <td>男</td>
-            <td>30</td>
-            <td>175</td>
-            <td>90</td>
-        </tr>
-        <tr>
-            <td>张振</td>
-            <td>男</td>
-            <td>25</td>
-            <td>175</td>
-            <td>90</td>
-        </tr>
-        <tr>
-            <td>张振</td>
-            <td>男</td>
-            <td>30</td>
-            <td>175</td>
-            <td>92</td>
-        </tr>
         </tbody>
     </table>
 
@@ -52,6 +32,8 @@
 </body>
 </html>
 <script src="../utils.js"></script>
+<script src="table.js"></script>
+<!--
 <script>
     //先把可能要操作到的元素获取到
     var tabBox = document.getElementById('tabBox'); //最大的范围，再获取元素就在这个范围内就可以了
@@ -84,7 +66,7 @@
                 // 200 成功
                 // 502 服务端错误
                 //console.log(xhr.responseText); //响应文本,这个属性中存放就是从接口拿回来的数据
-                data = utils.jsonParse(xhr.responseText); //??
+                window.data = utils.jsonParse(xhr.responseText); //??
                 //window.data
             }
         }
@@ -96,5 +78,100 @@
     console.log(window.data); //我就成功拿到了数据,返回了一个数组，数组中的每一项都是一条数据 ==> 表格里有多少行和数组的长度是相等的
 
 
+    //把刚刚获取来的数据塞到页面中  ==> 数据绑定
+    function dataBind(){
+        if(window.data){ //如果数据没有成功获取那么window.data是undefined
+            var frg = document.createDocumentFragment(); //先创建一个文档碎片
+                for(var i=0; i<data.length; i++){ //data就是包含着若干对象的数据
+                    var curObj = data[i]; //curObj每次代表的都是当前条数据
+                    // curObj = { "name":"田喜", "sex":1, "age":30, "height":175, "weight":90 }
+                    var tr = document.createElement('tr'); //只要有一条数据我就需要创建一行
+                    //curObj有多少组属性我就需要创建多少列 ==> 字段 (属性)
+                    for(var key in curObj){
+                        var td = document.createElement('td'); //只要有一组属性需要创建一列
+                        if(key === 'sex'){
+                            td.innerHTML = curObj[key] == 1 ? '男' : "女";
+                        }else{
+                            td.innerHTML = curObj[key]; //每次把当前数据对象的属性值拿来赋值给td.innerHTML
+                        }
 
-</script>
+                        tr.appendChild(td); //把创建的这一列放到tr行中
+                    }
+
+                    frg.appendChild(tr); //把每次创建的tr放到文档碎片frg中
+                }
+            tbody.appendChild(frg);
+            frg = null;
+        }
+    }
+    dataBind();
+
+    //实现隔行变色
+
+    function changeBg(){
+        for(var i=0; i<tbodyRows.length; i++){
+            tbodyRows[i].className = i%2 ? "bg" : null;
+        }
+    }
+    changeBg();
+
+    //点击表头的时候，按照当前表头所点击的列排序
+    function bindEvent(){ //给表头里的列绑定点击事件
+        for(var i=0; i<theadCells.length; i++){ //我不给所有的列都绑定
+            var theadCell = theadCells[i];
+            theadCell.index = i; //给每一列的表头都添加一个自定义属性用来存放索引
+            theadCell.sortFlag = -1; //每个表头上多了一个自定义属性,这个属性就是用来标记排序顺序的
+            if(theadCell.className == 'cursor'){
+                theadCell.onclick = function (){
+                    //点击的时候应该按照this排序了
+                    //console.log(this);
+                    //按照点击的这个this,这里的this就是你点击的表头，我想把表头的索引传到排序函数中去,表头还没有索引呢 ==> 先给表头都加个自定义属性，用来存放索引
+                    //sortTbodyRows(this.index);
+                    sortTbodyRows.call(this); //把sortTbodyRows中的this修改成当前的this，并且还把这个sortTbodyRows函数执行
+                    changeBg();
+                }
+            }
+        }
+
+    }
+    bindEvent();
+
+    function sortTbodyRows(/*index*/){
+        for(var i=0; i<theadCells.length; i++){
+            if(theadCells[i] != this){ //循环所有的theadCells表头，如果不是点击的这个。那么就把排序标识的自定义属性恢复成默认值
+                theadCells[i].sortFlag = -1;
+            }
+        }
+        //我需要先把tbodyRow这个类数组转化成数组
+        console.log(this); //??this是谁? ==> 这个this本来是window，现在通过call改成成了点击的表头
+        var tbodyRowsAry = utils.listToArray(tbodyRows);
+        //console.log(tbodyRowsAry);
+        var that = this; //在编程过程中经常会把this指针在当前作用域内存下来
+        that.sortFlag *= -1; //修改自定义标识这个动作一定要在排序之前，因为排序的时候要用
+        tbodyRowsAry.sort(function (a,b){
+            //a和b在排序的时候分别代表的数组里的项，而数组里的项目是tbody下的行。我是按照行里面的列的内容去排序
+            //console.log(a,b);
+            //这个索引值2需要动态获取,获取的是点击那一列的表头的索引
+            var _a = a.cells[that.index/*index*/].innerHTML;
+            var _b = b.cells[that.index/*index*/].innerHTML;
+            if(isNaN(_a) || isNaN(_b)){
+                return (_a.localeCompare(_b))*that.sortFlag;
+            }
+            return (_a - _b)*that.sortFlag;
+        });
+        var frg = document.createDocumentFragment();
+        for(var i=0; i<tbodyRowsAry.length; i++){
+            frg.appendChild(tbodyRowsAry[i]);
+        }
+        tbody.appendChild(frg);
+        frg = null;
+    }
+
+    //处理性别问题   ==> 在数据动态绑定的时候给td.innerHTML赋值之前做一个判断
+
+    //如果按照名字或者性别排序 ==> localeCompare做比较
+
+    //升序降序切换问题 ==>  sortFlag = -1
+
+    //如果第二次点击不是当前列把sortFlag恢复成默认值-1
+</script>-->
