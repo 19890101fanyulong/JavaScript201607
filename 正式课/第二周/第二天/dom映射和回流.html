@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>dom</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            width: 300px;
+            margin: 30px auto;
+            padding: 10px;
+            border: 3px solid #ccc;
+            list-style: none;
+        }
+        ul li{
+            height: 30px;
+            background: lightgreen;
+            margin-bottom: 3px;
+            line-height: 30px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <ul id="list">
+        <li>1</li>
+        <li>4</li>
+        <li>3</li>
+        <li>2</li>
+    </ul>
+</body>
+</html>
+<script>
+    var ul = document.getElementById('list');
+    var lis = ul.getElementsByTagName('li');  //肯定没有5和6
+    //console.dir(lis);
+    var lisAry = listToArray(lis); //把lis从类数组转化成数组
+    console.dir(lisAry);
+    lisAry.sort(function (a,b){
+        //a,b  ==>
+        return a.innerHTML - b.innerHTML; //如果要是字符串localeCompare
+    });
+    console.dir(lisAry);
+    //我把排序好的数组重新添加到页面中
+
+    for(var i=0; i<lisAry.length; i++){
+        ul.appendChild(lisAry[i]); //
+        lisAry[i].onmouseover = function (){
+            this.style.backgroundColor = 'red';
+        }
+        lisAry[i].onmouseout = function (){
+            this.style.backgroundColor = 'lightgreen';
+        }
+    }
+    /*
+    *   dom回流: 页面内元素的增加，或者删除或者位置改变都会引起dom的回流,dom回流是比较浪费性能的
+    *   dom重绘： 元素样式等改变就会引起dom的重绘，相对于回流来说性能开销很小
+    *
+    * */
+
+    //以上的操作是比较浪费性能的，我们如何处理这个问题?
+
+/*
+    for(var i=1; i<=2; i++){
+        var li = document.createElement('li'); //仅仅是创建结束
+        li.innerHTML = i+4;
+        ul.appendChild(li); //这行代码执行一次就会引起一次回流
+    }
+*/
+
+    //console.log(lis)  包含5和6
+    //lis会随着页面内元素的增加而增加，减少而减少
+
+
+    //用innerHTML的方式在页面内追加两个li元素
+/*    var str = "";
+    for(var i=1; i<=2; i++){
+        str += '<li>'+(i+4)+'</li>';
+    }
+
+    //ul.innerHTML += str;
+    ul.innerHTML = ul.innerHTML + str; //这种是先到ul中把html字符串拿来，然后再拼接字符串，最后把拼接好的字符串放到页面内重新渲染。导致了原有的事件属性丢失
+    */
+    //通过什么样的方式，既能保证原有事件不丢失，还能仅仅引起一次回流
+    //如果能提供一个容器，用来存放每次创建的li。最后把这个容器一次放到页面中就会仅仅引一次回流
+    var frg = document.createDocumentFragment(); //这个叫做文档碎片，专门用来存储dom元素的,也可以理解是一个dom容器
+    for(var i=1; i<=3; i++){
+        var li = document.createElement('li');
+        li.innerHTML = i+4;
+        frg.appendChild(li);
+    }
+    console.dir(frg);
+    ul.appendChild(frg); //把这个容器所包含的三个li一次性添加到ul中
+    frg = null; //添加之后这个容器就没用了
+
+
+    function listToArray(likeArray){
+        try{
+            return Array.prototype.slice.call(likeArray);
+        }catch(e){
+            var a = [];
+            for(var i=0; i<likeArray.length; i++){
+                a[a.length] = likeArray[i];
+            }
+            return a;
+        }
+    }
+
+    /*
+    *   dom映射： 网页内的元素和dom对象的一一对应关系，绑定在一起
+    *   dom回流:  页面内元素的增加和删除或者位置的改变都会引起dom回流
+    *   dom重绘:  页面内元素样式等的改变
+    *
+    *   appendChild: 会引起多次回流，但是原有dom元素的属性不会丢失
+    *   innerHTML:   只有一次回流，但是导致原有dom元素的属性丢失
+    *   DocumentFragment： 利用文档碎片可以处理回流和事件丢失的问题
+    *   ps: 如果页面内不是追加元素使用innerHTML就可以
+    * */
+</script>
