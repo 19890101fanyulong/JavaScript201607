@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>正则</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   正则: 用来  验证  或者  捕获  字符串的，其实正则就是一个规则。
+    *   正则的创建方式：  1 字面量的方式   2 实例创建方式
+    *
+    *   正则方法： test 用来验证字符串是否符合这个正则  true/false
+    *             exec 捕获符合正则条件的字符串的
+    * */
+    //创建
+    var reg = /zhu/; //字面量的方式创建了一个正则
+    //var reg = new RegExp(); //正则的内置类
+    var reg1 = /zhu/; //这个正则用来验证只要字符串中包含zhu就可以
+    console.log(reg1.test('sdfhu')); //false
+    var reg2 = /^zhu$/; //以z开始以u结束,并且中间必须是h
+    var str2 = "zhu";
+    console.log(reg2.test(str2));
+    var reg2 = /^hh$/;
+    console.log(reg2.test('h'));
+    /*
+    *   正则中有特殊意义的元字符:
+    *       1 ^ 以什么开始   不占用位数
+    *       2 $ 以什么结束   不占用位数
+    *       ps: 只要用^$包含，那么字符串的位数和正则位数也要相等，否则就是false
+    *       3 \d  代表0-9之间的任意数字
+    *       4 \w  代表 0-9 a-z A-Z _ 数字，字母，下划线
+    *       5 \  转义  把有特殊意义的字符转换成原来自己的本意
+    *       6 \D  除了0-9
+    *       7 \W  除了\w
+    *       8 \b  边界  不占位
+    *       9 .  除了\n以外的任意字符
+    *       10 \s 空格空白等
+    *       11 \n 换行
+    * */
+
+    var reg3 = /^\d$/; //只能是一个单个的数字才行
+    console.log(reg3.test('4z'));
+
+    var reg4 = /^\w\d$/;
+    console.log(reg4.test("_5"));
+
+    var reg5 = /\d\$/;
+    var str = '8$';
+    console.log(reg5.test(str));
+
+    var reg6 = /\b\d\b\s\b\w\b/;
+    var str6 = "8 9";
+    console.log(reg6.test(str6));
+
+    ////////////////////////////////////////////////
+    var reg = /6666666666666666/;
+    var str = "6666666666666666666666666asdfasdfasdf";
+    var reg = /\d+/; //至少出现1次的数字
+    var str = 'iu67y';
+    console.log(reg.test(str));
+
+    var reg = /^\d+\w?$/;
+    var str = '1234yy';
+    console.log(reg.test(str));
+
+    var reg = /^\d{5,}$/;
+    console.log(reg.test(6666655));
+    /*
+    *   正则中量词元字符: 量词一般放在后面，用来修饰前面的元字符出现的次数
+    *       1 + 出现1到多次  ==> 至少出现1次
+    *       2 ? 出现0到1次   ==> 要么出现要么不出现
+    *       3 * 出现0到多次
+    *       4 {n} 只能出现n次
+    *       5 {n,} 至少出现n次
+    *       6 {n,m} 至少出现n次最多出现m次
+    * */
+
+
+
+
+    //手机号正则
+    var reg = /^1\d{10}$/;
+    //var reg = /1\d\d\d\d\d\d\d\d\d\d\d\d\d\d/
+
+
+    /*
+    *   正则中的或者:
+    *       | 一个竖线 一定要注意或者的各种情况  其中(a|b)这样使用比较好，为了避免可能出现的各种情况
+    *       [abc]  a或者b或者c中的一个  a|b|c
+    *       [1-9] //代表的是1到9中间的任意数字
+    *       \d === [0-9] 中间这个-代表不是"-"本身了，代表中间的省略部分
+    *       [_0-9a-zA-Z] === \w
+    *       [+-]  这是+或者-中的一个
+    *       [^abc] ==> 除了a,b,c 中的任意一个
+    *       ps: [.] 代表的就是"."本身
+    * */
+    //var reg = /\d/;
+
+    var reg = /^(18|19)$/;
+    var str = "1uuuuuuuuuuuuuuuuuu89";
+    var str = '189';
+    console.log(reg.test(str));
+
+    var reg = /^(\w+|\d?)$/;
+    var str = "a6";
+    console.log(reg.test(str));
+
+    var reg = /[abcdefghi]/;
+    var reg = /[*+?]/; //这些量词放在[]中代表的就是本意了
+    var reg = /[\d\w]/;  //数字或者数字字母下滑线中的一个
+    console.log(reg.test("_"));
+
+    var reg = /^[^abc]$/; //var reg = /a/;
+    console.log(reg.test(' a'));
+
+    //非空验证
+    var reg = /^\s*$/;
+    var str = '     '; //如果没有^$那么"n  y"也符合条件
+    if(!reg.test(str)){
+        console.log('你输入的符合条件');
+    }
+
+    //有效数字验证 +0.3  -0.5  -0   -5  -08   5.52342345   ++5.55  --5.55   +-8
+    var reg = /^[+-]?(\d|[1-9]\d+)(\.\d+)?$/; //5.0  '6.66'
+    //var str = '-0';
+    console.log(reg.test(str));
+
+    /*
+    *  如何分析别人家的正则:
+    *       /(\.\d+)?/ ==>   .666
+            /(\d|[1-9]\d+)/  ==>  7|2345
+
+         -7.666
+         +2345.666
+         7.666
+         2345.666
+         7
+         2345
+         +7
+         -2345
+    *
+    * */
+
+    /*
+    *   正则字面量创建方式和实例创建方式的区别:
+    *          实例创建方式: 需要一个参数是把正则里面的元字符等放到一个字符串中
+    *          用字面量的方式不能把变量传入到正则中,即使使用变量也就代表变量的那几个字符
+    *           ps: 如果在正则中需要传入变量那么只能通过实例的创建方式
+    *           ps: 如果使用实例的创建方式，\d这种特殊意义的元字符需要转义,否则就代表\d本身
+    * */
+    var name = 'zhufeng';
+    //var reg = /name/;
+    var reg = new RegExp(name);
+    var reg = new RegExp(name+5); //zhufeng5
+    var reg = new RegExp(name+'\\d');
+    console.log(reg.test('zhufeng\d'));
+
+    var ary = ["a",'b',"c"];
+    for(var i=0; i<ary.length; i++){
+        var reg = new RegExp('\\d'+ary[i]);
+        console.log(reg);
+    }
+
+    //简单的邮箱正则
+
+    //  121170784@qq.com   tianxi@163.com    tianxi@sina.com.cn  tianxi@cmcm.com  _tianxi   liujinrui.hi@163.com    ........@sina.com.cn    www.a.com   www.aaa.hk www.aaa.jp   wwww.aaa.org   www.aaa.cc     WWW.HC.CN
+    /*
+    *   分析: @前面可以是数字字母下划线"."中的任意一个至少出现1次
+    *         @后面的域名部分  www.baidu.com   baidu就是域名部分 ==> 域名这部分可以是数字可以是字幕中的至少2个最多20个
+    *         @后面的.com部分这个整体至少出现一次，最多出现2次，例如sina.com.cn
+    *         @后面的.com部分只能是字母,这个字母一般是出现2-4次
+    * */
+    var reg = /^[\w.]+@[0-9a-zA-Z]{2,20}(\.[a-zA-Z]{2,4}){1,2}$/;
+
+</script>
