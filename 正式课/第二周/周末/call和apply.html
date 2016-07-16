@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>call和apply</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    //"use strict";
+    /*
+    *  严格模式和非严格模式的区别:
+    *       1 自运行函数中如果严格模式this==> undefined
+    *       2 函数执行的时候，如果没有主体this==> undefined
+    *       3 在严格模式下call如果第一个参数是null那么this就会修改成null，非严格模式下是window
+    *       4 在严格模式下call如果第一个参数是undefined那么this就会修改成undefined，非严格模式下是window
+    * */
+    //内置类: Array,Function,Object,Number,String,Boolean,Date,RegExp...
+    (function (){
+       // console.log(this);
+    })();
+
+/*
+    Array.prototype.slice = function () {
+        console.log(this); //谁调用我谁就是这个this
+    }
+*/
+    /*
+    *   函数三个角色: 1普通函数  2 构造函数  3 Function的实例
+    *
+    * */
+    function Fn(){ }
+    var f = new Fn(); //__proto__ == Fn.prototype.constructor ==> Fn
+    //console.log(Fn.__proto__ === Function.prototype);
+    //console.dir(Function.prototype); //call,apply,bind ==>Function.prototype上的方法只有函数实例才能调用。任何一个函数都是Function的一个实例. 任何一个函数都可以使用Function.prototype上的方法。call方法和apply还有bind任何一个函数都可以调用
+    //console.dir(Fn);
+    /*
+    *   检测数据类型: 1 typeof "number" "string" "boolean" "object" "undefined" "function"
+    *                2 instanceof  判断实例是否属于这个类 只能用于引用数据类型 基本数据类型只识别实例创建方式
+    *                3 constructor   可能被修改，如果修改之后就不准了
+    *                4 Object.prototype.toString.call();
+    *                  Array.prototype.toString
+    * */
+    /*
+    *   call用法:   定义在Function.prototype.call的方法,call本身自己也是一个方法. 是用来改变函数中的this关键字的
+    *           1 函数做为Function的实例通过__proto__找到定义在Function.prototype的call方法
+    *           2 call方法修改调用自己的那个实例中(fn)的this为call的第一个参数
+    *                   fn.call(obj) ==> 先找到call方法，然后call方法执行 ==> 把fn中的this修改成obj ==> 然后fn()执行
+*               3 实例函数执行
+*                       fn();
+*               ps: call的第一个参数是用来改变this的，从第二个参数开始是给调用call的函数实例传的实参
+    *
+    *
+    * */
+    function fn(){
+        console.log(this); //obj
+    }
+    fn(); //window
+    var obj = {
+        age:30
+    };
+    fn.call(obj); //fn找到call方法然后执行传一个参数obj ==> 打印结果是obj，那么说明fn中的this被call方法修改了
+
+    var obj = {
+        fn : fn
+    }
+    obj.fn.call(obj); //??
+
+    [].slice.call(obj); //
+
+    //Object.prototype.toString.call()
+    [].slice === Array.prototype.slice.call({haha:"haha"}) // ==call可以修改原型上方法中的this
+
+
+
+    //call举例
+    function f1(){
+        console.log(1);
+    }
+    function f2(){
+        console.log(2);
+    }
+    f1.call(f2); // 1 ==> call方法只要执行了代表调用call的f1也执行完了
+    f1.call.call.call(f2); //2 为什么这样写不报错??? ==> 把call方法中的this修改成f2然后call方法执行 ==> 由于call方法中的this被修改成f2，call方法执行。我需要知道call方法中的this是谁? ==> 是任何一个可以调用call方法的函数实例 ==> 这个this就是call方法本身
+
+    Function.prototype.mycall = function (obj){ //call是定义在Function.prototype上的方法.
+        //console.log(this); //this是任何可以调用call的函数实例 ps: [].push, f1, fn... f1.call
+        //定义在原型上的方法中的this永远都是调用方法实例
+        //call方法是修改this  ==>
+        //this ==> f1,  f2,
+
+        //加入f1.call(obj)  ==> 最后一步一定有一个f1()的过程 ==> 而在这个方法中this就是f1。那么到最后一定是一个this()
+        this();
+    }
+    f1.call(document.body);
+
+
+    f1.call(f2); //
+
+    Function.prototype.mycall = function (obj){
+        console.log(this); //f1,f2,f3 ==
+        this();  //就是把这里的this中的this修改成obj
+    }
+    f1.call.call.call(f2); //  找到原型上的call方法，然后把call方法中的this修改成f2然后this()也就是f2执行
+    f1.call({});
+    /*
+    *   一个call和多个call的区别:
+    *       f1.call(f2);  把f1中的this修改成f2，然后f1执行
+    *       f1.call.call(f2); 把f1.call中的this修改成f2，然后f1.call执行 ==> f1.call方法中最后一个步骤就是this执行.而这个this被修改成了f2，所以就变成了f2执行了
+    *       ps: 一个call是前面函数执行，多个call是call的第一个参数执行
+    *       ps： 多个call前面的方法只是利用这个方法能通过__proto__找到call
+    *
+    * */
+    [].slice.call.call(f2); //2
+    [].constructor.call.call(f2); //2
+    //////////////////////////////////////////////////////////////
+    console.log('&&&&&&&&&&&&&&&&&&&&&&');
+    Function.prototype.call(f2); //没有任何操作，因为最后Function.prototype()这个空函数执行
+    console.dir(Function.prototype); //Function的原型还是一个function,空函数
+    //Function.prototype.call.call(f2); //2
+
+
+    function summ(num1,num2){
+        console.log(arguments);
+        console.log(this); //100  window
+        console.log(num1 + num2); //undefined+200
+    }
+    sum.call(null,100,200); //
+
+    /*
+    *   apply用法: 作用和call是一样的，都是用来修改this关键字的。
+    *       不同点: apply的第一个参数也是用来修改this关键字
+    *              apply的第二个参数一般是一个数组,是把数组里的每一项，分别当作参数传给调用apply的函数实例的
+*              ps: 主要和call就是传参的方式不同
+*              ps: call和apply都是已经把函数执行完了
+    *
+    * */
+    summ.apply(undefined,[100,300]);
+
+    /*
+    *   bind用法: 都是用来改变this关键种子的.call和apply都是把函数实例运行结束了，但是bind不会运行。bind是返回了一个已经修改过this关键字的新函数。预先处理了this关键字，这种思想也叫预处理思想
+    *
+    * */
+
+    function sum(num1,num2){
+        console.log(this); //这个this已经被bind预先处理过了
+        console.log(num1+num2);
+    }
+
+    var newFn = sum.bind({name:"tianxi"}); //bind是预先处理好this。
+    //newFn(1000,2000);
+
+    //如何模拟bind
+    Function.prototype.myBind = function (obj){
+            var _this = this;
+        return function (){
+            _this.call(obj);
+        }
+    }
+
+    f1.call.call.apply.apply(f2); //2
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <ul>
+        <li>1</li>
+        <li>4</li>
+        <li>3</li>
+        <li>2</li>
+    </ul>
+</body>
+</html>
+<script>
+    var ary = [45,54,1,2,3];
+    //求这个数字组中的最大值
+    ary.sort(function (a,b){return a-b});
+    console.log(ary[ary.length-1]);
+
+    //假设
+    var max = ary[0];
+    for(var i=1; i<ary.length; i++){
+        if(ary[i] > max){
+            max = ary[i];
+        }
+    }
+    console.log(max);
+
+    //apply，第二个参数: 把数组中的每一项一个传进去的
+
+    var res = Math.max.apply(null,ary); //把ary中的每一项传给Math.max  ==> Math.max(45,54,1,2,3)
+    console.log(res); //就是利用了apply这种特殊的传参方式
+
+    //eval ==>  把字符串当作js表达式来执行  "Math.max(45,54,1,2,3)"
+
+    var str = "Math.max("+ary.join()+")"; //  "Math.max("+"45,54,1,2,3" + ")";
+
+    console.log(eval(str));
+
+
+    /////////////////////////////求平均数,去掉一个最高分和去掉一个最低分
+
+    function avg(){
+        console.dir(arguments); //[1,2,3,4,9....]
+        //由于需要去掉最大和最小，那么我需要排序
+/*
+        var ary = [];
+        for(var i=0; i<arguments.length; i++){
+            ary.push(arguments[i]);
+        }
+*/
+        //var ary = Array.prototype.slice.call(arguments,0);
+        var ary = listToArray(arguments);
+        ary.sort(function (a,b){return a-b});
+        ary.pop();
+        ary.shift();
+        return eval(ary.join("+"))/ary.length;     //"1+2+3+4"
+    }
+    console.log(avg(1,2,3,4,9,8,7,6));
+
+
+    var ary = [1,2,3,4,5];
+    var newAry = ary.slice(0); //如果这个slice方法能借用arguments一次就可以了
+
+    Array.prototype.myslice = function (n,m){
+        //this;
+        var ary = []; //[1,2]
+        for(var i=n; i<=m-1; i++){ //n=0, m=1  这个循环能执行2次
+            ary.push(this[i]); //this ==>  [1,2,3] this[0]=>1 this[1] =>2
+        }
+        return ary;
+        //如果能把这个里的this修改成arguments那么就是把arguments的前两项放到一个新数组里
+    }
+
+    //[1,2,3].slice(0,2); //[1,2]
+    function listToArray(likeArray){
+        try{
+            return Array.prototype.slice.call(likeArray);
+        }catch(e){
+            //e可以捕获到错误 console.log(e);
+            //throw new Error('我是自己输出到控制台的错误');
+            var ary = [];
+            for(var i=0; i<likeArray.length; i++){
+                ary[ary.length] = likeArray[i];
+            }
+            return ary;
+        }finally{
+            //无论怎么样代码都会执行到这里
+        }
+    }
+
+    /*
+    *   sort的另外用法:
+    *       1 sort(function (a,b){retunr a-b; })  a和b分别代表的是数组项，排序的时候可以按照a这个项目的属性排序
+    *       2 如果排序字符串需要 localeCompare 做比较。返回值也是数字
+    *       3 如果是汉字那么比较的是拼音
+    * */
+    var person1 = {name: 'tianxi',age:27};
+    var person2 = {name:'zhufeng',age:41};
+    var person3 = {name:'angzhen',age:30};
+    var ary = [person1,person2,person3];
+    ary.sort(function (a,b){
+        console.log(a,b); //a和b分别都是代表数组中的项 {name:"tianxi",age:30}
+        return a.age- b.age; //排序位置是否交换取决于return这个值是否大于0
+    });
+    ary.sort(function (a,b){
+       return a.name.localeCompare(b.name);
+    });
+    console.log(ary);
+
+</script>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>表格排序</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        .box{
+            width: 500px;
+            margin: 30px auto;
+            border: 3px solid #000000;
+            border-radius: 3px;
+            padding: 10px;
+            font-family: "microsoft yahei";
+            font-size: 24px;
+        }
+        .box table thead tr,.box table tbody tr{
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+        .box table thead{
+            background: lightsalmon;
+            -webkit-user-select: none;
+        }
+        .box table td,.box table th{
+            width: 100px;
+        }
+        .cursor{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="box" class="box">
+        <table cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <td>姓名</td>
+                    <td>性别</td>
+                    <td>身高</td>
+                    <td>体重</td>
+                    <td>年龄</td>
+                </tr>
+            </thead>
+            <tbody>
+                <!--<tr>
+                    <td>田喜</td>
+                    <td>男</td>
+                    <td>175</td>
+                    <td>90</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>张振</td>
+                    <td>男</td>
+                    <td>174</td>
+                    <td>80</td>
+                    <td>29</td>
+                </tr>-->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    //先获取我可能要操作到的元素
+    var box = document.getElementById('box');
+    var table = box.getElementsByTagName('table')[0];
+    var theadThs = table.tHead.rows[0].cells; //表头tHead 表头下面所有的行中的第一行里的所有列
+    var tbody = table.tBodies[0];
+    var tbodyRows = tbody.rows;
+    //以上都是表格中获取元素特殊的获取方式
+
+    //给表格动态添加数据 ==> 通过ajax的方式去动态获取 ==> 前端通过ajax的方式到后台去获取数据
+
+    // async异步的 javascript  and xml
+    ;(function getData(){
+        var xhr = new XMLHttpRequest(); //创建一个异步对象 ==> 我让xhr这个对象去负责拿数据
+        xhr.open("get","data.txt",false); //以get的方式去获取数据，到data.txt这个地方去获取，false代表同步 ==> data.txt这个一个url我们叫做接口
+        xhr.onreadystatechange = function (){
+            if(xhr.readyState == 4 && xhr.status == 200){  //这两个状态同时符合的时候才是成功返回数据
+                //404 ==> 找不到页面
+                //500 502 服务端错误
+                //200 成功返回
+                //304 本地缓存
+                //console.log(xhr.responseText); //响应文本，我需要做去引号处理
+                window.data = eval(xhr.responseText); //我把相应文本经过parse处理之后赋值给window的data属性 ==> 如果成功那么全局就多了一个data变量
+            }
+        }
+        xhr.send(null); //出发
+    })();
+
+    console.log(data); //这个data数组的长度就是表格中应该有多少个tr
+
+    //绑定数据,就是把获取到的动态数据动态添加到表格中
+    (function bindData(){
+        if(data){
+            var frg = document.createDocumentFragment(); //页面中临时容器
+            for(var i=0; i<data.length; i++){
+                //只要能循环一次就需要创建一行
+                var tr = document.createElement('tr');
+                var curData = data[i]; //每次代表这个数组中不同对象
+                //向tr中添加列
+                for(var key in curData){
+                    var td = document.createElement('td');
+                    //性别不对
+                    if(key === 'sex'){
+                        td.innerHTML = curData[key] == 1 ? "男" : "女";
+                    }else{
+                        td.innerHTML = curData[key]; //td里面的内容是对象属性值
+                    }
+
+                    tr.appendChild(td); //把这个td放到行里
+                }
+                frg.appendChild(tr); //把刚刚创建这个tr放到frg这个容器中
+            }
+            tbody.appendChild(frg);
+            frg = null;
+        }
+    })();
+
+
+</script>

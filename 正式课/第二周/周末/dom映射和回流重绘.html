@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>dom映射</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        ul{ list-style: none; width: 300px; margin: 30px auto; padding: 10px; border: 3px solid #ccc; }
+        ul li{ height: 30px; line-height: 30px; text-align: center; margin-bottom: 3px; background: lightgreen; }
+
+    </style>
+</head>
+<body>
+    <ul id="ul">
+        <li>1</li>
+        <li>4</li>
+        <li>3</li>
+        <li>2</li>
+    </ul>
+</body>
+</html>
+<script>
+    var ul = document.getElementById('ul');
+    console.dir(ul);
+    var lis = ul.getElementsByTagName('li'); //在开始获取的lis即使又新增加了li也不用重新获取
+    //lis会随着页面内元素的增加而增加，也会随着页面内元素的减少而减少
+    //HTMLUListElement ==>   HTMLElement ==> Element ==> Node ==> EventTarget ==> Object  dom元素原型链
+    console.log(lis);
+
+    var lisAry = Array.prototype.slice.call(lis);
+    lisAry.sort(function (a,b){
+        console.log(a,b); //a,b分别代表的li
+        return a.innerHTML - b.innerHTML;
+    });
+    console.log(lisAry);
+
+    for(var i=0; i<lisAry.length; i++){
+        lisAry[i].onmouseover = function (){
+            this.style.backgroundColor = 'yellow';
+        }
+        lisAry[i].onmouseout = function (){
+            this.style.backgroundColor = 'lightgreen';
+        }
+        ul.appendChild(lisAry[i]); //
+    }
+
+
+   /* for(var i=0; i<2; i++){
+        var li = document.createElement('li');
+        li.innerHTML = i+5;
+        ul.appendChild(li);
+    }*/
+    //通过这里利用append的方式并不会对页面内原有li的事件属性有影响: 优点： 不会对原有元素有影响  缺点： 引起多次回流
+    /*
+    * dom回流: 由于页面内元素个数的增加或者减少，或者元素位置的改变都会引起所有元素重新计算位置并且渲染。那么就会引起dom的回流。 比较浪费性能
+    * */
+
+/*
+    var str = "";
+    for(var i=0; i<2; i++){
+        str += "<li>" + (i+5)+'</li>';
+    }
+    ul.innerHTML += str;
+*/
+     //ul.innerHTML = Ul.innerHTML + str; 这是一个赋值过程，先去获取ul的innerHTML然后和str拼接 ==> 到最后就是把拼接好的字符串重新赋值给ul.innerHTML过程。所以都会重新渲染
+    //使用innerHMTML的方式只引起一次回流，但是原有的事件属性丢失
+
+    /*
+    *   重绘: 元素样式等改变会引起重绘. 相对于回流来说重绘是节省性能开销的.如果对于特别庞大的数据性能开销却显得尤为重要了
+    *
+    * */
+
+    //还能不引起多次回流还能保证原有元素属性不被破坏  ==> 文档碎片: 相当于在页面中存放dom节点的一个临时容器, 如果把刚刚创建好的多个li元素添加到这个容器中，最后把这个容器添加到页面中。那么就会仅仅引起一次回流
+
+    var frg = document.createDocumentFragment(); //创建了一个临时容器
+    for(var i=0; i<3; i++){
+        var li = document.createElement('li');
+        li.innerHTML = i+5;
+        frg.appendChild(li); //我把刚刚创建的li都添加到这个临时的容器中,此时没有添加到页面中
+    }
+    ul.appendChild(frg); //把这个包含着3个li的容器添加到页面中
+    frg = null; //这个临时的容器就没用了就可以主动销毁了
+
+
+
+
+</script>

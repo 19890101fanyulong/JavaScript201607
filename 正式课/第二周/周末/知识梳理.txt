@@ -1,0 +1,21 @@
+1 call和apply还有bind定义的位置  Function.prototype ==> 任何一个函数都可以调用call和apply等
+2 call，apply，bind都是改变this关键字的
+3 call和apply传参的时候不同，其实函数已经执行结束了
+4 bind是返回了一个处理过this的新函数  ==> myBind ==> 预处理思想 ==> 柯理化
+5 f1.call(f2) ==> f1.call.call.call.apply(f2);
+6 求数组的最大值 apply传参数的特点  假设  eval
+7 求平均数 如果arguments能使用slice就好了  Array.prototype.slice.call();
+8 判断数据类型的几种方式   Object.protype.toString.call([]) ==> "[object Array]"
+9 listToArray try catch
+10 JSON 数据格式  是window的一个属性 不兼容  JSON.parse() JSON.stringify()  jsonParse
+11 sort ==> return a,b   a.age - b.age  a.innerHTML - b.innerHTML  localeCompare
+12 DOM映射 ==> 通过dom方式获取来的dom对象和网页内的元素的一一对应关系
+13 dom回流
+14 dom重绘
+15 appendChild 引起多次回流 没有破坏原有元素的属性
+16 innerHTML的方式  引起一次回流，但是原有的属性都没了
+17 文档碎片  document.createDocumentFragment();  这是一个容器
+18 表格排序  1 获取表格元素的特殊方式 cells tHead rows tBodies[0]
+19 ajax:   1 new XMLHttpRequest()  2 xhr.open("get","url",true/false);  3 xhr.onreadystatechange 4 xhr.send()   200 && 4   xhr.responseText
+
+
