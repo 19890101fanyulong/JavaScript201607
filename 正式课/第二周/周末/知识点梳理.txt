@@ -1,0 +1,25 @@
+1 表格排序
+    绑定事件 cursor
+    tableSort() ==> this问题 ==> sort方法中需要使用 ==> 不能直接使用 that
+    如果是汉字需要localeCompare
+    点击时候正序和倒叙切换
+    下次点击的时候如果点击的不是自己需要重新恢复默认的排序标识
+    自己完成 =>  下周考试
+
+2 正则
+    1 \d \w \n . \s \b ^ $ \ \D \W ...
+    2 ? + * {n} {n,} {n,m}
+    3 | [xyz] [^xyz] [0-9] [+-.]  在或者中需要注意小括号  18|19
+    4 问好的用法: 量词 ?: \d+? 破坏分组 (?:\w)
+    5 懒惰性和贪婪性
+    6 正则两种创建方式的区别
+    7 i,m,g 修饰符
+    test:
+    exec:  exec返回值，如果有分组返回值是不同的  index,input
+    match: 一次性获取 ==> 如果有分组执行一次和exec一样，多次那么就不能获取到分组捕获的内容
+    g : lastIndex 下次从哪里开始捕获，如果test也是
+    split:
+    replace: function (){ arguments } ==> 如果有分组arguments index,input
+    RegExp.$1 ... $9
+
+    各种demo .....

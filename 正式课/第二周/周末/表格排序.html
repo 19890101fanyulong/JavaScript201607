@@ -29,6 +29,9 @@
         .cursor{
             cursor: pointer;
         }
+        .bg{
+            background: lightgreen;
+        }
     </style>
 </head>
 <body>
@@ -36,11 +39,11 @@
         <table cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <td>姓名</td>
-                    <td>性别</td>
-                    <td>身高</td>
-                    <td>体重</td>
-                    <td>年龄</td>
+                    <td class="cursor">姓名</td>
+                    <td class="cursor">性别</td>
+                    <td class="cursor">身高</td>
+                    <td class="cursor">体重</td>
+                    <td class="cursor">年龄</td>
                 </tr>
             </thead>
             <tbody>
@@ -63,6 +66,10 @@
     </div>
 </body>
 </html>
+<script src="table.js"></script>
+
+
+<!--
 <script>
     //先获取我可能要操作到的元素
     var box = document.getElementById('box');
@@ -120,5 +127,82 @@
         }
     })();
 
+    function changeBg(){
+        for(var i=0; i<tbodyRows.length; i++){
+            tbodyRows[i].className = i%2 ? "bg" : "";
+        }
+    }
+    changeBg();
 
-</script>
+    //给每一个表头绑定事件
+    (function bindEvent(){
+        //给每一个都要绑定
+        for(var i=0; i<theadThs.length; i++){
+            var curTh = theadThs[i];
+            curTh.index = i; //给每一个表头添加自定义属性用来存储索引值
+            curTh.sortFlag = -1; //每一个表头都存储了一个自定义属性-1
+            if(curTh.className === "cursor"){
+                //只有包含cursor这个class的才绑定事件
+                curTh.onclick = function (){
+                    //排序
+                    //console.log(this); //这个this是点击的表头
+                    tableSort.call(this); //在这个函数中需要当前点击的这个表头,也就是this. ==> 如果能把这个tableSort函数中的this修改成现在这个函数中的this就可以了
+                    //通过call方法成功的把tableSort方法中的this修改成了点击时候的那个表头.那么在tableSort函数中的this也会携带一个自定义属性叫做index。用来存放索引
+                    //tableSort(this.index);
+                    changeBg();
+                }
+            }
+        }
+    })();
+
+    function tableSort(/*n*/){
+        console.log(this); //
+        for(var i=0; i<theadThs.length; i++){ //只要点击的不是我那么就把其他的sortFlag恢复成-1
+            if(theadThs[i] !== this){
+                theadThs[i].sortFlag = -1;
+            }
+        }
+        //排序就是tbodyRows上下交换位置
+        var tbodyRowsAry = listToArray(tbodyRows); //把tbodyRows转化成数组
+        var that = this; //由于排序sort使用的匿名函数中的this是window。所以用that来保存上一级作用域内的this
+        //在排序之前更改排序依据
+        that.sortFlag *= -1; //在原有的基础上乘以-1,在排序之前被修改。排序的时候用
+        tbodyRowsAry.sort(function (a,b){
+            //这里的a和b分别代表的是数组里的每个tbody下面的行
+            //我们按照这个行里所有单元格(列)里面身高(索引2)那一列的innerHTML去排序
+            //排序cells的索引需要用的是点击那个表头的索引,如何拿到点击表头的索引呢?
+            var _a = a.cells[/*n*/that.index].innerHTML;
+            var _b = b.cells[/*n*/that.index].innerHTML;
+            if(isNaN(_a) || isNaN(_b)){ //只要拿回来的表格列里面的innerHTML不是有效数字，那么就按照字符串排序的方法使用loacleCompare
+                return (_a.localeCompare(_b))*that.sortFlag;
+            }
+            return  (_a - _b)*that.sortFlag;
+        });
+        //排序之后只是把数组里的项排序，还需要重新appendChild到页面内才会改变位置
+        var frg = document.createDocumentFragment();
+        for(var i=0; i<tbodyRowsAry.length; i++){
+            frg.appendChild(tbodyRowsAry[i]);
+        }
+        tbody.appendChild(frg);
+        frg = null;
+    }
+    //文字排序问题
+    // 男女问题
+    // 连续点击两次正序倒序切换
+    // 如果第二次点击不是当前列那么把其他列的默认的排序标识sortFlag恢复成-1
+
+     function listToArray(likeArray) {
+        try {
+            return Array.prototype.slice.call(likeArray);
+        } catch (e) {
+            var a = [];
+            for (var i = 0; i < likeArray.length; i++) {
+                a[a.length] = likeArray[i];
+            }
+            return a;
+        }
+    }
+
+
+
+</script>-->

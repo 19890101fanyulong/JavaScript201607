@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>exec</title>
+</head>
+<body>
+    <div id="div1" class="c1    c2    c3   "></div>
+</body>
+</html>
+<script>
+    /*
+     *   exec:   捕获结果是一个数组
+     *           数组中的第一项就是正则匹配的结果
+     *           index:  捕获字符在原有字符串中的索引位置
+     *           input: 被捕获那个原有字符串
+     *           捕获的时候如果没有符合条件的字符串那么返回null，在捕获的末尾的时候如果没有了也返回null，并且同时修改了reg.lastIndex的值为0
+     *           lastIndex属性可以支持人为赋值
+     *           ps: 如果正则中存在分组，那么返回值数组中从第二项开始是分组所捕获到的内容
+     * */
+    /*
+    *   正则的懒惰性和贪婪性:
+    *        懒惰性: 每次尽可能少的去匹配次数  g
+    *        贪婪: 每次尽可能多的去匹配  \d+?  如果这个问号出现在"+"后面是尽可能少的去匹配
+    * */
+    var reg = /\d+/g;
+    //至少1个数字  "2"一个数字2就足够满足了，为什么把2015都拿来了
+    //为什么2015拿来了，2016没拿来
+
+    var str = 'zhufeng2015peixun2016';
+    var res = reg.exec(str); //我用res变量接手reg.exec执行之后的结果
+    console.dir(res); //["2015" index:7  input:""]
+    console.log(reg.lastIndex); //0  11
+    reg.lastIndex = 0; //可以支持自己人为赋值
+    //我想把这个2016也捕获到
+    var res = reg.exec(str);
+    console.dir(res); //["2015" index:7  input:""]  g: ["2016",index:17 input:""]
+    console.log(reg.lastIndex); //0  21
+
+    //我想把这个2016也捕获到
+    var res = reg.exec(str);
+    console.dir(res);
+    console.log(reg.lastIndex); //由于这次捕获没有捕获到，那么返回了null的同时把lastIndex的值修改为0. ==>  保证下次从索引0的位置开始捕获
+
+    //我想把这个2016也捕获到
+    var res = reg.exec(str);
+    console.dir(res);
+    console.log(reg.lastIndex);
+
+
+    /*
+     *   正则中常用的修饰符:  i: ignoreCase 忽略大小写  m: multiline 多行   g :  global 全文
+     *       g: 全文匹配， 可以在捕获exec的时候修改reg的lastIndex属性
+     *       ps: reg.lastIndex属性 ==> 下次捕获从哪个索引开始就取决于这个正则的lastIndex属性
+     *       ps: 没有g的时候每次捕获都是从0开始，那么就是从字符串的开头开始,如果加上了g那么这个lastIndex属性的值是不断增加的。
+     * */
+
+
+    /*
+     *  match: 这是字符串方法。 str.match(/reg/); 和exec的用法基本相同都是用来捕获符合规则的字符串
+     *       和exec的区别: 如果有全文g那么会一次性把所有符合条件的都捕获回来放到一个数组中
+     *                    如果没有全文g，和exec的作用是相同的了
+     *
+     *
+     * */
+    var str = "zhufeng2015peixun2016";
+    var reg = /\d+/g;  //如果这个g没有那么每次都能捕获到2015，循环的条件永远成立
+    //var res = str.match(reg);
+    //console.dir(res);
+
+    //使用exec去模拟match  ["2015","2016"]
+    var ary = [];
+    var res = reg.exec(str); //["2015",index:7  input:""]
+    while (res) {   //1 while循环的用法  2 exec的返回值   捕获不到返回null特点
+        ary.push(res[0]);  //["2015","2016"]    null
+        res = reg.exec(str);  //['2016',index:17 input:""]
+    }
+    console.log(ary);
+
+    //split ==> str.split()  ==> ary.join()
+
+    var str = 'a$b$c';
+    //var strAry = str.split("$");  // ["a","b","c"]
+    var strAry = str.split(/\$/);
+    console.log(strAry);
+
+    var div1 = document.getElementById('div1');
+    var _class = div1.className; //"c1 c2 c3"
+    var _classAry = _class.split(/ +/);
+    console.log(_classAry);
+
+
+    //replace(old,new)        replace('a',function (a,b,c){ console.log(arguments) });
+     /*
+     *  replace(reg,function(){})
+     *      参数: param1 是一个正则
+     *           param2  是一个函数  ==> 这个函数执行的次数取决于这个正则能成功匹配多少次
+     *           匿名函数中的arguments['每次捕获到的结果'...index,input]
+     * */
+    var strRound = "零壹贰叁肆伍陆柒捌玖";
+    var str = "zhufeng2015peixun2016haha2017";
+    var reg = /\d+?/g;   //这个正则能匹配到2次
+    str = str.replace(reg,function (a,b,c){
+           console.log(arguments); //能打3次
+        //["2015",  7, "zhufeng2015peixun2016haha2017"]
+        //["2016", 17, "zhufeng2015peixun2016haha2017"]
+        //["2017", 25, "zhufeng2015peixun2016haha2017"]
+         return strRound.charAt(arguments[0]); //str.charAt(2) str[2]
+    });
+    console.log(str);
+    /*
+    *   问号的用法:
+    *       1 作为一个量词 0-1次             \d?
+    *       2 放在"+"后面是尽可能少的去匹配   \d+?
+    *       3 破坏分组，一定是在小括号中  (?:\w)  "?:"放在小括号的最前面是对分组的破坏，同时也会影响捕获的返回值 ==> 匹配而不捕获
+    *       4 ?!
+    *       5 ?=
+    *
+    * */
+
+     /*
+     *  小括号可以起到分组的作用,还可以改变优先级
+     *  /(\w)\1/  这个\1就是对分组引用
+     *
+     *
+     * */
+    var reg = /(\w)\1(\w)\2(\w)\3/;
+    var reg = /(\w)(\w)(?:\w)\1\2/;  //破坏了第三个分组
+    var str = "xybbcc";
+    var str = 'abcabc';
+    var res = reg.exec(str);   //  ['aa','a','a' index,input]
+    console.log(res);
+
+    //match 如果正则存在分组而我们想使用这个分组捕获到的内容那么exec比match好用
+    //var reg1 = /(\d+)/g;
+    //var str1 = "zhufeng2015peixun2016";
+    //var res =  str1.match(reg1);
+    //console.log(res);
+
+
+
+
+
+</script>

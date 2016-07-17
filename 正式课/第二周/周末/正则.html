@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>正则</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   正则: RegExp 所有的正则都属于这个类 , 制定一个规则，验证字符串是否符合这个规则。还能把验证通过的字符串捕获
+    *       创建方式:  字面量，实例
+    *       test: 用来验证字符串是否符合正则规则 true/false
+    *       exec: 用来捕获符合规则的字符串
+    * */
+    var reg = /a/; //字面量方式 ==> 只要字符串中包含这个字符a就可以
+    //var reg = new RegExp(); //实例创建方式
+    //console.dir(reg.__proto__); //RegExp.prototype
+    var str = "abcd";
+    var str = 'zhufengpeixun';
+    console.log(reg.test(str)); //
+    var reg = /5/;
+    var str = "qwerqwerqwerqwerqweer5adsfasddfasdsf";
+    console.log(reg.test(str));
+    /*
+    *   正则的组成: 元字符 + 修饰符
+    *   特殊意义的元字符:
+    *       \d 代表的是0-9之间的任意一个数字
+    *       \w 代表 _ a-zA-Z 0-9  数字字母下划线
+    *       \s 空格空白等
+    *       \b 边界  不一定是字符串开始和结束为止，中间出现了空白都可以产生边界 边界不占位
+    *       \ 转义   \. 让这个"."只代表本身的意思
+    *       . 除了\n之外的任意字符  不匹配""空字符串
+    *       \n 换行
+    *       \D 除了\d
+    *       \W 除了\w
+    *
+    *       ^ 以什么开始
+    *       $ 以什么结束
+    *       /^\d$/  ==> 这样的正则对中间出现\d一次
+    *
+    * */
+    var reg = /\d\w/; // 0,1,2,3,4,4,5,6,,7,,89,
+    var str = "qwerqwerqwerqwerqweer9_dsfasddfasdsf";
+    console.log(reg.test(str));
+
+    var reg = /\b\d\b/;
+    var str = "a   6";
+    console.log(reg.test(str));
+
+    var reg = /\./; //我只想让这个.代表本身
+    console.log(reg.test(' .')); //true  reg.test('')
+
+    var reg = /^\b\d\d$/;
+    console.log(reg.test('98'));
+
+    var reg = /1\d\d\d\d\d\d\d\d\d\d/;
+    var reg = /^1\d{10}$/;
+    // var reg = /1\d+/;
+    var str = "assdfasdf18800019819assdfasdf";
+    console.log(reg.test(str));
+    //如果能有给修饰\d出现的次数,那么这个正则就看起来会简便的多
+    /*
+    *   正则中常用的量词:  \d+ 修饰\d至少出现1次
+    *       + 出现一次或者多次  ==> 至少出现1次
+    *       * 出现0次到多次   ==> 可以出现可以不出现
+    *       ? 出现0-1次   ==> 最多出现一次
+    *       {n} 只能出现n次
+    *       {n,}  ==> 至少出现n次
+    *       {n,m} ==> 最少n次最多m次
+    * */
+
+    /*
+    *   或者: 使用或者一定要注意或者运算。只要满足一个就可以。 注意或者和小括号一起使用
+    *       |       一条竖线   /^(18|19)$/
+    *       [xyz]  x或者y或者z中的一个
+    *       [\d\w]  \w或者\d中的一个  只占一个位
+    *       [+-]  "+"或者"-"中的一个
+    *       [.]   这个"."带代表本身
+    *       [^abc]  除了abc中的任意一个  /[^abc]/.test('abcxxxx') true
+    *       [a-z]  这个"-"代表的是一个过度  从a到z中的任意一个
+    *       \d [0-9]
+    *       \w [_0-9a-zA-Z]
+    * */
+    var reg = /^(18|19)$/; // /^18$/  /^19$/
+    //var str = "119";
+    var str = "aaaaaaaaaaaaaaaaaaaaa19";
+    var stt = "18aaaaaaadfasdfasdfasdfasdf";
+    console.log(reg.test(str));
+
+    //有效数字   +8  -8   8.0 -0 +0   +0.05   0.005  -1999999999
+    var reg = /^[+-]?(\d|[1-9]\d+)(\.\d+)?$/; //baidu
+
+    //邮箱验证
+    // 121170784@qq.com
+    // tianxi@cmcm.com
+    // tianxi@nq.com
+    // tianxi@163.com
+    // tianxi@sina.com.cn
+    // _tianxi.allen@zhufeng.com
+    var reg = /^[\w.]+@[0-9a-zA-Z]{2,30}(\.[a-zA-Z]{2,4}){1,2}$/;
+
+    //字面量的方式不能使用变量
+    var name = "zhufeng";
+    var reg = /name/;
+    console.log(reg);
+    console.log(reg.test("zhufengpeixun"));
+    //通过实例的方式可以使用变量，实例的第一个参数就是正则包含的内容
+    var reg = new RegExp(name+10); //并且第一个参数可以是支持拼接字符串
+    console.log(reg);
+
+    var ary = ['a',"b","c"];
+    for(var i=0; i<ary.length; i++){
+        var reg = new RegExp(ary[i]);
+        console.log(reg); //   /a/ /b/  /c/
+    }
+
+    //实例创建方式:  1 如果使用\d那么需要转义  2 第二个参数才是修饰符
+    var reg = /\d/g;
+    var reg = new RegExp('\\d',"g"); //第二个参数就是放修饰符
+
+
+
+</script>

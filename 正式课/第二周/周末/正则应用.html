@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    //大多数js模板所使用的原理
+    //var strTpl = "2016年7月17日，17点32分30秒";
+    var strTpl = "{0}年{1}月{2}日，{3}:{4}:{5}";
+    var str = '2016-07-17 17:32:30'; //["2016-07-17","17:32:30"]
+    var strAry = str.split(/[- :]+/);
+    console.log(strAry);
+    //["2016", "07", "17", "17", "32", "30"]
+    strTpl = strTpl.replace(/{(\d)}/g,function (){
+        console.log(arguments[1]); //["最大的正则捕获到的内容","分组捕获到的内容",index,input];
+        return strAry[arguments[1]];
+    });
+    console.log(strTpl);
+
+    //把这个字符串中出现最多的字符挑出来
+    var str = "asdfasdfasdfffdsadfasdfasdsfadsfdaaddsfasdff";
+    var obj = {}; //{a:2,s:1,d:1,f:1,a:}
+    //
+    var reg = /\w/g;
+    str.replace(reg,function (){
+        //console.log(arguments[0]);
+        var key =  arguments[0];
+
+        if(obj[key]>=1){ //obj['a'] >= 1
+            obj[key] += 1;
+        }else{ //obj['a'] = 1;
+            obj[key] = 1;
+        }
+    });
+    console.log(obj); //Object {a: 10, s: 10, d: 11, f: 12}
+    //假设
+    var max = 0;
+    for(var key in obj){
+        if(obj[key] > max){
+            max = obj[key];
+        }
+    }
+    console.log(max);
+
+    //谁出现了12次
+    var maxKey = [];
+    for(var attr in obj){
+        if(obj[attr] == max){
+            //maxKey = attr;
+            maxKey.push(attr);
+        }
+    }
+    console.log(maxKey);
+    console.log("出现次数最多是"+ maxKey.join() + "   出现了" + max + "次");
+
+    //queryParamUrl
+
+    var url = "http://www.baidu.com?key=val&key1=val1&key2=val2"; //三组参数
+    //{key1:val1,key2:val2,key3:val3}
+    //使用正则
+
+
+    var str = "ab123cd";
+    var reg = /(\d+?)/g;
+    str = str.replace(reg,function (){
+        console.log(arguments[0]);
+        return "数";
+    });
+
+    //不兼容在ie里没有.$1 ....$9会把分组存到这个属性身上
+    console.log(RegExp.$1);
+    console.log(RegExp.$2); //
+
+
+
+
+</script>

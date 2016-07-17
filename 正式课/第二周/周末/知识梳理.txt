@@ -1,21 +1,21 @@
-1 callºÍapply»¹ÓĞbind¶¨ÒåµÄÎ»ÖÃ  Function.prototype ==> ÈÎºÎÒ»¸öº¯Êı¶¼¿ÉÒÔµ÷ÓÃcallºÍapplyµÈ
-2 call£¬apply£¬bind¶¼ÊÇ¸Ä±äthis¹Ø¼ü×ÖµÄ
-3 callºÍapply´«²ÎµÄÊ±ºò²»Í¬£¬ÆäÊµº¯ÊıÒÑ¾­Ö´ĞĞ½áÊøÁË
-4 bindÊÇ·µ»ØÁËÒ»¸ö´¦Àí¹ıthisµÄĞÂº¯Êı  ==> myBind ==> Ô¤´¦ÀíË¼Ïë ==> ¿ÂÀí»¯
+1 callå’Œapplyè¿˜æœ‰bindå®šä¹‰çš„ä½ç½®  Function.prototype ==> ä»»ä½•ä¸€ä¸ªå‡½æ•°éƒ½å¯ä»¥è°ƒç”¨callå’Œapplyç­‰
+2 callï¼Œapplyï¼Œbindéƒ½æ˜¯æ”¹å˜thiså…³é”®å­—çš„
+3 callå’Œapplyä¼ å‚çš„æ—¶å€™ä¸åŒï¼Œå…¶å®å‡½æ•°å·²ç»æ‰§è¡Œç»“æŸäº†
+4 bindæ˜¯è¿”å›äº†ä¸€ä¸ªå¤„ç†è¿‡thisçš„æ–°å‡½æ•°  ==> myBind ==> é¢„å¤„ç†æ€æƒ³ ==> æŸ¯ç†åŒ–
 5 f1.call(f2) ==> f1.call.call.call.apply(f2);
-6 ÇóÊı×éµÄ×î´óÖµ apply´«²ÎÊıµÄÌØµã  ¼ÙÉè  eval
-7 ÇóÆ½¾ùÊı Èç¹ûargumentsÄÜÊ¹ÓÃslice¾ÍºÃÁË  Array.prototype.slice.call();
-8 ÅĞ¶ÏÊı¾İÀàĞÍµÄ¼¸ÖÖ·½Ê½   Object.protype.toString.call([]) ==> "[object Array]"
+6 æ±‚æ•°ç»„çš„æœ€å¤§å€¼ applyä¼ å‚æ•°çš„ç‰¹ç‚¹  å‡è®¾  eval
+7 æ±‚å¹³å‡æ•° å¦‚æœargumentsèƒ½ä½¿ç”¨sliceå°±å¥½äº†  Array.prototype.slice.call();
+8 åˆ¤æ–­æ•°æ®ç±»å‹çš„å‡ ç§æ–¹å¼   Object.protype.toString.call([]) ==> "[object Array]"
 9 listToArray try catch
-10 JSON Êı¾İ¸ñÊ½  ÊÇwindowµÄÒ»¸öÊôĞÔ ²»¼æÈİ  JSON.parse() JSON.stringify()  jsonParse
+10 JSON æ•°æ®æ ¼å¼  æ˜¯windowçš„ä¸€ä¸ªå±æ€§ ä¸å…¼å®¹  JSON.parse() JSON.stringify()  jsonParse
 11 sort ==> return a,b   a.age - b.age  a.innerHTML - b.innerHTML  localeCompare
-12 DOMÓ³Éä ==> Í¨¹ıdom·½Ê½»ñÈ¡À´µÄdom¶ÔÏóºÍÍøÒ³ÄÚµÄÔªËØµÄÒ»Ò»¶ÔÓ¦¹ØÏµ
-13 dom»ØÁ÷
-14 domÖØ»æ
-15 appendChild ÒıÆğ¶à´Î»ØÁ÷ Ã»ÓĞÆÆ»µÔ­ÓĞÔªËØµÄÊôĞÔ
-16 innerHTMLµÄ·½Ê½  ÒıÆğÒ»´Î»ØÁ÷£¬µ«ÊÇÔ­ÓĞµÄÊôĞÔ¶¼Ã»ÁË
-17 ÎÄµµËéÆ¬  document.createDocumentFragment();  ÕâÊÇÒ»¸öÈİÆ÷
-18 ±í¸ñÅÅĞò  1 »ñÈ¡±í¸ñÔªËØµÄÌØÊâ·½Ê½ cells tHead rows tBodies[0]
+12 DOMæ˜ å°„ ==> é€šè¿‡domæ–¹å¼è·å–æ¥çš„domå¯¹è±¡å’Œç½‘é¡µå†…çš„å…ƒç´ çš„ä¸€ä¸€å¯¹åº”å…³ç³»
+13 domå›æµ
+14 domé‡ç»˜
+15 appendChild å¼•èµ·å¤šæ¬¡å›æµ æ²¡æœ‰ç ´ååŸæœ‰å…ƒç´ çš„å±æ€§
+16 innerHTMLçš„æ–¹å¼  å¼•èµ·ä¸€æ¬¡å›æµï¼Œä½†æ˜¯åŸæœ‰çš„å±æ€§éƒ½æ²¡äº†
+17 æ–‡æ¡£ç¢ç‰‡  document.createDocumentFragment();  è¿™æ˜¯ä¸€ä¸ªå®¹å™¨
+18 è¡¨æ ¼æ’åº  1 è·å–è¡¨æ ¼å…ƒç´ çš„ç‰¹æ®Šæ–¹å¼ cells tHead rows tBodies[0]
 19 ajax:   1 new XMLHttpRequest()  2 xhr.open("get","url",true/false);  3 xhr.onreadystatechange 4 xhr.send()   200 && 4   xhr.responseText
 
 
