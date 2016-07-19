@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>获取样式</title>
+    <style>
+        *{ margin: 0; padding: 0; font-size: 24px; color: darkred; }
+        .box{ width: 200px; border: 3px solid #ccc; margin: 30px auto; opacity: 0.5; filter: alpha(opacity=50.5);  }
+        .box .p{ height: 30px; background: green; margin: 2px 0; }
+        .box:before{ display: block; height: 30px; content: "我是before" }
+        .box:after{ display: block; content: "我是after"; height: 30px; }
+        .box .ul{ height: 40px; background: blue; list-style: none; margin-bottom: 3px; }
+        .box .div{ height: 50px; background: yellow; }
+    </style>
+</head>
+<body>
+    <div class="box" id="box">
+        <p class="p">p</p>
+        <ul class="ul">
+            <li>li</li>
+        </ul>
+        <div class="div">div</div>
+    </div>
+</body>
+</html>
+<script>
+    /*
+    *   window.getComputedStyle(middle,"伪类样式");  标准浏览器
+    *   middle.currentStyle  ie低版本
+    * */
+    //var box = document.getElementsByClassName('box')[0];
+    var box = document.getElementById('box');
+    console.log(window.getComputedStyle(box,"before").content);
+    console.log(window.getComputedStyle(box,null).width);
+    console.log(window.getComputedStyle(box,null)['height']);
+    console.log(box.currentStyle); //兼容低版本ie的
+
+    function getCss(ele,attr){ //ele获取谁的样式，attr获取ele的哪个样式
+        var val = null;
+        if("getComputedStyle" in window){ //标准浏览器
+            val =  window.getComputedStyle(ele,null)[attr];
+        }else{ //ie低版本
+            if(attr == 'opacity'){ //处理透明度,在ie低版本中透明度不能这样处理
+                //"alpha(opacity=50.5)" ''
+                val = ele.currentStyle.filter;
+                var filterReg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/;
+                val = filterReg.test(val) ? filterReg.exec(val)[1]/100 : 1;
+
+            }else{
+                val =  ele.currentStyle[attr];
+            }
+        }
+        //"183px"
+        //"0.555"
+        //"-10px"
+        //"24em"
+        //"rem"
+        //'deg'
+        var reg = /^-?\d+(\.\d+)?(px|pt|rem|em|deg)?$/;
+        if(reg.test(val)){
+            val = parseFloat(val);
+        }
+        return val;
+    }
+    //183px '1'
+    getCss(box,"opacity") //7 8 opacity
+    //getCss(box,display);
+
+</script>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>盒子模型</title>
+    <style>
+        html,body{ width: 100%; height: 400%;}
+        *{ margin: 0; padding: 0; }
+        .outer{position: relative; width: 400px; height: 200px; border: 10px solid #ccc; padding: 50px; margin: 50px 0 0 50px; /*box-sizing: border-box;*/ margin-top: 150%; }
+        .outer .middle{ position: relative;  width: 200px; height: 100px; background: lightgreen; border: 10px solid #000000; padding: 10px; margin: 15px; overflow-y: auto;   }
+        .outer .middle .inner{ width: 50px; height: 30px; border: 5px solid #000000; background: lightblue; /*padding: 2px;*/}
+
+    </style>
+</head>
+<body>
+<textarea name="" id="" cols="30" rows="10"></textarea>
+
+    <div class="outer">
+        <div class="middle">
+            习近平赴宁夏 冒雨向长征会师纪念碑献花篮
+            李克强将举行圆桌对话会  乌兰巴托之行
+            软银243亿英镑收购芯片巨头ARM 疑看空阿里
+            习近平赴宁夏 冒雨向长征会师纪念碑献花篮
+            李克强将举行圆桌对话会  乌兰巴托之行
+            软银243亿英镑收购芯片巨头ARM 疑看空阿里
+<!--
+            <div class="inner c2"></div>
+-->
+        </div>
+    </div>
+    <video src=""></video>
+    <audio src=""></audio>
+    <input type="text"/>
+
+    <select name="" id="">
+        <option value=""></option>
+        <option value=""></option>
+        <option value=""></option>
+        <option value=""></option>
+    </select>
+
+</body>
+</html>
+<script>
+    var outer = document.getElementsByClassName('outer')[0];
+    var middle  = outer.getElementsByClassName('middle')[0];
+    var inner = middle.getElementsByClassName('inner')[0];
+    console.dir(inner); //
+
+    /*
+    *   clientHeight:  内容高度不包含边框  内容+上下填充   content+padding
+    *   clientWidth：  内容+左右填充    content+padding
+    *   clientTop: 上边框的宽度
+    *   clientLeft:  左边框的宽度
+    *
+    *   offsetHeight:  clientHeight+上下边框
+    *   offsetWidth:   clientWidth+左右边框 ==> 右边框
+    *   offsetLeft:  外边框距离offsetParent的内边框的左偏移量
+    *   offsetTop:   外边框距离offsetParent的内边框的上偏移量
+    *   ps: offsetLeft和offsetTop的值要取决于offsetParent是谁
+    *   offsetParent: 父级参照物，如果包含自己的父元素有定位属性那么offsetParent就是自己的parentNode，如果自己的父元素节点没有定位属性，那么就去父元素的父元素去查找定位属性，如果有offsetParent就是这个。如果没有会继续向上查找，一直到body。如果还没有定位属性那么offsetParent就是默认body了.
+    *   ps: offsetParent对上一级元素的定位属性是有要求的，只有absolute,relative,fixed才可以
+    *   ps: document.body.offsetParent = null
+    *   ps: document.parentNode = null
+    *
+    *   scrollWidth:  如果没有溢出那么和clientWidth是相等的，如果有溢出那么是左填充+内容宽度  padding-left + content
+    *   scrollHeight: 如果没有溢出和clientHeight是相等的，如果有溢出那么就是上填充+内容高度
+    *   scrollTop: 已经滚出去的高度  赋值最小就是0
+    *   scrollLeft: 已经滚出去的宽度
+    *   ps: 在所有盒子模型的属性中，只有scrollTop和scrollLeft可以被重新赋值
+    *
+    * */
+    //无论offsetParent是谁，都要求出当前元素距离body的上左偏移量
+    function offSet(ele){ //inner
+        //只要存在offsetParent就需要把offsetParent的左边框(clientLeft)和左偏移累加(offsetLeft)
+        var l = null; //不断的向l上累加
+        var t = null;
+        var offsetPar = ele.offsetParent; //先获取自己父级参照物
+        l += ele.offsetLeft; //先把ele自己的偏移累加上
+        t += ele.offsetTop;
+        while(offsetPar){
+            //如果是ie8那么ie的offsetLeft已经包含边框
+            if(window.navigator.userAgent.indexOf("MSIE 8") === -1 ){ //不是ie8
+                l += offsetPar.clientLeft;
+                t += offsetPar.clientTop;
+            }
+            //只要offsetParent存在那么就累加上它的边框和左偏移
+            l +=  offsetPar.offsetLeft;
+            t += offsetPar.offsetTop;
+            offsetPar = offsetPar.offsetParent; //为了让循环继续我们需要迭代offsetParent变量
+        }
+        return {"left": l, "top" : t};
+    }
+    //console.log(offSet(inner));
+    //如果有两个参数那么就是设置属性，如果只有参数那么就是读取属性
+    function win(attr,val){
+        if(typeof val !== "undefined"){ //第二个参数传了,只对scrollTop scrollLeft有用
+            document.documentElement[attr] = val;
+            document.body[attr] = val;
+        }
+        return document.documentElement[attr] || document.body[attr];
+    }
+    win('scrollTop',0);
+    win('scrollTop'); //获取document.documentElement[] || document.body[]
+    var res = document.documentElement.clientHeight || document.body.clientHeight;
+    var res = document.documentElement['clientHeight'] || document.body['clientHeight'];
+    win("clientHeight",1000);
+    win("scrollTop",10000); //我获取的是当前页面已经滚出去多高
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function listToArray(likeArray){
+        try{
+            return Array.prototype.slice.call(likeArray);
+        }catch (e){
+            var ary = [];
+            for(var i=0; i<likeArray.length; i++){
+                ary.push(likeArray[i]);
+            }
+            return ary;
+        }
+    }
+
+    function jsonParse(jsonStr){
+        return "JSON" in window ? JSON.parse(jsonStr) : eval("("+jsonStr+")");
+    }
+   /* var ary = jsonParse(str);
+    ary.sort(function (a,b){
+        return a.age - b.age;
+    });*/
+
+     //typeof object  不能对检测对象数据类型区分
+     //instanceof  只能判断实例是否属于某个类  6 instanceof Number
+     // constructor  可以修改  f.constructor
+    //  Object.prototype.toString.call()  "[object String]"   [数据类型，所属类]
+    var str = "零壹贰叁肆伍陆柒捌玖"; //零
+    var str1 = '54389';
+    str = str.replace(/(\d+?)/g,function (){
+        console.log(arguments); //["5","5",0,"54389"]; exec: ['5'] index: input:
+        return str[arguments[0]];
+    });
+
+</script>

@@ -1,0 +1,22 @@
+1 表格排序
+
+2 clientHeight
+3 clientWidth
+3 offsetHeight
+4 offsetWidth
+5 clientTop
+6 clientLeft
+7 scrollTop
+8 scrollLeft
+9 scrollHeight
+10 scrollWidth
+11 offsetLeft
+12 offsetTop
+13 offsetParent
+   ps: scrollTop scrollLeft
+
+14 offset ==> function 获取距离body的偏移量  while循环  ie处理  判断
+15 win ==> 如果一个参数  如果两个参数
+16 getCss ==> window.getComputedStyle   ele.currentStyle 伪类
+
+作业：把后边的补全 这三个方法写一遍
