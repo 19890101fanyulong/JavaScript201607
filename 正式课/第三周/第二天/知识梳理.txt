@@ -1,0 +1,60 @@
+1 回到顶部  定时器 1 清除  2 累加  3把定时器保存到自定义属性身上
+         ps: 如何让window.onscroll消失  在运动顶部之后定时器停止条件重新绑定
+2 dom方法
+    listToArray
+    jsonParse
+    win
+    offset
+    getCss
+    setCss
+    prevEleSibling
+    nextEleSibling
+    prevAll
+    nextAll
+    sibling
+    siblings
+    index
+    hasClass
+    addClass
+    remoceClass
+    getElementsByClass
+    children
+
+    firstEleChild
+    lastEleChild
+
+    append 向最后追加
+    prepend 想开头添加
+
+    insertBefore
+    insertAfter
+
+    css ==> 所有关于css的方法写成一个 ==> this优化的
+
+    map
+    forEach
+    bind
+    Object.create ==> 继承 ==> 我还模拟过
+
+    单例模式
+    var obj = {
+        fn1 : function (){
+        }
+        fn2 : function (){
+            this.fn1();
+        }
+    }
+
+    var utils = (function (){
+        functoin fn1(){
+
+        }
+
+        function fn2(){
+            fn1();
+            this.fn1();
+        }
+        return {
+            fn1 : fn1
+        }
+    })()

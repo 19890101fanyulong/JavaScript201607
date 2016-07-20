@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>returntop</title>
+    <style>
+        *{margin:0; padding: 0;}
+        html,body{ width: 100%; height: 300%; background: linear-gradient(to bottom, pink 0, lightsalmon 50%, lightseagreen 100%);  }
+        .btn{ display:none; position: fixed; right: 20px; bottom: 20px; width: 50px; height: 50px; border: 3px solid #000000; border-radius: 100%; line-height: 50px; text-align: center; background: darkblue; color: #fff; text-decoration: none; font-weight: bold;  }
+    </style>
+</head>
+<body>
+<a class="btn" id="btn" href="javascript: void 0">Top</a><!--阻止默认行为-->
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    //获取元素
+    var btn = document.getElementsByClassName('btn')[0];
+    var duration = 500;
+    var interval = 10;
+    //var timer = null;
+    btn.onclick = function (){
+        window.clearInterval(btn.timer); //防止定时器的累加问题,清除的上一次留下来的定时器，防止点击过快形成多个定时器
+        btn.timer = window.setInterval(function (){
+            var curScrollTop = utils.win('scrollTop'); //先获取当前的滚出去的高度
+            var speed = curScrollTop/duration*interval; //用当前滚出去的高度计算出速度
+            if(curScrollTop <= 0){ //说明已经到达顶部,一定要清除定时器
+                window.clearInterval(btn.timer);
+                utils.win("scrollTop",0);
+                //说明到达顶部，把我们点击时候清除的window.onscroll事件还需要重新绑定回来
+                window.onscroll = scroll;
+                return;
+            }
+            curScrollTop -= speed; //在基础上减掉速度
+            utils.win("scrollTop",curScrollTop); //把已经减掉速度的新位置重新赋值回来
+        },interval);
+        this.style.display = 'none';
+        //如果在回到顶部的过程中不再触发window.onscroll事件就可以了
+        window.onscroll = null; //把window的这个事件属性解除绑定，其实也就是给这个事件属性重新赋值一个原始的null
+    };
+
+
+    /*setInterval(0) 10
+    setInterval(500)
+    var timer1 = setInterval(1000);
+    timer = null;
+    for(var i=0; i<100){
+    }
+*/
+    //按钮默认是隐藏的，当滚动条已经滚出去一屏的时候再显示
+    function scroll(){
+        var curScreenHeight = utils.win("clientHeight"); //获取当前可视窗口的高度
+        var curScrollTop = utils.win('scrollTop'); //获取当前已经滚出去的高度
+        if(curScrollTop > curScreenHeight){ //说明滚出去的高度已经超过一屏
+            btn.style.display = 'block';
+        }/*else{
+         btn.style.display = 'none';
+         }*/
+    }
+    window.onscroll = scroll;
+    //如何让这个按钮渐渐显示出来  ==> opacity透明度做动画的过程 ==> 从0运动到1的过程
+    // 0 0.02 0.04 ....
+
+
+    /*
+    *   需要注意的点:
+    *       1 使用定时器的时候记得要清除定时器(动画到达终点的时候)
+    *       2 防止定时器多次叠加问题，即使运动还没有到达终点重新启动定时器一定要把上一次的定时器清掉
+    *       3 把定时器的返回值保存在元素的自定义属性身上
+    * */
+</script>

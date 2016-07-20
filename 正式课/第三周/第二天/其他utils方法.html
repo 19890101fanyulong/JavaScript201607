@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div id="div1" class="c2 c3 c4 c3 c4"> <!--"p"-->  hasClass(div1,"b")
+        <ul class="c2c c3"></ul>
+        <p class="c2 c3">1</p>
+        <!--af-->
+        <span id="span"></span>
+        <p>2</p>
+    </div>
+    <div class="c2"></div>
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    var div1 = document.getElementById('div1');
+    //console.log(utils.children(div1));
+    console.log(utils.hasClass(div1,"c1"));
+    //utils.addClass(div1,"c2 c3");
+    //utils.removeClass(div1,"c2 c3"); //["c2","c3"]
+    var res = utils.getElementsByClass("c2 c3");
+    console.log(res);
+/*
+    var divs = document.getElementsByClassName("c2 c3");
+    console.log(divs);
+*/
+    //children
+    //prev
+    //prevAll
+    //sibling
+    //siblings
+    //index
+    //firstChild
+    // //->append:向指定容器的末尾追加元素append(newEle, container)
+    //prepend:向指定容器的开头追加元素 prepend(newEle, container)
+    //insertBefore(newEle, oldEle)
+    //insertAfter(newEle, oldEle)
+    //hasClass(curEle, className)
+    //addClass(curEle, className)
+    //removeClass(curEle, className)
+    //getElementsByClass(strClass, context)
+    //setGroupCss
+    //css
+</script>

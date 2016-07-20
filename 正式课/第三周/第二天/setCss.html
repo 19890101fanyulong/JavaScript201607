@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div id="div1" style="width: 100px; height: 100px; background: red;"></div>
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    var div1 = document.getElementById('div1');
+    //utils.getCss(div1,"width") // 100
+    //setCss(div1,"width",100);
+    //需要添加单位的  width height top left right bottom margin marginLeft padding   display block  paddingLeft paddtingRight
+    //setCss('width')
+    function setCss(ele,attr,val){ //给ele设置attr样式的值为val
+        //透明度
+        if(attr == "opacity"){ //你要设置透明度
+            ele.style.opacity = val;
+            //fitler: alpha(opactiy=50);
+            ele.style.filter = 'alpha(opacity=' + val*100 + ")";
+            return;
+        }
+        if(attr == 'float'){
+            ele.style.cssFloat = val;
+            ele.style.styleFloat = val;
+            return;
+        }
+
+        var reg = /width|height|top|left|right|bottom|(margin|padding)(Left|Right|Bottom|Top)?/;
+        if(reg.test(attr)){ //首先符合这个正则，==> 我要设置的宽度，填充等这样的属性
+            if(!isNaN(val)){ //'100px'
+                val = val + 'px';
+            }
+        }
+        ele.style[attr] = val; //
+    }
+</script>
