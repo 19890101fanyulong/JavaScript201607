@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>瀑布流</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        html,body{ width: 100%; height: 100%; }
+        ul{
+            list-style: none;
+            /*display: inline-block;*/
+            float: left;
+        }
+        ul:nth-child(1){
+            width: 30%;
+            /*background: lightgreen;*/
+        }
+        ul:nth-child(2){
+            width: 30%;
+            margin: 0 5%;
+           /* background: lightseagreen;*/
+        }
+        ul:nth-child(3){
+            width: 30%;
+           /* background: lightcoral;*/
+        }
+    </style>
+</head>
+<body>
+    <div><ul></ul><ul></ul><ul></ul></div>
+</body>
+</html>
+<script src="../utils.js"></script>
+<script>
+    var uls = document.getElementsByTagName('ul');
+    var ulsAry = utils.listToArray(uls);
+
+    function appendLiToUl(){
+        for(var i=0; i<50; i++){
+            //把uls这个类数组转换成数组之后我们才能排序
+            ulsAry.sort(function (a,b){
+                //a和b代表的是ul，我按照ul的高度去排序
+                return   utils.getCss(a,"height")-utils.getCss(b,"height");
+            }); //每次添加li的时候都需要重新排序，因为每次添加li都会改变高度
+            //那么最小的ul就是数组里的索引0,我要向这个最小的ul中添加li
+            var shortUl = ulsAry[0];
+            var curLi = createLi();
+            shortUl.appendChild(curLi);
+        }
+    }
+    appendLiToUl();
+
+    function createLi(){ //这个li是一个随机高度和随机颜色的li
+        var li = document.createElement('li');
+        utils.setCss(li,"height",utils.getRandom(100,300));
+        //  background: rgb(0,0,0);
+        utils.setCss(li,"backgroundColor","rgb("+ utils.getRandom(0,255) + "," + utils.getRandom(0,255) +","+ utils.getRandom(0,255) + ")");
+        return li;
+    }
+    window.onscroll = function (){
+        var curScrollTop = utils.win("scrollTop");
+        var curHalfScreen = document.body.scrollHeight - 1000;
+        if(curScrollTop > curHalfScreen){
+            appendLiToUl();
+        }
+    }
+
+
+
+</script>

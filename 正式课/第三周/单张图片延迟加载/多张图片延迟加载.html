@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+
+    <title>多张图片延迟加载</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        .newsList{
+            padding: 10px;
+            list-style: none;
+        }
+        .newsList li{
+            position: relative;
+            height: 70px;
+            margin-bottom: 5px;
+            border-bottom: 1px dashed #ccc;
+        }
+        .newsList li div:nth-child(odd){
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60px;
+            height: 60px;
+            background: url("images/default.jpg") no-repeat ;
+            background-size: 100% 100%;
+        }
+        .newsList li div:nth-child(odd)>img{
+            display: none;
+            width: 100%;
+            height: 100%;
+            border: none;
+            vertical-align: top;
+            opacity: 0;
+        }
+        .newsList li div:nth-child(even){
+            height: 60px;
+            margin-left: 65px;
+        }
+        .newsList li div:nth-child(even) h3{
+            padding-bottom: 3px;
+            line-height: 20px;
+            /*省略号*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .newsList li div:nth-child(even) p{
+            height: 38px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /*white-space: nowrap;*/
+/*
+            -webkit-line-clamp: 2;
+*/
+            line-height: 18px;
+            font-size: 12px;
+            color: #999;
+        }
+
+    </style>
+</head>
+<body>
+    <ul class="newsList">
+        <li>
+            <div><img src="images/6.jpg" /></div>
+<!--
+            <div>
+                <h3>标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</h3>
+                <p>描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述</p>
+            </div>
+-->
+    </ul>
+</body>
+</html>
+<script src="../utils.js"></script>
+<script>
+    //获取要操作的元素
+    var newsList = utils.getElementsByClass('newsList')[0];
+    var imgs = newsList.getElementsByTagName('img');
+    //获取数据
+    ;(function getData(){
+        var xhr = new XMLHttpRequest();
+        xhr.open('get',"data.txt?_="+Math.random(),false); //在接口位置拼接了一个字符串，这是一组参数。保证每次请求的url都不相同。这样才不会读取本地缓存。保证每次拿到的都是最新的数据
+        xhr.onreadystatechange = function (){
+            if(xhr.readyState == 4 && /^2\d{2}$/.test(xhr.status)){
+                data = utils.jsonParse(xhr.responseText);
+            }
+        }
+        xhr.send(null);
+    })();
+    console.log(data);
+/*
+    var str = url + "?_=0.1231231234r32q143&key2=val2";
+    var obj = {};
+    var reg = /([^?=&]+)=([^?=&]+)/g;
+    str.replace(reg,function (){
+        console.log(arguments);
+        obj[arguments[1]] = arguments[2]; //obj['asdf'] = val1
+    });
+    console.log(obj);
+*/
+    //数据绑定
+
+    ;(function dataBind(){
+        if(window.data){
+            var str = '';
+            for(var i= 0, l = data.length;  i<l; i++){
+                var curData = data[i]; //{title:"", src:"", desc:""}
+                //每次循环都需要拼接一个li
+                str += "<li>";
+                    str +=  '<div><img src="" trueSrc="'+ curData.src +'" /></div>';
+                    str += '<div><h3>'+ curData.title +'</h3><p>'+ curData.desc +'</p></div>';
+                str += "</li>";
+            }
+            newsList.innerHTML = str;
+        }
+    })();
+
+    //绑定滚动事件
+    window.onscroll = allImgsDelayLoad;
+    window.setTimeout(allImgsDelayLoad,500); //保证第一屏即使不滚动也需要显示
+    //多张图片延迟加载
+    function allImgsDelayLoad(){
+        for(var i=0; i<imgs.length; i++){
+            var curImg = imgs[i];
+            //curImg代表的是一张图片
+            //单张图片延迟加载
+            //判断每一张图片是否已经进入到当前浏览器可视窗口内
+            var _a = utils.win('clientHeight') + utils.win('scrollTop'); //获取浏览器底边距离body顶部的距离
+            var _b = curImg.parentNode.offsetHeight + utils.offset(curImg.parentNode).top;
+            if(_a > _b){ //说明图片已经完全进入到可视窗口内
+                imgDelayLoad(curImg);
+            }
+        }
+    }
+
+    //单张图片延迟加载
+    function imgDelayLoad(img){ //只对传进来的这个参数做图片延迟加载
+        if(img.isloaded) return;
+        var tempImg = new Image();
+        //让这个临时图片去加载真实图片资源
+        tempImg.src = img.getAttribute('trueSrc');
+        tempImg.onload = function (){
+            img.src = this.src;
+            utils.setCss(img,"display","block");
+            fadeIn(img);
+        }
+        tempImg = null;
+        img.isloaded = true;
+    }
+
+    function fadeIn(img){ //图片使用淡入的方式 ==> 就是透明度从0运动到1的过程
+        var curOpacity = utils.getCss(img,"opacity"); //获取当前传进来img的透明度
+        var change = 1 - curOpacity; //透明度要改变的值
+        var duration = 400;
+        var interval = 10;
+        var speed = change/duration*interval;
+        var timer = window.setInterval(function (){
+            var curOpacity = utils.getCss(img,"opacity");
+            //如果透明度大于或者等于1那么就需要停止定时器
+            if(curOpacity >= 1){
+                window.clearInterval(timer);
+                utils.setCss(img,"opacity",1);
+                return;
+            }
+            curOpacity += speed;
+            utils.setCss(img,"opacity",curOpacity);
+        },interval);
+    }
+
+
+
+
+
+
+
+</script>

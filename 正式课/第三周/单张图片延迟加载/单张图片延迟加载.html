@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>单张图片延迟加载</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        .wrap{ width: 300px; height: 200px; margin: 200px auto; border: 5px solid #ccc; background: url("images/load.jpg") no-repeat center; margin-top: 1500px;  }
+        .wrap img{ display: none; width: 100%; height: 100%; vertical-align: top; border: none; }
+    </style>
+</head>
+<body>
+    <div class="wrap"><img src="" trueSrc="images/1.jpg" /></div>
+</body>
+</html>
+<script src="../utils.js"></script>
+<script>
+    /*
+    *   图片延迟加载: 1 由于加载失败导致在img标签内留下一个加载失败的图标
+    *                2 由于图片资源比较大，导致加载时间过长，在img位置都是空白
+    *                3 由于浏览器的默认缓存机制，只要是当前页已经加载过的资源那么第二次去加载的时候就不会到远程服务器去拿直接读取本地的缓存资源
+    * */
+    //获取元素
+    var wrap = utils.getElementsByClass("wrap")[0];
+    var img = wrap.getElementsByTagName('img')[0];
+    //img本身不能通过自己的src属性去加载图片资源，这个资源有可能是不生效的
+    //用其他的img去加载这个资源，如果加载成功再让真是的img去加载
+    //对于已经成功由临时img加载的资源，真实img也会在瞬间完成加载过程，因为读取的是本地缓存资源
+
+    //先做一张临时图片
+    //var tempImg = document.createElement('img');
+/*
+    var timer = window.setTimeout(function (){
+        var tempImg = new Image(); //这样也可以创建一个img标签
+        tempImg.src = img.getAttribute('trueSrc'); //已经把真实的图片路径赋值给临时图片的src属性 ==> 只有src这个属性才是去加载资源
+
+        tempImg.onload = function (){ //图片资源加载成功的时候会触发这个onload事件
+            //加载成功之后我要做什么 ==> 加载成功之后这个图片资源已经缓存了
+            //把这个成功的图片资源赋值给真实图片的src
+            img.src = this.src;
+            utils.setCss(img,"display","block"); //让这个真实的图片显示
+        }
+    },300);
+*/
+
+    //对于不是出现在首屏暂时没有必要加载更不用延迟加载了,当这个图片在滚动的过程中完全进入到可视窗口内再加载
+    window.onscroll = function (){ //绑定滚动事件
+        var browserDisBodyTop = utils.win('clientHeight') + utils.win("scrollTop");
+        var imgBottDisBodyTop = img.parentNode.offsetHeight + utils.offset(img.parentNode).top;
+        if(browserDisBodyTop > imgBottDisBodyTop){ //这个图片已经完全进入到浏览器可视窗口内
+            //那么就要开始做图片延迟加载
+            if(img.isloaded) { return; } //只会延迟加载一次
+            console.log(1);
+            var tempImg = document.createElement('img');
+            tempImg.src = img.getAttribute('trueSrc');
+            tempImg.onload = function (){
+                img.src = this.src;
+                img.style.display = "block"; //utils.setCss()...
+                tempImg = null; //加载之后这个临时图片就已经没用了
+            }
+            img.isloaded = true; //我添加了一个自定义属性用来保持img是否已经加载完成 ==》成功/失败
+            //这个标识不用添加在成功事件里，只要加载过一次无论成功还是失败都没有必要加载第二次.
+       }
+    }
+    /*
+    *   单张图片延迟加载: 1 在获取图片位置的时候需要计算的是图片的parentNode
+    *                    2 避免多次延迟加载 ==> 添加一个自定义属性img.isloaded ==> 只要加载过一次就添加
+    *                    3 在onscroll事件顶部要做拦截   if(isloaded) return
+    * */
+
+
+</script>
