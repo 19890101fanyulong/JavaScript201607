@@ -1,0 +1,29 @@
+1 盒子模型
+  clientWidth
+  clientHeight
+  clientTop
+  clientLeft
+
+  offsetHeight
+  offsetWidth
+  offsetLeft
+  offsetTop
+  offsetParent ==>  看定位
+
+  scrollHeight
+  scrollWidth
+  scrollLeft  可以赋值
+  scrollTop  可以赋值
+
+
+  win(attr,val) ==>
+  offset(ele) ==> {left: left,top:top}
+  getCss ==> window.getComputedStyle   ele.currentStyle 去单位
+  setCss ==> opacity  float   单位
+
+  getRandom()
+  listToArray
+
+  回到顶部 ==> 定时器  动画  事件移除 事件绑定
+  瀑布流 ==> 动态创建
+

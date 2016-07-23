@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>回到顶部</title>
+    <style>
+        html,body{ margin: 0; padding: 0; width: 100%; height: 300%; background: linear-gradient(to bottom,  lightgreen 0,  lightcoral 50%,  limegreen 100%); }
+        a{ display: none; width: 50px; height: 50px; background: black; color: #fff; border: 3px solid lightsteelblue; border-radius: 50%; text-decoration: none; line-height: 50px; text-align: center; font-size: 30px; font-weight: bold; font-family: "microsoft yahei"; position: fixed; right: 30px; bottom: 30px; opacity: 0.7; }
+        a:hover{ opacity: 1 ;}
+    </style>
+</head>
+<body>
+<a id="button" href="javascript: void 0">顶</a><!--默认是跳转不会捕捉到点击动作-->
+</body>
+</html>
+<script src="utils.weekend.js"></script>
+<script>
+    var button = document.getElementById('button');
+    button.onclick = function (){
+        //使用一个定时器不断驱动
+        window.clearInterval(button.timer); //这个timer是保存在元素的自定义属性身上，是为了下一次点击的时候无论上一次的是否已经回到顶部都需要把上一次的定时器清除，否则会造成定时器的累加。==> 一个页面内不能存在多个定时器去干一件事
+        var interval = 10;
+        button.timer = window.setInterval(function (){
+            var curScrollTop = utils.win("scrollTop");
+            if(curScrollTop <= 0){ //已经成功回到顶部了
+                window.clearInterval(button.timer);
+                utils.win("scrollTop",0);
+                window.onscroll = fn; //把点击之后移除的事件在重新绑定
+                return;
+            }
+            var duration = 500; //规定一个时间
+            var speed = curScrollTop/duration*interval; //速度
+            //每次减去这个速度，每次向上这么些
+            //下一次的位置需要从当前这个位置减去这个速度
+            curScrollTop -= speed; //下一次应该去的位置
+            //把这个新的位置的值赋值回去 scrollTop
+            utils.win("scrollTop",curScrollTop);
+        },interval);
+        utils.setCss(this,"display","none"); //的确执行也消失了，
+        // 当时在执行之后定时器在驱动回到顶部的过程中又触发了window.onscroll
+        // 如果把window.onscroll事件解除绑定那么就可以了
+        // 其实绑定事件的过程就是就是给事件属性赋值的过程，
+        window.onscroll = null;
+    }
+
+    window.onscroll = fn;
+    function fn() { //滚动条滚动时候触发这个事件
+        var curScreenHeight = utils.win('clientHeight'); //
+        var scrollTop = utils.win("scrollTop");
+        if (scrollTop > curScreenHeight) {
+            utils.setCss(button, "display", "block");
+        }
+        /*else{
+         utils.setCss(button,"display","none");
+         }*/
+    }
+
+    /*
+    *   回到顶部总结: 1 定时器去驱动一个函数达到一个动画效果
+    *                2  定时器已经完成任务别忘记清空定时器  拦截清空定时器
+    *                3  一定要注意定时器的累加问题
+    *                4 定时器保存在自定义属性是为了任何时刻都能找到并且及时清除
+    *                5 减速运动是如何计算，每次利用新位置去重新计算速度
+    *                6 利用事件移除和重新绑定完成点击立刻消失的效果
+    *
+    * */
+
+    //跑马灯
+    // 单张图片延迟加载 多张图片延迟加载  getElesByClass  hasClass addClass removeClass children
+
+
+
+</script>

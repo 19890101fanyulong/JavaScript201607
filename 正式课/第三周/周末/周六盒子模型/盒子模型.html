@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>盒子模型</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #outer {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border: 15px solid #000;
+            margin: 30px auto;
+            padding: 50px;
+            /*box-sizing: border-box;*/
+        }
+        #outer:before{
+            content: "我是outer的before添加进来的";
+            display: block;
+            height: 30px;
+            background: darkslategray;
+            color: #fff;
+        }
+        #outer:after{
+            content: "我是outer的after添加进来的";
+            display: block;
+            height: 30px;
+            background: darkslategray;
+            color: #fff;
+        }
+
+        #outer #middle {
+            /*position: absolute;*/
+            left: 0;
+            top: 0;
+            width: 300px;
+            height: 300px;
+            border: 20px solid #000;
+            padding: 30px;
+            background: lightcoral;
+            overflow-y: auto;
+            opacity: 0.7;
+            filter: alpha(opacity=70);
+        }
+
+        #outer #middle #inner {
+            /*position: absolute;*/
+            width: 100px;
+            height: 100px;
+            border: 20px solid blue;
+            background: lightseagreen;
+        }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <div id="middle" class="a b c">
+        asdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasd asdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasd asdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasd asdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasd asdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasd asdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg" alt="wasdasdfassfd/mimaage/ijg.jpg"
+        alt="wasd
+        <div id="inner"></div>
+    </div>
+</div>
+<!--
+    <img src="http://www..asdfassfd/mimaage/ijg.jpg" alt="wasdf"/>
+-->
+123123<input type="text"/>
+<video src=""></video>
+<audio src=""></audio>
+</body>
+</html>
+<script>
+
+    /*
+     *   异步: 1 定时器  2 事件  3 ajax
+     *   xhr.readeState == 4/1/2/3 .... xhr.status == 200/404/304/500  xhr.responseText  josnParse  JSON.parse  eval
+     * */
+    var outer = document.getElementById('outer');
+    var middle = document.getElementById('middle');
+    var inner = document.getElementById('inner');
+    console.dir(middle); //
+
+
+    /*
+     *   clientHeight: 内容+上下填充  content+padding-Top+padding-Bottom
+     *   clientWidth: 内容+左右填充
+     *   clientLeft: 左边框的宽度
+     *   clientTop: 上边框的宽度
+     *
+     *   offsetHeight:  内容+上下填充+上下边框  clientHeight+border-Top+border-Bottom
+     *   offsetWidth:  内容+左右填充  + 左右边框
+     *   offsetLeft: 外边框距离offsetParent内边框的左偏移量
+     *   offsetTop:  外边框距离offsetParent内边框的上偏移量
+     *   offsetParent: 父级参照物  offsetParent需要查看包含自己的父级元素是否存在定位属性(relative,absolute,fixed)，如果存在那么就是这个父级元素。如果不存在继续查找父级的父级元素...如果还没有定位属性那么还会继续向上查找。一直到body如果还没有就取body作为自己的offsetParent
+     *   document.documentELement.parentNode = #document
+     *   document.body.offsetParent = null
+     *   null:  页面内不存在的id是null  不存在哥哥后者弟弟节点也是null(通过while循环模拟过利用了null这个特殊条件)  正则exec如果捕获不到就是null(也利用while循环模拟过match)
+     *   scrollWidth:  内容宽度 + 左填充
+     *   scrollHeight:  内容高度+上填充
+     *   ps: 如果没有内容溢出那么和clientHeight的值是相同的
+     *   scrollTop: 内容滚出去的高度
+     *   scrollLeft: 滚出去的宽度
+     *   ps: 在所有的盒子模型属性中只有scrollTop和scrollLeft支持赋值。如果赋值一个负数那么默认是0
+     * */
+    window.onresize = function () {
+        //console.log(1);
+    }
+    window.onscroll = function () {
+        //console.log(2);3
+    }
+    function win(attr, val) { //写两个参数是赋值，写一个参数是获取
+        if (typeof val !== "undefined") { //传了
+            document.documentElement[attr] = val;
+            document.body[attr] = val;
+            //return 可以不写，顶多返回一个设置之后的值。除了scrollTop和scrollLeft其他的值设置不上。即使返回也是把设置之后的值返回。
+        }
+        return document.documentElement[attr] || document.body[attr];
+    }
+
+    /*
+     *   无论ele的offsetParent是谁，我都要求出距离body的偏移量
+     * */
+    function offset(ele) {
+        var left = null;
+        var top = null;
+        var par = ele.offsetParent; //先获取自己的offsetParent
+        left += ele.offsetLeft;
+        top += ele.offsetTop;
+        while (par) { //只要这个循环能执行下去就需要把par的边框和par的偏移量累加上。每次使用while循环的时候都需要先预先想好循环迭代和停止条件
+            //在ie8中offsetLeft已经包含边框  ==> 在ie8中就不用重新累加边框了
+            //如何判断当前浏览器是否是ie8
+            //  window.navigator.userAgent ="Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)"   "MSIE 8"
+            // indexOf lastIndexOf
+            if (window.navigator.userAgent.indexOf("MSIE 8") === -1) {
+                //在用户代理这个字符串中没有出现过MSIE 8
+                left += par.clientLeft; //除了ie8才累加
+                top += par.clientTop; //除了ie8才累加
+            }
+            left += par.offsetLeft;
+            top += par.offsetTop;
+            par = par.offsetParent; //每次累加之后需要迭代这个条件，换成par的offsetParent
+        }
+        return {left: left, top: top};
+    }
+    console.log(offset(inner).top); //获取inner距离body的偏移量
+
+    //获取经过浏览器渲染计算过后的样式
+    console.log(window.getComputedStyle(middle).width);  //带单位
+    function getCss(ele,attr){ //获取元素的某个经过计算过后的样式
+        var val = null;
+        if('getComputedStyle' in window){
+            val =  window.getComputedStyle(ele,null)[attr]; //使用的是window的一个方法，这个方法的返回值是一个对象
+        }else{ // ie低版本 ==> 除了透明度filter其他的属性 width也是正常的
+            if(attr == "opacity"){
+                val = ele.currentStyle.filter; //"alpha(opacity=50.5)"
+                //exec 用来捕获  ['总正则',"第一个分组" index:n,input:""]
+                var filterReg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/;
+                val = filterReg.test(val) ? filterReg.exec(val)[1]/100 : 1;
+            }else{ //widht height
+                val =  ele.currentStyle[attr]; //这个是ele的一个属性
+            }
+        }
+        var reg = /^-?\d+(\.\d+)?(px|rem|em|pt|deg)?$/;
+        if(reg.test(val)){ //如果能通过那么我就要去单位
+            val = parseFloat(val);
+        }
+        return val;
+    }
+    console.log(getCss(middle,"width"));
+    // setCss(middle,"width",1000)
+    function setCss(ele,attr,val){ //给元素设置样式
+        if(attr == "opacity"){ //你要设置透明度样式
+            ele.style.opacity = val;
+            ele.stlye.filter = "alpha(opacity="+ val*100 +')'; //alpha(opacity=50);
+            return;
+        }
+        if(attr == "float"){ //浮动设置样式也需要设置两套
+            ele.style.cssFloat = val; //标准
+            ele.style.styleFloat = val; //ie低版本
+            return;
+        }
+        //如果val带单位那么就使用默认带的单位，如果没有带单位就默认添加个px
+        var reg = /^width|height|left|top|right|bottom|(margin|padding)(Left|Right|Top|Bottom)?$/;
+        if(reg.test(attr)){
+            if(!isNaN(val)){ //val: "1000"
+                val += "px";
+            }
+        }
+        ele.style[attr] = val;
+    }
+
+
+
+
+</script>
