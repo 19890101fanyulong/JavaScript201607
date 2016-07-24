@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>模拟getElemestsByClass</title>
+</head>
+<body>
+<div id="div1">
+    <div class="c2 c1 c3 c2"></div> <!--c2 c3  /c2/-->
+    <div class="c3 c4"></div>
+    <div class="c1 c3"></div>
+    <p class="c1 c2 c3 c4"></p>
+</div>
+<div class="c1 c2 c3"></div>
+<div class="c3 c4"></div>
+<div class="c1 c3"></div>
+<p class="c1 c2 c3 c4"></p>
+
+</body>
+</html>
+<script>
+    var div1 = document.getElementById('div1');
+    //var divs = div1.getElementsByClassName("c1 c3"); //
+    //console.log(divs);
+    //规定参数的时候要时刻记忆着你这个函数的作用
+/*
+    function getElementsByClass(strClass,context){
+        //如果传了context你要在这个范围内获取，如果没传那么你要在整个document内获取
+        context = context || document; //对上下文进行处理
+        if(context.getElementsByClassName){
+            return context.getElementsByClassName(strClass); //类数组 ==> 转化成数组
+        }
+        //不兼容的时候
+        var ary = [];
+        //把符合条件的元素放到数组中
+        var tagEles = context.getElementsByTagName('*'); //把这个context范围内所有的标签元素都获取到
+        var strClassAry = strClass.replace(/(^ +| +$)/g,"").split(/ +/); //["c1","c3"]
+        //把不符合条件的标签删除掉,循环过滤
+        for(var i=0; i<tagEles.length; i++){
+            var curTag = tagEles[i]; // <div class="c2 c3"></div>   ['c1','c3']   "ca   c3"
+            //验证curTag当前标签的className是否符合，传进来的 strClass字符串拆分成数组之后组合成的增则
+            //需要循环验证数组的每一项组合成的规则，只要有一个不符合规则那么直接pass
+            var curTagFlag = true; //先假设这个标签是符合规则的，每次循环标签的时候都会重新赋值
+            for(var j=0; j<strClassAry.length; j++){ //这个数组里存放的是传进来的类名字字符串拆分成的数组项目
+                var curClass = strClassAry[j]; //['c1','c3']
+                var reg = new RegExp("(^| +)"+curClass+"( +|$)","g");  //   /c1/   /c3/
+                if(!reg.test(curTag.className)){ //只要有一个验证不通过那么我就不要这个curTag
+                    curTagFlag = false; //只要有一个没通过就把这个假设条件破坏掉
+                    break; //只要有一个没通过验证那么循环就没有必要进行下去了,只是当前这个标签没有必要进行验证下去了。但是下一个标签还需要循环和每一个数组项中的class去验证呢
+                }
+            }
+            if(curTagFlag){ //如果循环这么多次也没有破坏掉假设的条件那么这个一定是符合规则的
+                ary.push(curTag);
+            }
+        }
+        return ary;
+    }
+*/
+    function byClass(strClass,context){ // 'c1    c3'
+        context = context || document;
+/*
+        if(context.getElementsByClassName){
+            return context.getElementsByClassName(strClass);
+        }
+*/
+        var ary = [];
+        var allTags = context.getElementsByTagName('*');
+        var strClassAry = strClass.replace(/^ +| +$/g,"").split(/ +/);
+        for(var i=0; i<allTags.length; i++){
+            var curTag = allTags[i];
+            var flag = true;
+            for(var j=0; j<strClassAry.length; j++){
+                var curClass = strClassAry[j];
+                var reg = new RegExp("(^| +)"+curClass+"( +|$)",'g');  //<div class="c1 c3"> [c1,c2]
+                if(!reg.test(curTag.className)){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                ary.push(curTag);
+            }
+        }
+        return ary;
+    }
+    console.log(byClass("c1 c2",div1));
+
+</script>

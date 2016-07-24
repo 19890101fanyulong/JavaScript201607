@@ -65,15 +65,15 @@ var utils = (function () {
     }
 
 
-    function setCss(ele,attr,val){
+    function setCss(attr,val){
         if(attr == 'opacity'){
-            ele.style.opacity = val;
-            ele.style.filter = 'alpha(opacity='+val*100+")";
+            this.style.opacity = val;
+            this.style.filter = 'alpha(opacity='+val*100+")";
             return;
         }
         if(attr == 'float'){
-            ele.style.cssFloat = val;
-            ele.style.styleFloat = val;
+            this.style.cssFloat = val;
+            this.style.styleFloat = val;
             return;
         }
         var reg = /width|height|left|top|right|bottom|(margin|padding)(Left|Right|Top|Bottom)?/;
@@ -82,7 +82,7 @@ var utils = (function () {
                 val += "px";
             }
         }
-        ele.style[attr] = val;
+        this.style[attr] = val;
     }
 
     function prevEleSibling(ele){
@@ -258,9 +258,36 @@ var utils = (function () {
         return Math.round(Math.random()*(m-n)+n);
     }
 
+    function setGroupCss(ele,obj){
+        //保证obj是一个对象，并且在保证的过程中不能让obj.toString()报错
+        obj = obj || []; //为了保证没传obj的时候不报错
+        if(obj.toString() == "[object Object]"){
+            //{width:1000,height:500,display:'block'}
+            for(var key in obj){
+                setCss(ele,key,obj[key]);
+            }
+        }
+    }
+    
+    function css(ele){
+        var ary = listToArray(arguments).slice(1);
+        //根据的参数个数和参数的类型的不同调用不同的方法
+        //arguments.length  argument[0]  ...arguments[n]
+        var secondParam = arguments[1];
+        var thirdParam = arguments[2];
+        if(typeof secondParam == "string"){
+            if(thirdParam){ setCss(); }else{ getCss() }
+        }
+        //对于这种参数的个数还有参数的类型判断做分流
+        setCss.apply(ele,ary);
+        getCss.apply(ele,ary);
+        setGroupCss.apply(ele,ary);
+    }
+
 
 
     return {
+        
         getRandom : getRandom,
         getElementsByClass : getElementsByClass,
         removeClass : removeClass,
@@ -276,10 +303,22 @@ var utils = (function () {
         jsonParse : jsonParse,
         win : win,
         offset : offset,
-        getCss : getCss,
-        setCss : setCss
+        
+        
+        
+        
+        //getCss : getCss, //2个参数
+        //setGroupCss : setGroupCss, //2个参数
+        //setCss : setCss //3个参数
+
+        css:css
     }
 })();
+utils.setCss(div1,"width",1000);
+utils.setCss(div1,"height",1000);
+utils.setCss(div1,"display","block");
+//utils.getCss(div1,"width");
+utils.setGroupCss(div1,{width:1000,height:500,display:'block'});
 
 
 

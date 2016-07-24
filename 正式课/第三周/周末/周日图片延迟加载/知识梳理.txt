@@ -1,0 +1,32 @@
+1 单张图片延迟加载  缓存  临时图片  图片已经完全进入到可视窗口内
+  var temp   temp.src = img.getAttribute('selfProperty')  temp.onload  isloaded
+
+2 getElementsByClass ==> 两个正则需要去理解   假设的标识变量
+
+3 多张图片延迟加载  ==> meta:vp  静态样式  省略号   getData bindData
+  单张图片延迟加载  ==> 循环执行单张图片延迟加载  ==> 判断
+  淡入的效果
+  getCss setCss win offset jsonParse listToArray getRandom
+
+  hasClass addClass removeClass css(.......)
+
+  var utils = (function (){
+    //是否是标准浏览器
+    var isStanderBrowser  = "getComputedStlye" in window; //
+
+    function listToArray(){
+        if(isStanderBrowser){
+
+        }
+        ....
+    }
+    function jsonParse(){
+        listToArray();
+        this.listToArray();
+    }
+    return {
+        listToArray: listToArray
+    }
+
+  })();
+

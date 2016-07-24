@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>单张图片延迟加载</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        .wrap { width: 400px; height: 300px; margin: 1300px auto; border: 3px solid red; background: url("images/load.jpg") no-repeat center;  }
+        .wrap img{ display: none; width: 100%; height: 100%; border: none; vertical-align: top; }
+    </style>
+</head>
+<body>
+    <div class="wrap"><img src="" trueSrc="images/3.jpg"  /></div><!--getAttribute  set remove-->
+</body>
+</html>
+<script src="../utils.weekend.js"></script>
+<script>
+    /*
+    *   单张图片延迟加载:
+    *       1 把保存在truesrc这个属性上的真实图片资源的值赋值给src属性的过程
+    *       2 赋值条件：1 保证图片资源路径是有效的 2 并且需要一个临时新创建的img去验证这个资源有效性
+    *       3 如果这个临时img已经通过自己的src属性成功加载真实img的图片资源。那么就可以把这个资源路径赋值给真实img的src属性了
+    *       4 如果浏览器加载图片的时候发现这个图片已经加载过(这个src的资源路径是否以前加载过,如果加载过那么两次就是同一个请求地址),对于已经加载过的资源浏览器会默认缓存到本地一份
+    *       5 已经加载过的图片就不要再重新加载了
+    *
+    * */
+    var wrap = document.getElementsByClassName('wrap')[0];
+    var img = wrap.getElementsByTagName('img')[0];
+    //图片延迟加载
+    //创建一个临时图片
+/*
+    var tempImg = document.createElement('img');
+    //var tempImg = new Image(); //实例的方式创建一个图片
+    //让这个临时图片去加载真实图片资源的路径,那么需要给src赋值
+    tempImg.src = img.getAttribute('trueSrc');
+    tempImg.onload = function (){ //监听图片资源加载成功的，只要成功这个图片就会缓存到本地一份
+        img.src = this.src; //让这个真实的img去加载资源,第二次去加载这个图片，默认从本地缓存读取
+        img.style.display = "block";
+        tempImg = null;
+    }
+*/
+    window.onscroll = function (){
+        //浏览器底边距离body顶部的距离  可视窗口的高度  + 滚出去的高度
+        var _a = utils.win('clientHeight') + utils.win('scrollTop');
+        // 获取包含图片的div的底边距离body顶部的距离   盒子含边框的高度 + 盒子距离body的上偏移量(无论offsetParent)
+        var _b = img.parentNode.offsetHeight + utils.offset(img.parentNode).top;
+        if(_a > _b){ //当前这个盒子已经完全进入到可视窗口
+            //图片延迟加载
+            if(img.isloaded) return; //第一次是undefined,以后每次都是true
+            var tempImg = document.createElement('img');
+            tempImg.src = img.getAttribute('trueSrc');
+            tempImg.onload = function (){
+                // 现在这个资源缓存到本地一份，并且资源是有效的
+                img.src = this.src;
+                utils.setCss(img,"display","block");
+            }
+            img.isloaded = true; //放在这里只要加载过一次下次就不用加载了，无论成功还是失败
+            tempImg = null;
+            console.log('我已经做过延迟加载');
+        }
+    }
+
+
+
+
+
+
+
+
+
+</script>
