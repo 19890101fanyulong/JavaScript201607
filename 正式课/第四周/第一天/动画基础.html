@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>动画</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        .box{ width: 100px; height: 100px; background: red; position: absolute; left: 500px; top: 0; }
+        a{ display:inline-block; width: 50px; height: 30px; background: limegreen; margin: 120px 0;   }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <div style="margin-left: 500px;">
+        <a id="left" href="javascript:void 0 ">L</a>
+        <a id="right" href="javascript: void 0">R</a>
+
+    </div>
+</body>
+</html>
+<script src="../utils.js"></script>
+<script>
+    /*
+    *   简单动画:
+    *
+    * */
+/*
+    var box = utils.getElementsByClass('box')[0];
+    var maxLeft = utils.win('clientWidth') - box.offsetWidth;
+    var duration = 500;
+    var interval = 10;
+    var speed = maxLeft/duration*interval;
+    var timer = window.setInterval(function (){
+        var curLeft = utils.getCss(box,"left");
+        if(curLeft+ speed >= maxLeft){
+            window.clearInterval(timer);
+            utils.setCss(box,'left',maxLeft);
+            return;
+        }
+        curLeft += speed;
+        utils.setCss(box,"left",curLeft);
+    },interval);
+*/
+
+    //简单的匀速动画
+/*
+    var box = utils.getElementsByClass('box')[0];
+    var duration = 1000;  //从起点运动到终点需要1000ms
+    var target = utils.win('clientWidth') - box.offsetWidth; //要运动的距离
+    var time = 0; //花费的时间
+    var begin = utils.getCss(box,"left");
+    var change = target - begin;
+    // 花费的时间/总时间 = 已经运动距离/总距离     当前的位置= 起点+已经运动的距离
+    function linear(time,begin,change,duration){
+        return begin + (time/duration)*change; //当前的位置就是left的值
+    }
+*/
+/*
+    var timer = window.setInterval(function (){
+        time += 5; //每次执行一次定时时间就多花费5ms
+        if(time >= duration){
+            window.clearInterval(timer);
+            utils.setCss(box,"left",target);
+            return;
+        }
+       /!* var begin = utils.getCss(box,"left");
+        var change = target - begin;*!/
+        var curLeft = linear(time,begin,change,duration);
+        utils.setCss(box,"left",curLeft);
+    },10);
+*/
+    var box = utils.getElementsByClass('box')[0];
+    var left = document.getElementById('left');
+    var right = document.getElementById('right');
+    var maxLeft = utils.win('clientWidth') - box.offsetWidth;
+    var minLeft = 0;
+    // time(花费的时间) begin(开始的位置) change=target-begin(已经改变的距离)   duration(总的时间)
+    var speed = 5;
+   /* var timer = null;*/
+    left.onclick = function (){
+        move(minLeft); //move(0)
+    }
+    right.onclick = function (){
+        move(maxLeft); //move(maxLeft)
+    }
+    function move(target){
+        window.clearInterval(box.timer); //清除上一次点击按钮启动的定时器
+        box.timer = window.setInterval(function (){
+            var curLeft = utils.getCss(box,"left");
+            if(curLeft < target){ //向右
+                curLeft += speed;
+                if(curLeft  >= maxLeft){
+                    window.clearInterval(box.timer);
+                    utils.setCss(box,"left",maxLeft);
+                    return;
+                }
+                utils.setCss(box,"left",curLeft);
+            }else if(curLeft > target){ //向左
+                curLeft -= speed;
+                if(curLeft <= minLeft){ //定时器停止的拦截条件
+                    window.clearInterval(box.timer);
+                    utils.setCss(box,"left",minLeft);
+                    return;
+                }
+                utils.setCss(box,"left",curLeft);
+            }else{ //相等的时候就是原地不动
+                return;
+            }
+        },10);
+
+    }
+    /*
+    *   1 如果页面内存在启动定时器的开关那么一定要记得处理定时器累积问题
+    *   2 到达终点的时候也要清理定时器
+    *   3 定时器的返回值timer可以保存到运动元素的自定义属性上保证清理能找到
+4    * */
+
+
+
+
+
+
+
+
+</script>
