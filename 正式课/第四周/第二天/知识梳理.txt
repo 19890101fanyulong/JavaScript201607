@@ -1,0 +1,16 @@
+1 轮播图
+2 静态 布局： banner  bannerInner不断的改变bannerInner的left需要定位
+3 样式
+4 获取元素 ...   xxx.property(innerHTML) is not defined
+5 获取数据  ajax
+6 绑定数据: 1 左右轮播的时候在最后多添加的第一张  2 焦点也是动态的  3 bannerInner的宽度需要动态设置，根据数据的长度来设置
+7 自动轮播:  step++ animate(怎么写) 判断
+8 焦点对齐   处理一下最后一张没有焦点的问题,不能直接操作step tempStep
+9 绑定事件  点击焦点的时候切换  animate  利用索引  需要把step重新赋值
+10 鼠标悬停停止自动轮播 鼠标离开启动自动轮播 左右按钮显示隐藏
+11  点击按钮需要左右切换轮播图  向左的时候还需要做一个判断
+
+考试: 数据，静态，css，js(除了utils其他自己写)
+
+12 utils.css(如何实现的，如何处理this的。如何处理arguments的)
+
