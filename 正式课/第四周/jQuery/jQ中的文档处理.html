@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div id="div1">
+        <p class="p"></p>
+        <p class="p p1"></p>
+        <ul>
+            <li class="li1"></li>
+            <li class="li1"></li>
+            <li class="li1"></li>
+        </ul>
+        <p class="li1"></p>
+    </div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    var $div1 = $('#div1'); //$div1这个变量保存的是通过jQurey方法获取到的jQuery对象
+    //ps: 通过以上的方式可以节省堆内存空间，并且以后操作都是同一个jQuery实例对象
+    /*$div1.attr('name','1');
+    $div1.attr('name','2');*/
+
+    //append  ==> appendChild
+    var oSpan = document.createElement('span');
+
+    //$div1.append(oSpan);
+    $(oSpan).appendTo($div1); //和append的用法正好相反
+
+    //容器.prepend(子元素)  添加到开头
+    //子元素.prependTo(容器中)
+
+    //after() ==>    :after添加的 ==> 在后面添加
+    //before() ==> 使用伪类 :before添加的
+
+    //insertAfter insertBefore
+
+    //wrap 包裹的意思
+    $div1.wrap('<div class="tianxi"></div>'); //用参数这个标签包裹住div1
+
+    //replaceAll ==> replaceChild(new,old)
+    //remove ==> removeChild()
+    //clone() ==>  克隆  cloneNode();
+
+    //@@@@@@@筛选@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    /*
+    *   children('tagName'): 获取素有的元素子节点中的标签名字是tagName的
+    *   find() ： 在所有的子孙中查找
+    *   filter() : 在获取到的一组中同级过滤
+    *   eq(0)
+    *   first();
+    *   siblings();
+    *   next()
+    *   nextAll()
+    *   ...
+    *
+    *
+    * */
+
+
+
+
+</script>

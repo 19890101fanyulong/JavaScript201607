@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        .box{ margin: 30px auto; width: 300px;  }
+        .box ul{ width: 300px; height: 30px; list-style: none;  }
+        .box ul li{ width: 80px; background: green; float: left; margin-left: 20px; height: 30px; line-height: 30px; text-align: center; }
+        .box ul li.bg{ background: red; }
+        .box div{display: none;  width: 300px; height: 300px; text-align: center; line-height: 200px; }
+        .box div.bg{ background: red; display: block; }
+    </style>
+</head>
+<body>
+    <div  class="box">
+        <ul>
+            <li class="bg">1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+        <div class="bg">1</div>
+        <div>2</div>
+        <div>3</div>
+    </div>
+
+    <div  class="box">
+        <ul>
+            <li class="bg">1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+        <div class="bg">1</div>
+        <div>2</div>
+        <div>3</div>
+    </div>
+
+    <div  class="box">
+        <ul>
+            <li class="bg">1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+        <div class="bg">1</div>
+        <div>2</div>
+        <div>3</div>
+    </div>
+
+</body>
+</html>
+<script src="../jquery-1.11.3.js"></script>
+<script>
+    function tab($selector){
+        var $lis = $selector.find('li'); //换成参数了
+        $lis.on('click',function (){
+            var $index = $(this).index(); //点击谁先获取到谁的索引
+            //end()每次改变了jQuery对象之后还能回到最原始的那个对象
+            $(this)/*li*/.addClass('bg')/*li*/.siblings()/*lisibligs*/.removeClass('bg')/*siblings*/.end()/*li*/
+                    .parent().nextAll('div').eq($index).addClass('bg').siblings('div').removeClass('bg');
+        });
+
+    }
+    $.each($('.box'),function (){
+        //有多少个.box执行多少次 $(this)其实就是每一个.box
+        tab($(this));
+
+    })
+
+
+</script>

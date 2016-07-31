@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    /*
+    *   拓展方法:  一个是原型上，jQuery这个类的私有属性
+    *   jQuery留出来两个接口供自己拓展
+    *
+    *
+    * */
+/*
+    function jQuery(){}
+    jQuery.prototype.height = function (){} //css,animate,hide,show,animate
+*/
+    //$().height();
+    //$.ajax
+    //jQuery.ajax
+    //jQuery.each
+    //jQuery.fn = jQuery.prototype
+    $.fn.extend(); //就是在原型的基础上拓展 ==> 只有实例才能用
+    $.extend(); //直接在jQuery添加属性
+
+    $.fn.extend({ //拓展在jq的原型上，只有实例才能调用
+        tianxi : function (){
+            console.log(1);
+        }
+    });
+
+    $.extend({ //拓展在jquery本身，直接使用$.tianxi就可以调用
+        tianxi : function (){
+            console.log(2);
+        }
+    });
+
+    //$('body').tianxi();
+    //$.tianxi();
+
+</script>

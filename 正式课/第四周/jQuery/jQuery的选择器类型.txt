@@ -1,0 +1,72 @@
+    (1)基本
+     #id
+     element
+     .class
+     *
+     selector1,selector2,selectorN
+
+     (2)层次选择器：
+     ancestor descendant
+     parent > child
+     prev + next  $('#div1+ul')
+     prev ~ nexts $('#div1~')
+
+     (3)基本过滤器选择器
+     :first
+     :last
+     :not  $('div:not(.c1)')
+     :even
+     :odd
+     :eq  $('div:eq(0)') 获取到的结果仍然是一个jquery对象。但是get获取到的是原生对象
+
+     :gt  大于
+     :lt  小于
+
+     :header
+     :animated
+
+     (4)内容过滤器选择器
+     :contains
+     :empty  内容是空的
+     :has  $('div:has(ul)')所有div中包含ul的
+     :parent
+
+     (5)可见性过滤器选择器
+     :hidden
+     :visible
+
+     (6)属性过滤器选择器
+     [attribute]  包含这个属性的
+     [attribute=value]
+     [attribute!=value]
+
+     [attribute^=value]   $('#div1>*[id^=div]')
+     [attribute$=value]
+     [attribute*=value]   $('#div1>*[id*=3]')
+
+     [attrSel1][attrSel2][attrSelN]
+
+     (7)子元素过滤器选择器
+     :nth-child
+     :first-child
+     :last-child
+     :only-child
+
+     (8)表单选择器
+     :input
+     :text
+     :password
+     :radio
+     :checkbox
+     :submit
+     :image
+     :reset
+     :button
+     :file 坑人
+     :hidden
+
+     (9)表单过滤器选择器
+     :enabled
+     :disabled
+     :checked
+     :selected

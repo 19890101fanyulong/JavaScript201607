@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div style="width: 100px; height: 100px; margin: 30px auto; background: red;"></div>
+    <div style="width: 100px; height: 100px; margin: 30px auto; background: red;"></div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    var $div = $('div'); //
+    //获取到的是一个jQuery集合，再绑定事件jQuery默认已经完成了循环绑定
+    $div.on('click',function (){
+/*
+        $(this).hide(300).show(300).fadeOut('slow').fadeIn('fast').slideUp(500).slideDown(500);
+*/
+        $(this).animate({opacity:0.5,width:'200px'},300,'linear',function (){alert(1)}); //
+        //animate(ele,target,duration,effect,callback); //[callback,callback]
+    });
+    /*
+        每次在执行animate之前要先执行stop()清除上一次累加的定时器，无论上一次动画是否结束，我都立刻让动画停止
+        finish()也是停止上一次动画，无条件的跳到终点开始下一次动画
+    *   animate(target,duration,effect,callback)
+    *   target: {width:'200px'} 运动的终点，这是一个对象
+    *   duration: 在多长时间内完成运动
+    *   effect : 'linear' 'easeIn' 'easeOut' 这个参数可以不写
+    *   callback : 回调函数,当动画结束的时候需要执行的函数 ==> 在函数中传入一个函数
+    * */
+</script>

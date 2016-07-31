@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+/*
+    function jQuery(){}
+    jQuery.prototype.css = function (){} //任何一个jQuery实例都可以调用
+    jQuery.Callbacks = function (){}
+*/
+
+    var $callback = $.Callbacks(); //把jQuery身上的Callback属性找到并且执行
+    //可以把这个理解成一个数组 ==> 回调函数集合 []
+    var fn1 = function (val){ console.log('fn1: ' + val)  }
+    var fn2 =  function (val) { console.log('fn2: ' + val) }
+
+    $callback.add(fn1); //把fn1和fn2分别添加到这个回调函数集合中 [fn1,fn2]
+    $callback.add(fn2);
+
+    //回调函数集合中的所有函数执行
+    $callback.fire(100);
+
+    $callback.remove(fn1);
+
+    $callback.fire(200);
+
+    //第六周事件的发布订阅模式(观察者模式)
+
+</script>

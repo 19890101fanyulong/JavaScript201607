@@ -1,0 +1,6 @@
+[
+    {"src":"images/banner1.jpg","title":"biaoti","desc":"miaoshu"},
+    {"src":"images/banner2.jpg","title":"biaoti","desc":"miaoshu"},
+    {"src":"images/banner3.jpg","title":"biaoti","desc":"miaoshu"},
+    {"src":"images/banner4.jpg","title":"biaoti","desc":"miaoshu"}
+]

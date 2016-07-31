@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div id="div1" style="width: 100px; height: 100px; background: green;"></div>
+
+
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    /*
+    *    jQuery中的事件
+    * */
+    var div1 = document.getElementById('div1');
+    //dom 0级
+    //div1.onclick = function (){ console.log(1) } //本来应该是null我们重新赋值，匿名函数
+    //div1.onclick = function (){ console.log(2) }
+
+    //另外的一种事件绑定方式
+    //dom 2级
+    //div1.addEventListener('click',function (){}); //下周
+
+    //.......
+   /* $('#div1').click(function (){
+        alert("我是jq绑定的");
+    });
+    $('#div1').click(function (){
+        alert("我是jq绑定的2");
+    });*/
+/*
+    $('#div1').click(function (){});
+    $('#div1').mouseover(function (){});
+*/
+
+    /*
+    *   jQuery的链式写法的原理: 最后一定会返回一个jQuery实例
+    *
+    * */
+    $('#div1').off('click').on("click",function (){ //eventType
+        console.log("我是用on绑定的");
+    }).on('click',function (){
+        console.log("我是用on绑定的,also");
+    }).css('width','300px').height('2000px').trigger('click');
+    //用on的方式可以给一个click绑定若干个函数
+    //off移除绑定的事件
+    //$('#div1').off('click');
+    var ary = [];
+    //ary.slice(0).concat([5]).splice(1,1).map(function (){return 1}).push(5);
+    Array.prototype.haha = function () {
+        //asddffassddf
+        return this;
+    }
+    /*
+    *   on: 可以绑定多个函数，直接链式连续绑定就可以
+    *   off: 移除事件
+    *   trigger('click'): 触发事件
+    *
+    *
+    * */
+
+
+</script>
+

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+</head>
+<body>
+    <ul id="ul1" haha="ha3ha">
+        <li class="li1">1田喜</li>
+        <li class="li2">2</li>
+        <li class="li3" haha="hei3hei">3</li>
+        <div></div>
+    </ul>
+
+    <div id="div1" truesrc="images">
+        <p class="p1">1</p>
+        <p class="p2">2</p>
+        <p class="p3">3</p>
+    </div>
+
+    <ul id="ul2">
+        <li class="li4">1</li>
+        <li class="li5">2珠峰</li>
+        <li class="li6">3</li>
+    </ul>
+    <input type="text" name="text" value="1" disabled/>
+    <input type="radio" name="tex" value="1" disabled checked/>
+    <input type="checkbox" name="text" value="1"/>
+
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    /*
+    *   jQuery中常用的选择器:
+    *        $('li',context) context是一个范围，如果没传那么默认是document
+    *
+    *        基本
+    *        $('#id) 通过id获取
+    *        $('.className') 通过class获取
+    *        $('tagName') 通过标签获取元素
+    *        $('selector1,selector2...') 同时获取多个
+    *
+    *        层级选择
+    *        $('父级 子级') 所有的子孙后代
+    *        $('父级>子级') 第一个子集
+    *        $('#ul1+') 获取弟弟元素
+    *        $('#ul1~ul')  所有的弟弟们中的ul
+    *
+    *        过滤选择器
+    *            基本过滤器选择器
+                 :first 第一个
+                 :last 最后一个
+                 :not  $('div:not(.c1)')  除了.c1
+                 :even 偶数
+                 :odd  奇数
+                 :eq  $('div:eq(0)') 获取到的结果仍然是一个jquery对象。但是get获取到的是原生对象   eq(索引)
+
+                 :gt(n)  大于
+                 :lt(n)  小于
+            内容过滤:
+                :contains(内容)
+                :has(ul) 所有获取到的元素中包含ul标签的
+
+
+            属性选择器:
+                $('*[haha]')
+
+
+
+    *
+    *
+    *
+    * */
+    //var ul1 = document.getElementById('ul1');
+    //ul1.innerHTML = "asdf";
+    //var ul1 = document.querySelectorAll('#ul1'); //
+    //console.dir(ul1);//通过dom方式获取来的原生对象
+    //var $ul1 = jQuery('li');
+    //var $ul1 = $('li',ul1);
+    //var lis = $('.li1,.li2,.li3,#div1,#ul2');
+    //console.dir(lis);
+    //var $lis = $('li'); //$为了区分我这个变量获取来的是一个jQuery对象,只要看到$符号的就可以直接调用jQuery方法
+
+
+
+
+</script>

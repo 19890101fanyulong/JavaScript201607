@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div id="div1" style="width: 100px; height: 100px; background: red; " class=""></div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    var $div1 = $('#div1');
+    //console.log($div1.eq(0)) // ==> 也能把jQ对象转化成一个dom对象
+
+    /*
+    *   get()和eq()的区别:
+    *       get() 可以通过get方法获取回来的是dom的原生对象
+    *       eq(n)  只是在获取的jq的元素集合中拿出来索引为n的那个jQuery对象
+    *   把原生对象包装成一个jQuery对象就是用$()包含一下就可以
+    * */
+
+    var div1 = document.getElementById('div1');
+    //如果把一个原生对象转化成一个jQuery对象
+    //$(div1); //把一个dom原生对象转化为一个jQuery对象
+
+    //div1.setAttribute("tian","xi"); //win
+    /*
+    *   attr(attr,val) 如果有两个参数就是设置，如果一个就是获取  setAttribute getAttribute
+    *
+    *   prop()也是设置属性用的 ==> 一般用于内置属性 (class,style,id,src),但是更常用于表单元素(checked selected ..)
+    *
+    *
+    * */
+    // attr
+    $div1.attr('tian','xi');
+    console.log($div1.attr('tian'));
+    $div1.removeAttr('tian');
+
+    //prop ==> 表单元素的属性要使用prop
+    $('input').prop('checked',true); //设置选中
+    $div1.prop('name',"zhufeng"); //设置成功但是在行内看不到
+    console.log($div1.prop('name'));
+    $div1.removeProp('name');
+    console.log($div1.prop('name')); // 通过prop设置就通过prop移除
+
+    $div1.addClass('c1'); //添加类样式
+    $div1.removeClass('c1'); // 移除类样式
+    $div1.toggleClass('c1'); //如果包含这个c1那么就删除，如果没有c1那么就添加
+
+    // html() ==> innerHTML
+    $div1.html(); //获取$div1的html
+    $div1.html("aaaa") //设置$div1的html为aaaa
+    //text() ==> innerText
+    $div1.text(); // 获取
+    $div1.text('fff'); //设置
+
+    //val() 表单元素
+    $('input').val(); //获取
+    $('input').val(1); //设置
+
+    //css方法
+    $div1.css('width','200px'); //css方法一定是定义在jQuery这个类的原型上
+    //console.log($div1.css('width'));
+    $div1.css({
+        width : '400px',
+        height : '400px'
+    });
+    console.log($div1.offset()); //
+    //offset获取距离body的偏移量
+
+    //position() 获取相对于父元素的偏移
+    console.log($div1.position());
+
+    //height 如果没有参数就是获取，如有有参数就是设置
+    $div1.height('2000px');
+    //width
+
+    //innerWidth,innerHeight ==> clientWidth clientHeight
+    //outerWidth,outerHeight ==> ..offset
+    //scrollLeft(val),scrollTop(val) ==> 原生js也只有这两个属性接受重新赋值
+
+</script>

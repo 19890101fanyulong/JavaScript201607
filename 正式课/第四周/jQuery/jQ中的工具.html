@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    /*
+    *   常用工具: trim 去字符串首尾空格
+    *             isArray 是不是数组
+    *             each
+    *
+    * */
+    var $lis = $('#ul').find('li');
+/*
+    var ary = [1,2,3];
+    ary.forEach(function (item,index){});
+*/
+
+    //each有两个: 定义在jQuery这个类的属性身上，另外一个定义在jQuery的原型上的
+    $.each($lis,function (index,item){
+        //console.log(arguments);
+        //console.log($(this)); //其实就是循环的每一个li
+    });
+
+   $('#ul').find('li').each(function (index,item){
+       console.log(arguments)
+   });
+
+    //map ==> map是有返回值
+
+
+
+
+
+
+
+
+</script>

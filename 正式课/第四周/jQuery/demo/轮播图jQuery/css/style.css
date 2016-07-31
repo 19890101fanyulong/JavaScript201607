@@ -1,0 +1,12 @@
+*{ margin: 0; padding: 0; }
+.banner{position: relative; width: 1000px; height: 300px; margin: 30px auto; overflow: hidden; }
+.banner .bannerInner{ width: 1000px; height: 300px; background: url("../images/default.gif") no-repeat center #ccc;  }
+.banner .bannerInner div{ position: absolute; left: 0; top: 0; z-index: 0; opacity: 0; }
+.banner .bannerInner div img{ display: none; width: 100%; height: 100%; border: none; vertical-align: top;  }
+.banner .focusList{ position: absolute; right: 30px; bottom: 30px; z-index: 888; list-style: none;  }
+.banner .focusList li{ width: 18px; height: 18px; border: 2px solid #000; border-radius: 50%; background: #fff; cursor: pointer; float: left; margin-right: 3px; }
+.banner .focusList li.bg{ background: orangered;  }
+.banner .left,.banner .right{display: none; position: absolute; top: 50%; margin-top: -20px; width: 30px; height: 40px; background: url("../images/pre.png") no-repeat; opacity: .7; z-index: 999; }
+.banner .left{ left: 0; }
+.banner .right{ right: 0; background-position: -48px 0; }
+.banner a:hover{ opacity: 1; }

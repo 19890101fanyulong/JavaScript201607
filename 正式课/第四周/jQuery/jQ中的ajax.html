@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    //ajax是一个相对独立的方法，不用jQuery的实例去调用。
+    //jQuery.ajax和 $.Callbacks相同都是定义在jQuery身上的属性
+    $.ajax({
+        url: 'data.tx?_='+Math.random(), //到哪里去拿数据的接口
+        async : false, //同步
+        type : 'get/post',
+        dataType : 'text/json/jsonp',
+        success : function (data){ //data就是获取回来的数据
+
+        }
+    });
+</script>

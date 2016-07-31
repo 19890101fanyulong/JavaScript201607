@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var jQuery = function( selector, context ) {
+        return new jQuery.fn.init( selector, context );
+    }
+    jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        // Start with an empty selector
+        selector: "",
+        // The default length of a jQuery object is 0
+        length: 0
+    }
+
+</script>
