@@ -1,0 +1,33 @@
+1 事件   dom 0事件 ==> 给已经存在事件属性重新赋值
+         dom 2事件 ==> 调用addEventListener方法(eventType,fn,false);
+         dom2事件才有捕获,dom0只有在冒泡阶段发生
+
+
+         mouseEvent, keyBoardEvent
+
+         e = e || window.event; //处理事件对象
+
+         e.clientX
+         e.clientY
+
+         e.pageX
+         e.pageY  ==> 在ie6-8需要  html/body.scrollLeft/scrollTop
+
+         e.type ==> 'click' 'keyup'
+
+         e.target = e.target || e.srcElement 事件源
+
+         事件委托 ==> 删除元素，创建50个随机颜色的盒子删除。。。
+
+         e.preventDefault ? e.preventDefault() : e.returnValue = false;  ==> return false 阻止默认行为
+
+         e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; //阻止事件传播
+
+
+         鼠标跟随例子
+
+
+         第三天： on  我们自己也写一个on  event.js事件库
+
+
+

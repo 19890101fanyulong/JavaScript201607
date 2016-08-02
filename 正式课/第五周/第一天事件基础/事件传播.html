@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>事件传播</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        #outer{ width: 500px; height: 500px; background: darkorange; padding: 50px;   }
+        #outer #middle{ width: 250px; height: 250px; background: green; padding: 50px; }
+        #outer #middle #inner{ width: 100px; height: 100px; background: blue; padding: 20px; }
+        .text{ width: 300px; height: 30px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <div id="outer">outer
+        <div id="middle">middle
+            <div id="inner">inner</div>
+        </div>
+    </div>
+    <input class="text" type="text"  placeholder="请输入邮箱"/>
+
+</body>
+</html>
+<script>
+    var outer = document.getElementById('outer');
+    var middle = document.getElementById('middle');
+    var inner = document.getElementById('inner');
+
+    document.body.onclick = function (){
+        console.log('body');
+    }
+    outer.onclick = function (){ //dom0级事件，只能在冒泡阶段发生
+        console.log('outer');
+    }
+    var fn1 = function (){
+        console.log("middle");
+    }
+    middle.addEventListener('click',fn1,true); // dom2级事件，true这个事件在捕获的阶段触发
+
+    inner.addEventListener('click',function (){
+        console.log('inner');
+    }); //dom2级事件在冒泡的阶段发生
+
+    //middle,inner,outer,body
+
+    /*
+    *   事件的传播机制:  捕获，目标，冒泡
+    *       捕获： 只有在dom2事件绑定的过程中，第三个参数为true的时候才是在捕获阶段发生
+    *              dom0级事件绑定的过程中都是在冒泡的过程中触发
+    *       冒泡： 从事件目标向document传播的过程,一般在项目中使用冒泡基本不使用捕获
+    *
+    * */
+
+
+    var input = document.getElementsByClassName('text')[0];
+    input.onkeyup = function (e){ //是输入结束
+        //console.log(arguments); //keyboardEvent
+        console.log(e);
+
+    }
+    /*
+    *   不同的事件有不同的事件对象:  keyboardEvent
+    *       keyCode: 13 回车  enter
+    *                32 空格 space
+    *                   退格 backspace
+    *                   上下左右
+    *                   delete
+    *                   ....对应的每一个键都是不同的keyCode
+    *                   0-9是个连续的keyCode如果输入的不属于这个区间那么可以直接不让输入
+    *
+    * */
+
+
+
+</script>

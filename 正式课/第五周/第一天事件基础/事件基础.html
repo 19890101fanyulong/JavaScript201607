@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0; padding: 0; }
+        ul{ list-style: none; margin-bottom: 1000px; }
+        ul li{
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            margin: 3px;
+            background: limegreen;
+            float: left;
+        }
+        ul li a{
+            display: block;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="div1" style="width: 200px; height: 200px; background: red; margin-top: 1000px ; "></div>
+    <ul id="ul">
+        <li><a href="javascript: void 0">1</a></li>
+        <li><a href="javascript:void 0">2</a></li>
+        <li><a href="javascript:;">3</a></li>
+    </ul>
+<!--
+    div1.onclick = function (e){    }
+
+    e = e || window.event;
+
+    e.clientX   鼠标坐标(浏览器)
+    e.clientY
+
+    e.pageX = e.pageX || (document.documentElement.srcollLeft||document.body.scrollLeft) + e.clientX;
+
+    e.pageY = e.pageY || (document.documentElement.scrollTop || document.body.scrollTop) + e.clientY;
+
+    e.target = e.target || e.srcElement; 事件源
+
+    e.type  //事件类型
+
+    e.preventDefault ? e.preventDefault() :  e.returnValue = false; //阻止默认行为
+
+    e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; //阻止事件传播
+
+
+
+
+
+
+
+
+
+-->
+
+
+
+
+</body>
+</html>
+<script>
+    /*
+    *   onclick  onmouseover onmouseout onscroll onload onfocus(获得焦点) onblur(失去焦点) ... oncanplay ....
+    *   window.onload ==> 我们网页html,image等加载结束的时候
+    *
+    * */
+    //window.onload = function (){}
+
+
+    //$(function (){})
+    var div1 = document.getElementById('div1');
+    // DOM 0级事件
+    //div1.onclick = function (){} //给div1的onclick事件属性赋值,在赋值之前是null
+
+    //DOM 2级事件 可以给同一个事件绑定多个函数 ==> jquery中的on方法 ==>有兼容性问题 ==> 我们会自己处理兼容问题
+    //var fn = function (){};
+    //div1.addEventListener('click',fn,false); // click 事件类型 fn是函数  true/false: true代表的是事件在捕获的时刻触发,false: 在冒泡的时刻被触发
+    //div1.addEventListener('click',function (){},false);
+
+    //div1.removeEventListener();
+    /*
+    *  事件对象: 绑定事件的函数触发的时候，浏览器会默认给传一个参数，鼠标触发的是mouseEvent,这是一个对象数据类型的。
+     *  ie6-8: 把事件对象存放在window全局下的event属性
+     *  ==> 处理兼容性问题
+     *
+    *   clientX: 鼠标点击的时候的x轴坐标 ==> 是相对于浏览器的窗口
+    *   clientY: 鼠标点击的时候的y轴坐标 ==> 也是相对于浏览器窗口
+    *   pageX:  鼠标点击的时候相对于网页的x轴
+    *   pageY:  鼠标点击的时候相对于网页的y轴
+    *   ==> 在ie6-8没有pageX和pageY属性。只能累加上滚出去的高度和宽度
+    *   e.pageY = e.pageY || (document.documentElement.scrollTop || document.body.scrollTop) + e.clientY;
+    *
+    *
+    * */
+
+
+    div1.onclick = function (e){
+        e = e || window.event; //在ie6-8中e是undefined，那么就使用window.event
+        console.log(e);
+       /* console.log(e.clientX);
+        console.log(e.clientY);*/
+
+        e.pageX = e.pageX || (document.documentElement.scrollLeft || document.body.scrollLeft) + e.clientX;
+        e.pageY = e.pageY || (document.documentElement.scrollTop || document.body.scrollTop) + e.clientY;
+        console.log(e.pageX);
+        console.log(e.pageY);
+    }
+
+    var aLinks = document.getElementById('ul').getElementsByTagName('a');
+    for(var i=0; i< aLinks.length; i++){
+        var curA = aLinks[i];
+        curA.onclick = function (e){
+
+            //阻止a标签的默认跳转行为
+            e = e || window.event; //处理的是默认的事件对象问题
+            //e.preventDefault ? e.preventDefault() : e.returnValue = false; //阻止默认行为
+            //e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+            console.log(e.target); //不兼容ie6-8
+            e.target = e.target || e.srcElement;
+
+            //e.type;  存放的是事件类型 "click"
+            //e.target  存放的事件源 ==>
+            //console.log('haha');
+            //e.preventDefault(); //阻止默认行为
+            //e.returnValue = false; //ie6-8阻止默认行为
+            //return false; //这也可以阻止默认行为
+            //事件冒泡
+        }
+    }
+
+    document.documentElement.onclick = function (e){ //事件绑定在body上的
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+        console.log(e.target); //打印事件源,点击那个元素是谁e.target就是谁
+    }
+
+</script>

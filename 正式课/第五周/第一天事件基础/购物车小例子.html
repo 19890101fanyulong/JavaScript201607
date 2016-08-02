@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        html,body,div{ margin: 0; padding: 0; }
+        .shoppingCar{
+            position: relative;
+            width: 140px;
+            height: 35px;
+            margin: 30px auto;
+            background: limegreen;
+            color: #000;
+            line-height: 35px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .shoppingCar .detail{
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 35px;
+            width: 260px;
+            height: 150px;
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="shoppingCar">购物车
+        <div class="detail"></div>
+    </div>
+
+</body>
+</html>
+<script>
+    var shoppingCar = document.getElementsByClassName('shoppingCar')[0];
+    var detail =  shoppingCar.getElementsByClassName('detail')[0];
+
+    shoppingCar.onmouseover = function (){
+        detail.style.display = 'block';
+    }
+    shoppingCar.onmouseout = function (){
+        detail.style.display = 'none';
+    }
+    shoppingCar.onclick = function (e){
+        if(e.target.className == 'detail'){
+            return;
+        }
+        if(window.getComputedStyle(detail).display == 'block'){
+            detail.style.display = 'none';
+        }else{
+            detail.style.display = 'block';
+        }
+    }
+</script>
