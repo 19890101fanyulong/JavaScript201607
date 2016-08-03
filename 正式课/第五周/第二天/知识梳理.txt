@@ -1,0 +1,7 @@
+1 mouseEvent ==> UIEvent ==> Event ==> Object
+2 keyboardEvent ==> UIEvent ==> Event ==> Object
+3 onmouseover ==> onmouseenter ==> 如果想处理一闪的问题只能使用enter事件
+4 onmouseout ==> onmouseleave
+5 百度输入框
+6 放大镜
+7 多级菜单

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        html,body{ width: 100%; height: 100px; background: #ccc; }
+        .left{position: relative; width: 350px; height: 350px; background: url("img/iphone.jpg") no-repeat; margin: 20px; cursor: move; box-shadow: 3px 3px 10px #111; }
+        .left .leftSmall{display: none; width: 175px; height: 175px; position: absolute; background: #FEDE4F; opacity: .5; left: 30px; top:30px; }
+        .right{display: none; width: 350px; height: 350px; position: absolute; left: 400px; top: 20px; background: red; overflow: hidden; }
+        .right img{position: absolute; display: block; width: 200%; height: 200%; border: none;
+         vertical-align: top;}
+    </style>
+</head>
+<body>
+    <div class="left" id="left">
+        <div class="leftSmall" id="leftSmall"></div>
+    </div>
+    <div class="right" id="right">
+        <img src="img/iphone_big.jpg" />
+    </div>
+</body>
+</html>
+<script>
+    var left = document.getElementById('left');
+    var leftSmall = document.getElementById('leftSmall');
+    var right = document.getElementById('right');
+    var rightImg = right.getElementsByTagName('img')[0];
+    //给左面的大盒子绑定事件,当鼠标进入的时候让里面的小盒子显示
+
+    left.onmouseenter = function (e){
+        e = e || window.event;
+        leftSmall.style.display = 'block';
+        right.style.display = 'block';
+    }
+
+    left.onmousemove = function (e){ //鼠标移动的时候，要实时计算黄盒子的位置
+        e = e || window.event;
+        //计算出来的位置，黄盒子跟着鼠标在动
+        var l = e.clientX - this.offsetLeft -  leftSmall.offsetWidth/2;
+        var t = e.clientY - this.offsetTop - leftSmall.offsetHeight/2;
+        //里面的小黄盒子需要做限制，不能超出范围，给黄盒子left和top值的最大值和最小值做一个边界处理
+        //最小的left和top是0，最大的left是   大盒子的宽度-小盒子的宽度
+        if(l <= 0 ){ //如果比最小值还小那么就赋值为最小值
+            l = 0;
+        }else if(l >= this.offsetWidth - leftSmall.offsetWidth){
+            l = this.offsetWidth - leftSmall.offsetWidth; //比最大值还大就让l赋值为最大值
+        }
+        //还要处理t
+        if(t <= 0 ){
+            t = 0;
+        }else if(t >= this.offsetHeight - leftSmall.offsetHeight){
+            t = this.offsetHeight - leftSmall.offsetHeight;
+        }
+        //把位置赋值,正常值
+        leftSmall.style.left = l + 'px';
+        leftSmall.style.top = t + 'px';
+        //以上的代码处理过边界问题了
+        //右侧图片随着左侧小黄色盒子的移动 ==> 是右侧的图片的left和top的位置改变
+        rightImg.style.left = - l * 2 + 'px';
+        rightImg.style.top = - t *2 + 'px';
+
+
+    }
+
+    left.onmouseleave = function (e){ //鼠标离开左侧图片黄盒子小时
+        e = e || window.event;
+        leftSmall.style.display = 'none';
+        right.style.display = 'none';
+    }
+
+
+
+</script>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>百度搜索</title>
+    <style>
+        html,body{ width: 100%; height: 100%; }
+        *{ margin: 0; padding: 0; font-family: "microsoft yahei"; font-size: 14px; }
+        .box{ width: 300px; margin: 30px auto; }
+        .box input{ display: block; width: 278px; padding: 0 10px; height: 35px; line-height: 35px; border: 1px solid #ccc; outline: none; }
+        .box ul{display: none; list-style: none; border: 1px solid #ccc; position: relative; top: -1px; }
+        .box ul li{ height: 30px; line-height: 30px;     }
+        .box ul li a{ text-decoration: none; display: block; padding: 0 10px; color: #000; }
+        .box ul li a:hover{ background: #ccc;  }
+    </style>
+</head>
+<body>
+    <div id="box" class="box">
+        <input type="text" placeholder="请在这里输入"/>
+        <ul>
+            <!--
+                在真正的项目中这里是动态的
+            -->
+            <li><a isListLink="ok" href="javascript:void 0">前端培训</a></li>
+            <li><a isListLink="ok" href="javascript:void 0">珠峰培训</a></li>
+            <li><a isListLink="ok" href="javascript:void 0">html5培训</a></li>
+            <li><a isListLink="ok" href="javascript:void 0">node培训</a></li>
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+    var box = document.getElementById('box');
+    var input = box.getElementsByTagName('input')[0];
+    var ul = box.getElementsByTagName('ul')[0];
+
+    //默认列表ul是隐藏的，当表单内有输入内容的时候列表ul显示
+    input.onkeyup = input.onfocus =   function (){
+        //console.log(this.value); //this.value就是表单的值，如果是text表单就是输入的内容,那么就需要判断this.value是不是空或者空格就可以了
+        //判断表单输入的内容是否为空，如果是空的时候不显示 1 去掉首尾空格之后的长度仍然大于1那么就不是空 2或者直接写非空验证的正则
+        var reg = /^\s*$/;
+        if(reg.test(this.value)){ //如果验证成功输入的就是空格或者多个空格或者没有
+            //把表单下面的ul隐藏掉
+            ul.style.display = 'none';
+            return;
+        }
+        //如果不符合上面的条件输入的不是空,那么就显示列表
+        ul.style.display = 'block';
+
+    }
+
+        /*box.onblur = function (){
+            ul.style.display = 'none';
+        }*/
+
+    box.onclick = function (e){
+        e = e || window.event;
+        e.target = e.target || e.srcElement; //事件源
+        if(e.target.nodeName.toLocaleLowerCase() == 'a'){ //是点击在a标签上的
+            input.value = e.target.innerHTML; //把事件源a标签的html赋值给表单的value
+            ul.style.display = 'none'; //之后让列表消失
+        }
+    }
+
+    //
+    document.body.onclick = function (e){
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+        switch(e.target.id){
+            case "edit":
+                    //编辑
+                break;
+            case 'copt':
+                    //复制
+                break;
+            case 'delete':
+                    //删除
+                break;
+        }
+        if(e.target.nodeName.toLocaleLowerCase() !== 'input'){
+            ul.style.display = 'none';
+        }
+    }
+
+
+
+</script>

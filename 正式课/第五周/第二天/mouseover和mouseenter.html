@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        #box{position: relative; width: 300px; height: 300px; margin: 50px auto; background: lightblue; }
+        #mark{ width: 100px; height: 100px; position: absolute; background: yellow;  }
+    </style>
+</head>
+<body>
+    <div id="box" class="box"></div>
+</body>
+</html>
+<script>
+    var box = document.getElementById('box');
+
+    box.onmouseenter = function (e){ //onmouseover
+        var oDiv = document.createElement('div');
+        oDiv.id = 'mark'; //给刚刚创建的这个oDiv添加了一个id
+        this.appendChild(oDiv);
+        //console.log('over');
+
+    }
+
+    box.onmousemove = function (e){
+        //由于移动的速度特别快，导致了里面的小盒子还没有计算出位置而鼠标已经到达了。这个延期的时间间隔导致在瞬间鼠标停留在里面小黄盒子的onmouseover，由于事件传播从而也触发大盒子的的onmouseover事件
+        e = e || window.event;
+        var mark = document.getElementById('mark');
+        if(mark){ //null
+            var l = e.clientX - this.offsetLeft + 10;
+            var t = e.clientY - this.offsetTop + 10;
+            //把l和t赋值到行内样式
+            mark.style.left = l + 'px';
+            mark.style.top = t + 'px';
+        }
+    }
+
+    box.onmouseleave = function (){ //onmouseout
+        var mark = document.getElementById('mark');
+        if(mark){
+            this.removeChild(mark);
+        }
+        //console.log('out');
+    }
+
+    //以后鼠标悬停使用onmouseenter  鼠标离开的时候使用onmouseleave
+    //把事件的默认传播阻止也可以达到效果,给mark的事件  e.stopPropagation ?e.stopProgation : e.cancelBubble = true;
+</script>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>多级菜单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "microsoft yahei";
+            color: darkblue;
+            font-size: 14px;
+        }
+
+        .box {
+            width: 300px;
+            margin: 20px;
+            padding: 10px;
+            background: #ccc;
+            background: -webkit-linear-gradient(left top, lightblue, lightpink, lightgoldenrodyellow, lightsteelblue);
+        }
+
+        .box ul {
+            list-style: none; /*display: none;*/
+        }
+
+        /*.box ul.first{ display: block; }*/
+        .box ul li {
+            position: relative;
+            line-height: 30px;
+        }
+
+        .box ul li em {
+            display: block;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            left: 0;
+            top: 7px;
+            background: url("img/icon.png") no-repeat -59px -28px;
+            cursor: pointer;
+        }
+
+        .box ul li em.open {
+            background-position: -42px -28px;
+        }
+
+        .box ul li span {
+            padding-left: 20px;
+            -webkit-user-select: none;
+        }
+
+        .second {
+            margin-left: 20px;
+        }
+
+        .third {
+            margin-left: 40px;
+        }
+
+        .fourth {
+            margin-left: 60px;
+        }
+
+        .second, .third, .fourth {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="box" class="box">
+    <ul class="first">
+        <li>
+            <em></em><span>第一级第一个</span><!--em是用来写图标的-->
+            <ul class="second">
+                <li><span>第二级第一个</span></li>
+                <li>
+                    <em></em><span>第二级第二个</span>
+                    <ul class="third">
+                        <li><span>第三级第一个</span></li>
+                        <li><span>第三级第二个</span></li>
+                        <li>
+                            <em></em><span>第三级第三个</span>
+                            <ul class="fourth">
+                                <li><span>第四级第一个</span></li>
+                                <li><span>第四级第二个</span></li>
+                                <li><span>第四级第三个</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <em></em><span>第一级第二个</span>
+            <ul class="second">
+                <li><span>第二级第一个</span></li>
+                <li><span>第二级第二个</span></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
+<script>
+    //不是所有的span标签都加pointer样式，只有上一个元素哥哥节点是em才给加pointer样式
+    var box = document.getElementById('box');
+    var spans = box.getElementsByTagName('span');
+    for (var i = 0; i < spans.length; i++) {
+        var curSpan = spans[i];
+        var pre = prev(curSpan); //先获取每个span的上一个元素哥哥节点
+        if (pre && pre.nodeName.toLowerCase() == "em") {
+            //如果符合这个条件，那么就说明当前这个span存在一个em的元素哥哥,那么就说明这个span下面有ul，并且只有存在em的这个span才能添加滑过的pointer样式
+            curSpan.style.cursor = 'pointer'; // utils.css
+        }
+    }
+    //点击span或者em的时候，如果如果下面的ul是打开的('display是block的')那么就隐藏，否则就打开
+    box.onclick = function (e) { //需要给所有的span和em都绑定点击事件，那么使用事件委托
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+        //判断事件发生的时候事件源是否是em或者span
+        var reg = /^(em|span)$/i; //只要这个正则能验证通过e.target.nodeName就可以
+        if (reg.test(target.nodeName)) { //nodeName都是大写的标签名字，正则已经忽略大小写了
+            //这个判断通过只能保证点击发生在span和em身上，em没有问题，页面内存在多个span，并不是所有的span下面都存在一个ul。还需要判断span同级内是否存在一个ul，如果存在那么才做对应的展开和隐藏操作
+            //点击发生的时候可以是em也可以是span，如果是em需要向下两次查找弟弟才能找到ul，如果是span需要向下查找一次弟弟。==》我先获取父亲(li)，如果这个li存在一个ul孩子那么就可以了
+            var parent = target.parentNode; //先获取事件源的父亲节点
+            var firstUl = children(parent, 'ul')[0]; //在事件源的父节点孩子中找ul
+            var oEm = parent.getElementsByTagName('em')[0]; //获取事件源的父节点的第一个em孩子
+            if (firstUl) { //如果这个ul存在说明点击的span的确是有下面列表，然后才能对这个ul做对应的显示和隐藏操作
+                var isBlock = window.getComputedStyle(firstUl, null)['display'] === 'block';
+                if (isBlock) { //如果ul是打开的，我要把ul关闭,并且把当前点击这个事件源父节点内的所有ul隐藏，并且把em的"-"换成"+",也就是去掉open的class
+                    var uls = parent.getElementsByTagName('ul');
+                    var ems = parent.getElementsByTagName('em');
+                    for(var i=0; i<uls.length; i++){
+                        uls[i].style.display = 'none';
+                        ems[i].className = '';
+                    }
+                } else { //如果ul是关闭的,我就让ul打开
+                    firstUl.style.display = 'block';
+                    oEm.className = 'open'; //把em的"+"变成"-"
+                }
+            }
+        }
+    }
+
+
+    function prev(ele) {
+        var pre = ele.previousSibling;
+        while (pre && pre.nodeType != 1) {
+            pre = pre.previousSibling;
+        }
+        return pre;
+    }
+
+    function children(ele, tagName) { //'ul'
+        var childs = ele.childNodes;
+        var ary = [];
+        for (var i = 0; i < childs.length; i++) {
+            if (childs[i].nodeType == 1) {
+                ary.push(childs[i]);
+            }
+        }
+        if (typeof tagName == 'string') {
+            for (var i = 0; i < ary.length; i++) {
+                if (ary[i].nodeName.toLowerCase() != tagName.toLowerCase()) {
+                    ary.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+        return ary;
+    }
+
+</script>
