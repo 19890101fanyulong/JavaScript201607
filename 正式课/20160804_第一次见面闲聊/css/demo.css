@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul, li {
+    list-style: none;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    color: #000;
+    font-size: 14px;
+    -webkit-user-select: none;
+}
+
+/*--选项卡的公共样式--*/
+.tab {
+    margin: 20px auto;
+    width: 500px;
+}
+
+.tab .tab-nav {
+    position: relative;
+    top: 1px;
+}
+
+.tab .tab-nav li {
+    display: inline-block;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #85bae4;
+    cursor: pointer;
+}
+
+.tab .tab-nav li.bg {
+    background: #E0F2BE;
+    border-bottom-color: #E0F2BE;
+}
+
+.tab .tab-con {
+    display: none;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    border: 1px solid #85bae4;
+}
+
+.tab .tab-con.bg {
+    display: block;
+    background: #E0F2BE;
+}

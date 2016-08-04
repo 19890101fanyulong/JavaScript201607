@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-选项卡</title>
+    <link charset="UTF-8" type="text/css" rel="stylesheet" href="css/demo.css"/>
+</head>
+<body>
+<div class="tab" id="tab1">
+    <ul class="tab-nav">
+        <li class="bg">电影</li>
+        <li>电视剧</li>
+        <li>动漫</li>
+    </ul>
+    <!--每一个DIV中可以放UL、LI、IMG...-->
+    <div class="tab-con bg">惊天魔盗团2</div>
+    <div class="tab-con">幻城</div>
+    <div class="tab-con">秦时明月</div>
+</div>
+
+<div class="tab" id="tab2">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<script charset="UTF-8" type="text/javascript" src="js/utils-1.0.min.js"></script>
+<script charset="UTF-8" type="text/javascript">
+    var tabModule = (function () {
+        function bindEvent() {
+            var tabCon = utils.getElementsByClass("tab-con", this);
+            this.onmouseover = function (e) {
+                e = e || window.event;
+                var tar = e.target || e.srcElement,
+                        tarTag = tar.tagName.toUpperCase();
+                if (tarTag === "LI" && utils.hasClass(tar.parentNode, "tab-nav")) {
+                    var sib = utils.siblings(tar),
+                            index = utils.index(tar);
+                    utils.addClass(tar, "bg");
+                    for (var i = 0; i < sib.length; i++) {
+                        utils.removeClass(sib[i], "bg");
+                    }
+                    for (i = 0; i < tabCon.length; i++) {
+                        index === i ? utils.addClass(tabCon[i], "bg") : utils.removeClass(tabCon[i], "bg");
+                    }
+                }
+            }
+        }
+
+        function init(selector) {
+            var oTab = document.getElementById(selector);
+            bindEvent.call(oTab);
+        }
+
+        return {
+            init: init
+        }
+    })();
+    tabModule.init("tab1");
+    tabModule.init("tab2");
+
+    function fn(){
+        var a=12;
+    }
+    fn();
+    fn();
+</script>
+</body>
+</html>
