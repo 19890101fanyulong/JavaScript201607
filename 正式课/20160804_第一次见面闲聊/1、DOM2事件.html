@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            margin: 50px auto;
+            width: 200px;
+            height: 200px;
+            background: green;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box"></div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+    var oBox = document.getElementById("box");
+
+    //1、DOM0级事件绑定
+    //->给元素的某一个事件类型只能绑定一次方法,后面绑定的方法会把前面绑定的方法给覆盖掉:DOM0事件绑定的原理其实就是给当前元素的某一个私有属性(onclick就是oBox元素对象的一个私有属性)赋值(赋的值就是一个函数)
+    oBox.onclick = function (e) {
+        e = e || window.event;
+        this.style.background = "orange";
+    };
+    oBox.onclick = function (e) {
+        e = e || window.event;
+        this.style.border = "5px solid black";
+    };
+
+    //2、DOM2级事件绑定  addEventListener只有在标准的浏览器才支持,IE6~8浏览器下不支持此方法,需要我们使用attachEvent来绑定
+    //->给元素的某一个事件类型可以绑定多个方法:DOM2事件绑定的原理是查找当前元素在EventTarget.prototype上的addEventListener方法，然后调取这个方法，把给事件绑定的所有的方法依次存储到浏览器内置的事件池中，当事件触发的时候，到对应的事件池中把之前绑定的所有的方法依次去执行
+    oBox.addEventListener("click", function (e) {
+        this.innerHTML = "珠峰培训";
+    }, false);//->false说明当前绑定的方法会在事件的冒泡阶段 true说明在捕获阶段(捕获阶段在项目中是没啥用的)
+
+    oBox.addEventListener("click", function (e) {
+        this.style.border = "5px solid red";
+    }, false);
+
+    //->DOM0和DOM2绑定事件的机制是不一样的,所以可以零级和二级绑定共存
+    //->在事件绑定的时候,DOM0的性能高于DOM2的:DOM0直接找私有的，DOM2在绑定的时候经历 私有->HTMLDivElement.prototype->HTMLElement.prototype->Element.prototype->Node.prototype->EventTarget.prototype(addEventListener)
+
+    //->在事件触发的时候先绑定的哪个方法，就先执行谁，和DOM0\DOM2绑定的是无关的：因为所有给事件绑定的方法都是“异步编程”，绑定的时候方法没有执行，只有后面手动触发的时候才会执行，在这段时间差内，该做什么就继续做什么。
+    //->之前绑定的三个方法会按照绑定的先后顺序依次放入浏览器的等待任务队列中，当点击事件触发的时候，只是到等待任务队列中按照放入时候的顺序执行的。
+
+
+    //3、onload && reday
+    //->window.onload=function...:当浏览器或者当前页面中的所有资源都加载完成才会触发事件，绑定的方法才会执行；由于使用的是DOM0事件绑定，所以在同一个页面中只能使用一次；
+    //    window.addEventListener("load",function...,false);
+    //    window.addEventListener("load",function...,false);
+
+    //->jQ: $(document).ready(function...) / $(function(){}) 当HTML结构加载完成事件被触发，同时会执行绑定的方法；在同一个页面中可以使用多次(jQ使用的是DOM2绑定的 $("#div1").on("click",function..) jQ中提供的绑定事件的所有方法都是DOM2事件绑定的)；
+    //->jQ中使用的是DOM2独有的事件类型：DOMContentLoaded   =>document.addEventListener("DOMContentLoaded",function...);
+    //    window.onload = function () {
+    //        console.log("ok");//->2)
+    //    };
+    //    $(function () {
+    //        console.log("no");//->1)
+    //    });
+</script>
+</body>
+</html>
