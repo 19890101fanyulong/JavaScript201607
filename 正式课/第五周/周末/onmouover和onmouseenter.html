@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        #box{position: relative; width: 300px; height: 300px; margin: 40px auto; background: lightpink; }
+
+        #box #innerBox{position: absolute; width: 100px; height: 100px; background: darkblue;  }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <!--<div id="innerBox" ></div>-->
+    </div>
+</body>
+</html>
+<script>
+    var box = document.getElementById('box');
+    //鼠标滑过的时候创建一个小的盒子
+    box.onmouseenter = function (){ //onmouseover
+        var oDiv = document.createElement('div');
+        oDiv.id = 'innerBox'; //添加一个id并且这个id的样式已经定义好了
+        this.appendChild(oDiv);
+        console.log('onmousetover'); //只要打印过这个字符串那么说明这个事件被触发过
+       /* oDiv.onmouseover = function (e){
+            e.stopPropagation();
+        }
+        oDiv.onmouseout = function (e){
+            e.stopPropagation();
+        }*/
+    }
+
+    //鼠标移动的时候需要刚刚创建的这个小盒子随着鼠标移动
+    box.onmousemove = function (e){ //arguments[0]
+        e = e || window.event;
+        //计算位置
+        var l = e.clientX - this.offsetLeft + 5;
+        var t = e.clientY - this.offsetTop + 5;
+        //把计算好的位置重新赋值回去给刚刚在onmouseover的是时候创建的那个小盒子，style.left
+        var innerBox = document.getElementById('innerBox'); //如果获取一个不存在的id那么就是null
+        if(innerBox){ //由于小盒子是动态创建并且添加的，有可能在还没有执行结束之后鼠标就已经移动了。导致页面还没有这个盒子然后就要去获取有可能拿不到
+            innerBox.style.left = l + 'px';
+            innerBox.style.top = t + 'px';
+        }
+    }
+
+    box.onmouseleave = function (){ //onmouseout
+        var innerBox = document.getElementById('innerBox');
+        if(innerBox){
+            this.removeChild(innerBox);
+        }
+    }
+
+    /*
+    *   onmouseover可以使用onmouseenter代替
+    *   onmouseout 可以使用 onmouseleave代替
+    *   尤其动态创建的。。。
+    * */
+
+
+
+
+
+</script>

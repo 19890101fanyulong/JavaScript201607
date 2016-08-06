@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        html,body{ width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+</body>
+</html>
+<script>
+    for(var i=0; i<50; i++){
+        var oDiv = document.createElement('div');
+        oDiv.style.width = "20%";
+        oDiv.style.height = "20%";
+        oDiv.style.cssFloat = 'left'; //styleFloat
+        oDiv.innerHTML = '<a tian="xi" href="javascript:void 0">Delete</a>'
+        oDiv.style.backgroundColor = ' rgb(' + Math.round(Math.random()*255) +','+ Math.round(Math.random()*255)+','+ Math.round(Math.random()*255) +')'; //随机颜色  rgb( 255 , 255, 255)
+        document.body.appendChild(oDiv);
+    }
+
+    //for() ==> 给每一个a都绑定一个点击事件，事件发生的时候删除自己的父亲
+    //事件传播能传播到document上
+    document.body.onclick = function (e){ //利用事件的冒泡传播，每次按钮的点击动作body都知道。body的click每次也会被触发
+        e = e || window.event;
+        e.target = e.target || e.srcElement; //e.target==>如果点击动作是a那么e.target就是a
+        //点击a的时候才删除a的父亲，我得判断你点击是否是a
+        if(e.target.nodeName.toLowerCase() == 'a' && e.target.getAttribute('tian') == 'xi'){ //nodeName是大写的标签名,但是如果仅仅通过一个标签名字判断不严谨。页面内肯能存在多个a。我们可以再加条件，用来和其他的a做区分
+            //如果这个条件满足就是我要找的按钮
+            //this.removeChild(e.target.parentNode);
+            e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+        }
+    }
+
+    //这样就不用循环绑定事件了
+    /*for(var i=0; i<50; i++){
+        //这样的循环绑定方式需要创建50个匿名函数，这个50函数的堆内存都被占用，浪费性能
+        a[i].onclick = function (){
+
+        }
+    }*/
+
+    //在项目中一般使用事件委托给body或者html根据事件源的不同做不同操作
+
+    //鼠标跟随   放大镜   多级菜单   两点半上课  购物车
+
+</script>

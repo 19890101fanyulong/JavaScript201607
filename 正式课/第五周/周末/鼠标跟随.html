@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        .box{position: relative; width: 500px; height: 75px; margin: 20px auto; }
+        .box>img{ display: inline-block;  width: 100px; height: 75px; margin-left: 10px;  }
+        .box .bigWrap{display: none; width: 400px; height: 300px; position: absolute; left: 0; top: 0; }
+        .box .bigWrap img{ width: 100%; height: 100%; display: block; border: none; vertical-align: top; }
+    </style>
+</head>
+<body>
+    <div id="box" class="box">
+        <img src="img/apple_1.jpg" selfBigImg="img/apple_1_bigger.jpg" />
+        <img src="img/apple_2.jpg" selfBigImg="img/apple_2_bigger.jpg" />
+        <img src="img/apple_3.jpg" selfBigImg="img/apple_3_bigger.jpg" />
+        <img src="img/apple_4.jpg" selfBigImg="img/apple_4_bigger.jpg" />
+        <div class="bigWrap"><img src="" /></div>
+    </div>
+    <script src="jquery-1.11.3.js"></script>
+    <script>
+        var $box = $('#box');
+        var $imgs = $box.children('img');
+        var $bigWrap = $('#box').find('.bigWrap');
+        var $offset = $box.offset(); //{left: top: }
+        //装4个小图片的盒子的offsetLeft和offsetTop
+        $.each($imgs,function (index,item){  //index是每一个img的索引，item是每一个img
+            $(item).on('mouseover',function (){
+                $bigWrap.find('img').prop('src',$(this).attr('selfBigImg'))/*这个jq对象是img*/.end().show(300);
+            }).on('mousemove',function (e){
+                e = e || window.event;
+                //每次鼠标稍稍一动一点就需要重新计算大图片的位置
+                var l = e.clientX - $offset.left + 10; //
+                var t = e.clientY - $offset.top + 10;
+                //把这个值设置回去
+                $bigWrap.css({left: l, top : t});
+            }).on('mouseout',function (){
+                $bigWrap.hide();
+            });
+        });
+    </script>
+
+</body>
+</html>

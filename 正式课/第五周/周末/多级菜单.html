@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; font-size: 14px; font-family: "microsoft yahei"; }
+        .box{ width: 300px; margin: 20px; padding: 10px;            background: -webkit-linear-gradient(left top, lightblue, lightpink, lightgoldenrodyellow, lightsteelblue);
+
+        }
+        .box ul{ list-style: none; display: none; }
+        .box ul.first{ display: block; }
+        .box li{ line-height: 30px; position: relative;  }
+        .box li em{position: absolute; left: 0; top : 7px; display: block; width: 16px; height: 16px; background: url("img/icon.png") no-repeat -59px -28px; cursor: pointer; }
+        .box li  span{ padding-left: 20px; -webkit-user-select: none;  }
+        .box li em.open{ background-position: -42px -28px; }
+        .box .secnod{ margin-left: 20px; }
+        .box .third{ margin-left: 40px; }
+
+    </style>
+</head>
+<body>
+    <div id="box" class="box">
+        <ul class="first">
+            <li>
+                <em></em><span>第一级第一个</span>
+                <ul class="secnod">
+                    <li><span>第二级第一个</span></li>
+                    <li>
+                        <em></em><span>第二级第二个</span>
+                        <ul class="third">
+                            <li><span>第三级第一个</span></li>
+                            <li><span>第三级第二个</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <em></em><span>第一级第二个</span>
+                <ul class="secnod">
+                    <li><span>第二级第一个</span></li>
+                    <li><span>第二级第二个</span></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+    //获取所有的span，然后给span加pointer样式。这个span前面有em的才加.上一个哥哥节点
+    var box = document.getElementById('box');
+    var spans = box.getElementsByTagName('span');
+    for(var i=0; i<spans.length; i++){ //所有的span
+        var curSpan = spans[i];
+        var curSpanPrev = curSpan.previousElementSibling; //引用utils/null
+        if(curSpanPrev && curSpanPrev.nodeName.toLowerCase() == 'em'){ //判断当前这个span的元素em哥哥是否存在
+            curSpan.style.cursor = 'pointer';
+        }
+    }
+
+    //剩下就是点击展开和关闭的操作
+    box.onclick = function (e){
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+        //事件源处理好了，我要判断事件源是谁，只有em和前面有em的span/
+        //先判断事件源是不是em或者span
+        var reg = /^(em|span)$/i; //只有em和span这两个字符串符合规则，忽略大小写  SPAN EM
+        if(reg.test(e.target.nodeName)){ //已经忽略大小写不用转了
+            //只要判断能进来说明点击一定是一个em或者span，em没有问题，但是span不符合规则的
+            //先获取点击事件源的父亲节点
+            var parentLi = e.target.parentNode;
+            var firstEm = parentLi.getElementsByTagName('em')[0];
+            var firstUl = parentLi.getElementsByTagName('ul')[0];
+            if(firstEm && firstUl){
+                //只要firstEm和firstUl存在那么就是真符合规则的em和span
+                //我要判断firstUl现在是不是打开的,那么取决于display是不是block
+                var firstUlisBlock = window.getComputedStyle(firstUl,null)['display'] === 'block';
+                if(firstUlisBlock){ //ul是展开的,那么需要关闭，不是关闭自己是需要把父级下的所有的ul都关闭和所有的em的open的样式全去掉
+                    var allUls = parentLi.getElementsByTagName('ul');
+                    var allEms = parentLi.getElementsByTagName('em');
+                    //由于数量相等所以只要一个循环就可以了
+                    for( var i=0; i<allUls.length; i++){
+                        allUls[i].style.display = 'none';
+                        allEms[i].className = '';
+                    }
+
+                }else{ //ul是关闭的,如果是关闭我就要打开。并且把前面的图标样式变成减号。open
+                    firstUl.style.display = 'block';
+                    firstEm.className = 'open';
+                }
+            }
+
+        }
+    }
+
+</script>

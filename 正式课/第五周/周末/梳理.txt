@@ -1,0 +1,31 @@
+1 事件 dom0和dom2的区别： dom0是赋值，给dom对象的私有属性赋值
+                         dom2是调用dom对象原型上的方法,并且传3个参数
+
+2 事件传播  dom0只有冒泡  dom2可以根据参数设置在什么时候被触发
+
+3 事件传播顺序  捕获 ==> 目标 ==> 冒泡
+
+4 兼容性:   e  = e || window.event
+           e.target = e.target || e.srcElement
+           e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+           e.preventDefault ? e.preventDefault() : e.returnValue = false;   /return false
+           e.pageX = e.pageX ||(document.documentElement.scrollLeft||document.body.scrollLeft) + e.clientX;
+
+           e.type
+           e.clientX
+           e.key
+           e.keyCode...
+
+           mousuEvent => UIEvent => Event => Object
+
+5 捕获和冒泡   outer middle inner
+
+ 6 鼠标跟随
+
+ 7 放大镜
+
+ 8 多级菜单
+
+ 9 百度输入框
+
+

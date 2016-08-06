@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>事件基础</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        #div1{  width: 100px; height: 100px; background: red; position: absolute; left: 50%; top: 50%; margin-left: -50px; margin-top: -50px;  }
+        #div2{  width: 100px; height: 100px; background: green; /*margin: 1000px 0 0 1000px;  */  }
+
+        #input{ width: 300px; height: 30px; display: block; margin: 20px auto; }
+    </style>
+</head>
+<body>
+    <input type="text" id="input" />
+    <div id="div1">div1</div>
+    <div id="div2">div2</div>
+    <a href="###" id="link" style="display: block; width: 100px; height: 30px; background: yellow; margin: 300px; ">link</a>
+</body>
+</html>
+<script>
+    /*
+    *   dom 0级事件： dom 0的事件属性是这个dom对象的私有属性
+    *   dom 2级事件:
+    *
+    * */
+    var div1 = document.getElementById('div1'); //dom 对象
+
+    //dom 0
+    div1.onclick = function (){
+        console.log(this); //??这个函数点击的时候执行  div1.onclick();
+    } // 给div1的onclick属性重新赋值
+
+    //dom 2
+    //div1.addEventListener('click',function(){},false);//定义在div1的原型链上的EventTarget上的方法
+
+    //dom0和dom2的区别：dom0给dom对象的私有事件属性重新赋值为一个函数，dom2的事件绑定是通过原型结构找到addEventListener这个方法，并且让这个方法执行还传了三个参数，分别是事件类型和需要绑定的函数，是否使用捕获,dom 0级事件只能给一个事件绑定一个函数,dom2可以给同一个事件绑定若干个函数
+    var fn1 = function (){ console.log(1) }
+    var fn2 = function (){ console.log(2) }
+/*
+    div1.onclick = fn1;
+    div1.onclick = fn2;
+*/
+    //div1.addEventListener('click',fn1,false);
+    //div1.addEventListener('click',fn2,false);
+
+   /* div1.onclick = function (){
+        fn1();
+        fn2();
+    }*/
+
+    /*
+    *   事件对象: (标准) 事件发生的时候捕捉关于事件的一些信息
+    *       mouseEvent : 鼠标事件 形参e
+    *       clientX: 当前鼠标相对于浏览器的x轴偏移量
+    *       clientY: 当前鼠标相对于浏览器Y轴偏移量
+    *       pageX:
+    *       pageY:
+    *
+    *   事件对象(ie6-8) : 事件对象没有存放在arguments里,而是存放在window.event里了
+    *       pageX: 鼠标距离整个网页的偏移量，在ie6-8没有这个属性.通过在clientX的基础上累加上滚出去的宽度
+    *       pageY: 需要在clientY的基础上累加上滚出去的高度
+    *        //e.preventDefault(); //阻止默认行为
+             //e.returnValue = false; //在ie6-8中阻止默认行为
+    *
+    *
+    * */
+
+
+
+    var div2 = document.getElementById('div2');
+    div2.onclick = function (e){
+        //console.log(arguments[0]);
+        //console.log(window.event);
+        e = e || window.event; //处理事件对象的兼容性,ie6-8中的e是undefined
+
+        //console.log(e.clientX); //鼠标的轴相对于浏览器的坐标
+        //console.log(e.clientY); //鼠标的y轴相对于浏览器的坐标
+        e.pageX = e.pageX || (document.documentElement.scrollLeft || document.body.scrollLeft) + e.clientX;
+        e.pageY = e.pageY || (document.documentElement.scrollTop || document.body.scrollTop) + e.clientY;
+
+        //console.log(e.pageX); //鼠标距离整个网页的水平偏移量
+        //console.log(e.pageY); //鼠标距离整个网页的垂直偏移量
+
+        //console.log(e.type); //事件类型 ==> click  mouseover  mouseout  没有on
+    }
+
+    var link = document.getElementById('link');
+    link.onclick = function (e){
+        e = e || window.event;
+        //e.stopPropagation(); //阻止事件传播
+        e.cancelBubble = true; ///阻止冒泡传播ie6-8
+        //e.preventDefault(); //阻止默认行为
+        //e.returnValue = false; //在ie6-8中阻止默认行为
+        return false; //可以兼容标准和ie6-8的
+        //如果使用a标签那么就在行内使用 href = 'javascript:void 0'
+    }
+
+    //
+    document.body.onclick = function (e){
+        //e的原型链结构  mouseEvent => UIEvent => Event => Object
+        e = e || window.event;
+        //console.log('body'); //事件是传播的
+        //console.log(e.target); //事件源
+        //console.log(e.srcElement);  //ie6-8中的事件源
+        e.target = e.target || e.srcElement; //事件源的兼容性处理
+
+        console.log('body');
+    }
+
+
+
+
+
+
+    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+    /*
+    *   e = e || window.event;
+    *
+    *   e.clientX
+    *   e.clientY
+    *
+    *   e.type //事件类型
+    *
+    *   e.target = e.target || e.srcElement; //事件源
+    *
+    *   e.pageX = e.pageX ||(document.documentElement.scrollLeft || document.body.scrollLeft) + e.clientX;
+    *   e.pageY = e.pageY || ( document.documentElement.scrollTop || document.body.scrollTop ) + e.clientY;
+    *
+    *   e.preventDefault ? e.preventDefault() : e.returnValue = false; 阻止默认行为  return false;
+    *
+    *   e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; //阻止事件传播
+    *
+    * */
+
+    var oInput = document.getElementById('input');
+    oInput.onkeyup = function (e) {
+        //e的原型链结构  keyboardEvent => UIEvent => Event => Object
+        e = e || window.event;
+        console.log(e);
+        console.log(e.type); //keyup
+        console.log(e.keyCode); //每次弹起的键的编码
+        //Enter 13
+        //Space 32
+        //Backspace 8
+        //1-9  48-57   ==> 可以用来判断例如要求输入电话号码的,如果输入的不是数字可以清掉
+        //方向键也有对应的keyCode,可以用来写贪吃蛇
+    }
+
+    //事件对象就是用来记录事件发生的时候相关的事件信息的，由于事件的不同每次事件对象e的结构也是不同的  oncanplay ==> video audio
+
+    //常用事件:  onclick ondblclick onmouseover onmouseout onmousemove onmousewheel onload  window.onscroll  ... onkeyup onkeydown onkeypress onfocus onbulr oninput onchange ... ==> 这些事件都是放在dom元素的私有属性身上
+
+    //document.addEventListener('DOMContentLoaded',function (){},false);
+
+    window.onload = function (){
+        //网页内的所有元素加载完成之后执行
+    }
+    $(function (){ //在使用jQuery的时候一般先包一个这个
+
+    });
+    $(document).ready(function (){
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

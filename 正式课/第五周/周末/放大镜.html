@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin: 20px;
+            background: url("img/iphone.jpg") no-repeat;
+            box-shadow: 3px 3px 10px #111;
+        }
+
+        .box .innerBox {
+            display: none;
+            position: absolute;
+            width: 175px;
+            height: 175px;
+            background: #FEDE4F;
+            opacity: .5;
+            cursor: move;
+            left : 30px;
+            top : 50px;
+        }
+
+        .right{
+            display: none;
+            box-shadow: 3px 3px 10px #111;
+            width: 350px;
+            height:350px;
+            position: absolute;
+            left : 380px;
+            top : 20px;
+            overflow: hidden;
+        }
+        .right img{
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            border: none;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<div id="box" class="box">
+    <div id="innerBox" class="innerBox"></div>
+</div>
+<div id="right" class="right"><img src="img/iphone_big.jpg" /></div>
+<script>
+    var box = document.getElementById('box');
+    var boxInner = document.getElementById('innerBox');
+    var right = document.getElementById('right')
+    var rightBigImg = right.getElementsByTagName('img')[0];
+    box.onmouseenter = function (e) {
+        e = e || window.event;
+        boxInner.style.display = 'block';
+        right.style.display = 'block';
+    }
+    box.onmousemove = function (e) {
+        e = e || window.event;
+        //鼠标移动的时候就算innerBox的位置
+        var l = e.clientX - this.offsetLeft - boxInner.offsetWidth/2;
+        var t = e.clientY - this.offsetTop - boxInner.offsetHeight/2;
+        //不能让这个小盒子超出边界，不是任何计算好的值都可以用
+        if(l <= 0 ){ //左偏移比最小值还小，那么就把最小值直接赋值
+            l = 0;
+        }else if( l >= this.offsetWidth - boxInner.offsetWidth){ //比最大还大那么就让l为最大值
+            l = this.offsetWidth - boxInner.offsetWidth;
+        }
+        if(t <= 0){
+            t = 0;
+        }else if(t >= this.offsetHeight - boxInner.offsetHeight){
+            t = this.offsetHeight - boxInner.offsetHeight;
+        }
+        //如果上面两个条件都符合那么就是正常范围内
+        boxInner.style.left = l +'px';
+        boxInner.style.top = t + 'px';
+
+        //动右侧的大图
+        rightBigImg.style.left = -l*2 + 'px'; //这个关系需要计算好
+        rightBigImg.style.top = -t*2 + 'px';
+    }
+
+    box.onmouseleave = function (e) {
+        e = e || window.event;
+        boxInner.style.display = 'none';
+        right.style.display = 'none';
+    }
+</script>
+</body>
+</html>
