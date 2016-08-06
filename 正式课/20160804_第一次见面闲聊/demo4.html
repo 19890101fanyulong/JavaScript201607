@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-选项卡</title>
+    <link charset="UTF-8" type="text/css" rel="stylesheet" href="css/demo.css"/>
+</head>
+<body>
+<div class="tab">
+    <ul class="tab-nav">
+        <li class="bg">电影</li>
+        <li>电视剧</li>
+        <li>动漫</li>
+    </ul>
+    <div class="tab-con bg">惊天魔盗团2</div>
+    <div class="tab-con">幻城</div>
+    <div class="tab-con">秦时明月</div>
+</div>
+
+<div class="tab">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<div class="tab">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<div class="tab">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<script charset="UTF-8" type="text/javascript" src="js/utils-1.0.min.js"></script>
+<script charset="UTF-8" type="text/javascript">
+    ~function () {
+        //->TabClass:它是一个类
+        function TabClass(selector) {
+            //this->当前的实例
+            //this.xxx = xxx; 在给当前的实例增加私有的属性
+            if (typeof selector === "string") {
+                this.tab = document.getElementById(selector);
+            } else if (typeof selector === "object") {
+                this.tab = selector;
+            }
+            this.tabCon = utils.getElementsByClass("tab-con", this.tab);
+            this.init();
+        }
+
+        //->在类的原型上扩展方法
+        TabClass.prototype = {
+            constructor: TabClass,
+            bindEvent: function () {
+                //this->当前的实例  this.tab存储的是当前要操作的那个容器
+                var _this = this;
+                _this.tab.onmouseover = function (e) {
+                    //this->不是当前类的实例了,而是操作的那个容器了
+                    e = e || window.event;
+                    var tar = e.target || e.srcElement,
+                            tarTag = tar.tagName.toUpperCase();
+                    if (tarTag === "LI" && utils.hasClass(tar.parentNode, "tab-nav")) {
+                        var sib = utils.siblings(tar),
+                                index = utils.index(tar);
+                        utils.addClass(tar, "bg");
+                        for (var i = 0; i < sib.length; i++) {
+                            utils.removeClass(sib[i], "bg");
+                        }
+
+                        for (i = 0; i < _this.tabCon.length; i++) {
+                            index === i ? utils.addClass(_this.tabCon[i], "bg") : utils.removeClass(_this.tabCon[i], "bg");
+                        }
+                    }
+                }
+            },
+            init: function () {
+                this.bindEvent();
+            }
+        };
+
+        window.TabClass = TabClass;
+    }();
+
+    var tabList = utils.getElementsByClass("tab");
+    for (var i = 0; i < tabList.length; i++) {
+        new TabClass(tabList[i]);
+    }
+</script>
+</body>
+</html>

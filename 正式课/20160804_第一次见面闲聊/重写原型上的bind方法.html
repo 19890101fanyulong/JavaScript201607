@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #DDD;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    //    var obj = {name: "珠峰培训"};
+    //    function fn() {
+    //        console.log(this);
+    //    }
+
+    //window.setTimeout(fn, 1000);//->fn中的this:window
+    //window.setTimeout(fn.call(obj), 1000);//->fn中的this:obj 但是不是1s后执行的fn,而是开始设置定时器的时候就把我们的fn执行了，然后把fn的返回值undefined赋值给定时器了 =>window.setTimeout(undefined, 1000);
+    //window.setTimeout(fn.bind(obj), 1000);//->fn中的this:obj 1s中之后才会执行fn,这个需求是我们想要的  但是在IE6~8下不兼容:对象不支持“bind”属性或方法,说明在IE6~8下,Function.prototype上没有bind这个方法
+
+    //->兼容所有浏览器的方案是：给fn包一层匿名函数，让1s后先执行匿名函数，在匿名函数执行的时候在把fn执行并且使用call/apply改变fn里面的this
+    //    window.setTimeout(function () {
+    //        //匿名函数会在1s后执行 this->window
+    //        fn.call(obj);
+    //    }, 1000);
+
+    //    var a = fn.bind(obj);
+    //    fn();//this->window fn调用原型上的bind执行并没有直接的把fn中的this变为obj,而是返回一个匿名函数a,在匿名函数执行的时候在把fn执行,此时在让fn中的this变为obj
+    //
+    //    //->a=function () {
+    //    //  fn.call(obj);
+    //    //}
+    //    a();//this->obj
+
+
+    //->自己在FUNCTION的原型上扩展一个方法实现和BIND一模一样的功能(兼容所有的浏览器)
+    //    Function.prototype.myBind = function myBind(context) {
+    //        //this->fn我们当前要操作的那个函数
+    //        //context->obj我们需要指向的THIS
+    //        var _this = this;
+    //        var outerArg = [].slice.call(arguments, 1);
+    //        return function () {
+    //            var innerArg = [].slice.call(arguments);
+    //            _this.apply(context, outerArg.concat(innerArg));
+    //        }
+    //    };
+
+    Function.prototype.myBind = function myBind(context) {
+        var _this = this;
+        var outerArg = [].slice.call(arguments, 1);
+        if ("bind" in Function.prototype) {
+            outerArg.unshift(context);
+            return _this.bind.apply(_this, outerArg);
+        }
+        //->BIND不兼容我们才使用下述的代码
+        return function () {
+            var innerArg = [].slice.call(arguments);
+            _this.apply(context, outerArg.concat(innerArg));
+        }
+    };
+
+    var obj = {name: "珠峰培训"};
+    function fn(num1, num2, num3, e) {
+        console.log(this, num1, num2, num3, e);
+    }
+    //    window.setTimeout(fn.bind(obj, 100, 200), 1000);
+    window.setTimeout(fn.myBind(obj, 100, 200, 300), 1000);
+
+    //document.body.onclick = fn;//->fn中的this:body num1:mouseEvent num2/num3:undefined
+
+    //document.body.onclick = fn.bind(obj, 1, 2, 3);//->fn中的this:obj num1:1 num2:2 num3:3 最后一个参数值是浏览器默认传递给方法的事件对象
+    //    document.body.onclick = function (e) {
+    //        fn.call(obj, 1, 2, 3, e);
+    //    };
+    document.body.onclick = fn.myBind(obj, 1, 2, 3);
+
+</script>
+</body>
+</html>

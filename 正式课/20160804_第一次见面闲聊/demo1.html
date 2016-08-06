@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-选项卡</title>
+    <link charset="UTF-8" type="text/css" rel="stylesheet" href="css/demo.css"/>
+</head>
+<body>
+<div class="tab" id="tab1">
+    <ul class="tab-nav">
+        <li class="bg">电影</li>
+        <li>电视剧</li>
+        <li>动漫</li>
+    </ul>
+    <!--每一个DIV中可以放UL、LI、IMG...-->
+    <div class="tab-con bg">惊天魔盗团2</div>
+    <div class="tab-con">幻城</div>
+    <div class="tab-con">秦时明月</div>
+</div>
+
+<div class="tab" id="tab2">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<script charset="UTF-8" type="text/javascript" src="js/utils-1.0.min.js"></script>
+<script charset="UTF-8" type="text/javascript">
+
+    var oTab = document.getElementById("tab1"),
+            tabCon = utils.getElementsByClass("tab-con", oTab);
+    //->user event delegate realization click
+    oTab.onmouseover = function (e) {
+        e = e || window.event;
+        var tar = e.target || e.srcElement,
+                tarTag = tar.tagName.toUpperCase();
+
+        //->条件成立说明点击的是tab-nav下的LI,当前的事件源就是其中的某一个LI
+        if (tarTag === "LI" && utils.hasClass(tar.parentNode, "tab-nav")) {
+            //->获取当前点击LI的兄弟和其索引
+            var sib = utils.siblings(tar),
+                    index = utils.index(tar);
+
+            //->让当前的LI有选中样式,其余的兄弟移除选中样式
+            utils.addClass(tar, "bg");
+            for (var i = 0; i < sib.length; i++) {
+                utils.removeClass(sib[i], "bg");
+            }
+
+            //->和当前LI索引相同的那个DIV有选中的样式,而且其余的移除选中样式
+            for (i = 0; i < tabCon.length; i++) {
+                index === i ? utils.addClass(tabCon[i], "bg") : utils.removeClass(tabCon[i], "bg");
+            }
+        }
+    };
+
+    var oTab2 = document.getElementById("tab2"),
+            tabCon2 = utils.getElementsByClass("tab-con", oTab2);
+    //->user event delegate realization click
+    oTab2.onmouseover = function (e) {
+        e = e || window.event;
+        var tar = e.target || e.srcElement,
+                tarTag = tar.tagName.toUpperCase();
+
+        //->条件成立说明点击的是tab-nav下的LI,当前的事件源就是其中的某一个LI
+        if (tarTag === "LI" && utils.hasClass(tar.parentNode, "tab-nav")) {
+            //->获取当前点击LI的兄弟和其索引
+            var sib = utils.siblings(tar),
+                    index = utils.index(tar);
+
+            //->让当前的LI有选中样式,其余的兄弟移除选中样式
+            utils.addClass(tar, "bg");
+            for (var i = 0; i < sib.length; i++) {
+                utils.removeClass(sib[i], "bg");
+            }
+
+            //->和当前LI索引相同的那个DIV有选中的样式,而且其余的移除选中样式
+            for (i = 0; i < tabCon2.length; i++) {
+                index === i ? utils.addClass(tabCon2[i], "bg") : utils.removeClass(tabCon2[i], "bg");
+            }
+        }
+    };
+</script>
+</body>
+</html>

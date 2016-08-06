@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            margin: 50px auto;
+            width: 200px;
+            height: 200px;
+            background: green;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box"></div>
+<script type="text/javascript" src="js/event.js"></script>
+<script type="text/javascript">
+    var oBox = document.getElementById("box");
+
+    //->DOM2级事件绑定在标准浏览器和IE6~8下的兼容问题总结(addEventListener && attachEvent)
+    //1、THIS问题：标准浏览器绑定方法中的THIS是当前元素，而IE6~8下绑定方法中的THIS是WINDOW
+    //2、重复问题：标准浏览器规定“一个元素的同一个事件类型，对于相同的方法只能绑定一次，如果重复绑定相同的方法，浏览器会自己进行识别过滤，最后可以执行的也只有一次”，IE6~8没有进行重复的判断。
+    //3、顺序问题：当事件触发的时候，标准浏览器会按照绑定时候的先后顺序依次去执行，但是IE6~8下执行的顺序是混乱的和绑定顺序没关系。
+
+    function fn1() {console.log(1);}
+    function fn2() {console.log(2);}
+    function fn3() {console.log(3);}
+    function fn4() {console.log(4);}
+    function fn5() {console.log(5);}
+    function fn6() {console.log(6);}
+    function fn7() {console.log(7);}
+    function fn8() {console.log(8);}
+    function fn9() {console.log(9);}
+    function fn10() {console.log(10);}
+    function fn11() {console.log(11);}
+    function fn12() {console.log(12);}
+    bind(oBox, "click", fn1);
+    bind(oBox, "click", fn2);
+
+    bind(oBox, "click", fn5);
+    bind(oBox, "click", fn6);
+
+    bind(oBox, "click", fn3);
+    bind(oBox, "click", fn4);
+
+    bind(oBox, "click", fn7);
+    bind(oBox, "click", fn8);
+
+    bind(oBox, "click", fn9);
+    bind(oBox, "click", fn10);
+
+    bind(oBox, "click", fn11);
+    bind(oBox, "click", fn12);
+    //->DOM0的绑定移除
+    //    oBox.onclick = function () {
+    //    };
+    //    oBox.onclick = null;
+
+    //->DOM2绑定移除
+    //    oBox.addEventListener("click", function (e) {
+    //        console.log(e);
+    //    }, false);
+    //    oBox.removeEventListener("click", function (e) {
+    //        console.log(e);
+    //    }, false);
+    //->第二次移除的不是第一次绑定的,所以移除掉：DOM2绑定的时候我们应该都绑定实名函数，这样才能移除掉。
+
+
+    //    function fn1() {
+    //        console.log(1);
+    //    }
+    //    //->标准
+    //    oBox.addEventListener("click", fn1, false);
+
+    //->IE6~8 语法区别：事件类型前面加on、只能在冒泡阶段无法控制在捕获阶段发生
+    //    oBox.attachEvent("onclick", function (e) {
+    //        //->E存储的值依然还是WINDOW.EVENT那一套,和标准浏览器依然不一样,项目中DOM2的事件对象依然需要处理兼容
+    //        //console.log(e.srcElement);
+    //    });
+    //oBox.detachEvent();
+</script>
+</body>
+</html>

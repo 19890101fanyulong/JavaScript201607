@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-选项卡</title>
+    <link charset="UTF-8" type="text/css" rel="stylesheet" href="css/demo.css"/>
+</head>
+<body>
+<div class="tab" id="tab1">
+    <ul class="tab-nav">
+        <li class="bg">电影</li>
+        <li>电视剧</li>
+        <li>动漫</li>
+    </ul>
+    <div class="tab-con bg">惊天魔盗团2</div>
+    <div class="tab-con">幻城</div>
+    <div class="tab-con">秦时明月</div>
+</div>
+
+<div class="tab">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<div class="tab">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<div class="tab">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<script charset="UTF-8" type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script charset="UTF-8" type="text/javascript">
+    //    $(".tab").on("mouseover", function (e) {
+    //        //->jQ中的事件对象兼容性已经处理完成了,不需要我们自己在处理
+    //        var tar = e.target,
+    //                tarTag = tar.tagName.toUpperCase(),
+    //                $tar = $(tar);//->把原生的JS对象转换为jQ对象(jQ的一个实例)
+    //        if (tarTag === "LI" && $tar.parent().hasClass("tab-nav")) {
+    //            $tar.addClass("bg").siblings().removeClass("bg");//->jQ拥有强大的内置循环的机制:我们通过选择器或者方法获取到一个jQ集合,当让集合操作某一个方法的时候,jQ会默认的把集合中的每一项都循环操作一遍,不需要我们自己在单独的循环处理了
+    //
+    //            //->this:#tab1
+    //            var curIn = $tar.index(),
+    //                    $tabCon = $(this).children(".tab-con");
+    //            $tabCon.each(function (index, item) {
+    //                //->this:item
+    //                index == curIn ? $(this).addClass("bg") : $(this).removeClass("bg");
+    //            });
+    //        }
+    //    });
+
+    //->preIn:存储的是上一个选中的LI的索引
+    $(".tab").attr("preIn", 0).on("mouseover", function (e) {
+        var tar = e.target,
+                tarTag = tar.tagName.toUpperCase(),
+                $tar = $(tar);
+
+        var $Lis = $(this).children(".tab-nav").eq(0).children("li"),
+                curIn = $tar.index(),
+                preIn = parseFloat($(this).attr("preIn")),
+                $tabCon = $(this).children(".tab-con");
+
+        if (tarTag === "LI" && $tar.parent().hasClass("tab-nav")) {
+            $Lis.eq(preIn).removeClass("bg");
+            $tar.addClass("bg");
+
+            $tabCon.eq(preIn).removeClass("bg");
+            $tabCon.eq(curIn).addClass("bg");
+
+            $(this).attr("preIn", curIn);
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-选项卡</title>
+    <link charset="UTF-8" type="text/css" rel="stylesheet" href="css/demo.css"/>
+</head>
+<body>
+<div class="tab" id="tab1">
+    <ul class="tab-nav">
+        <li class="bg">电影</li>
+        <li>电视剧</li>
+        <li>动漫</li>
+    </ul>
+    <!--每一个DIV中可以放UL、LI、IMG...-->
+    <div class="tab-con bg">惊天魔盗团2</div>
+    <div class="tab-con">幻城</div>
+    <div class="tab-con">秦时明月</div>
+</div>
+
+<div class="tab" id="tab2">
+    <ul class="tab-nav">
+        <li class="bg">CSS</li>
+        <li>JS</li>
+        <li>移动端</li>
+        <li>NODE</li>
+    </ul>
+    <div class="tab-con bg">HTML+CSS是基础</div>
+    <div class="tab-con">JS中的编程思想和基础知识需要牢牢掌握</div>
+    <div class="tab-con">移动端很简单</div>
+    <div class="tab-con">NODE很难</div>
+</div>
+
+<script charset="UTF-8" type="text/javascript" src="js/utils-1.0.min.js"></script>
+<script charset="UTF-8" type="text/javascript">
+    //->使用高级单例模式(基于惰性思想封装的单例模式:UTILS库基于惰性思想来实现的)：在给tabModule赋值的时候，首先让自执行函数执行形成一个不销毁的私有作用域A，在A中有两个私有的变量：oTab、tabCon，那么在A中出现的所有的这两个变量都是A私有的
+    var tabModule = (function () {
+        var oTab = null,
+                tabCon = null;
+
+        function bindEvent() {
+            oTab.onmouseover = function (e) {
+                e = e || window.event;
+                var tar = e.target || e.srcElement,
+                        tarTag = tar.tagName.toUpperCase();
+                if (tarTag === "LI" && utils.hasClass(tar.parentNode, "tab-nav")) {
+                    var sib = utils.siblings(tar),
+                            index = utils.index(tar);
+                    utils.addClass(tar, "bg");
+                    for (var i = 0; i < sib.length; i++) {
+                        utils.removeClass(sib[i], "bg");
+                    }
+                    for (i = 0; i < tabCon.length; i++) {
+                        index === i ? utils.addClass(tabCon[i], "bg") : utils.removeClass(tabCon[i], "bg");
+                    }
+                }
+            }
+        }
+
+        function init(selector) {
+            oTab = document.getElementById(selector);
+            tabCon = utils.getElementsByClass("tab-con", oTab);
+            bindEvent();
+        }
+
+        return {
+            init: init
+        }
+    })();
+    tabModule.init("tab1");//->第一次执行init方法,我们让A中的oTab指向#tab1,A中的tabCon指向的是#tab1下的DIV
+    tabModule.init("tab2");//->第二次执行init方法,我们让A中的oTab指向#tab2,A中的tabCon指向的是#tab2下的DIV  也就是第二次执行INIT把第一次存储的值都给覆盖了
+
+
+</script>
+</body>
+</html>
