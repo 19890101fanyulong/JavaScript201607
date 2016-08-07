@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #div1{ width: 100px; height: 100px; background: lightgreen; }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>
+<script src="event.js"></script>
+<script>
+    var div1 = document.getElementById('div1');
+    /*bind(div1,'click',fn1);
+     bind(div1,'click',fn1);
+     bind(div1,'click',fn2);
+     unbind(div1,'click',fn1);
+     unbind(div1,'click',fn2);
+     */
+
+    on(div1,'click',fn1);
+    on(div1,'click',fn2);
+    on(div1,'click',fn3);
+    on(div1,'click',fn4);
+    on(div1,'click',fn5);
+    on(div1,'click',fn6);
+    on(div1,'click',fn7);
+    on(div1,'click',fn8);
+    on(div1,'click',fn9);
+    on(div1,'click',fn10);
+    on(div1,'click',fn11);
+    on(div1,'click',fn12);
+    function fn1(){ console.log(1); }
+    function fn2(){ console.log(2) }
+    function fn3(){ console.log(3) }
+    function fn4(){ console.log(4) }
+    var n = 0;
+
+    function fn5(){
+        n++;
+        if(n>=5){
+            off(div1,'click',fn1);
+            off(div1,'click',fn2);
+            off(div1,'click',fn3);
+            off(div1,'click',fn4);
+        }
+        console.log(5);
+    }
+    function fn6(){ console.log(6) }
+    function fn7(){ console.log(7) }
+    function fn8(){ console.log(8) }
+    function fn9(){ console.log(9) }
+    function fn10(){ console.log(10) }
+    function fn11(){ console.log(11) }
+
+    function fn12(){
+        console.log(12);
+    }
+
+
+
+
+
+
+
+</script>

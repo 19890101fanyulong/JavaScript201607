@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        #box{ width: 200px; height: 200px; background: red; margin: 30px; }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+</body>
+</html>
+<script>
+    var box = document.getElementById('box');
+    //console.log(box);
+    //box.onclick = function (){ console.log(1) } //dom 0
+    //box.onclick = function (){ console.log(2) } //给box的onclick重新赋值
+    //dom0事件只能给一个事件绑定一个函数
+    //dom2事件是找到eventTarget的原型上addEventListener(eventType,fn,false);
+    var fn1 = function (){ console.log(1); console.log(this === window); }
+    var fn2 = function (){ console.log(2) }
+    var fn3 = function (){ console.log(3) }
+    var fn4 = function (){ console.log(4) }
+    var fn5 = function (){ console.log(5) }
+    var fn6 = function (){ console.log(6) }
+    var fn7 = function (){ console.log(7) }
+    var fn8 = function (){ console.log(8) }
+    var fn9 = function (){ console.log(9) }
+    var fn10 = function (){ console.log(10) }
+    /*box.addEventListener('click',fn10,false); //冒泡阶段
+    box.addEventListener('click',fn1,false);
+    box.addEventListener('click',fn2,false);
+    box.addEventListener('click',fn3,false);
+    box.addEventListener('click',fn4,false);
+    box.addEventListener('click',fn5,false);
+    box.addEventListener('click',fn6,false);
+    box.addEventListener('click',fn7,false);
+    box.addEventListener('click',fn8,false);
+    box.addEventListener('click',fn9,false);
+    box.removeEventListener('click',fn9,false);*/
+    //box.addEventListener('click',fn10,true); //捕获阶段
+    /*
+    *   dom2级事件:
+    *       1 dom0同一个事件只能绑定一个函数，dom2可以同一个事件绑定多个不同函数,但是可以在不同的阶段(捕获/冒泡)绑定同一个方法
+    *       2 dom2事件的执行顺序和绑定顺序是一样的(chrome)
+    *       3 使用dom2事件的时候一般情况下是绑定实名函数,如果是匿名函数移除就找不到了
+    *
+    *   ie6-8中：
+    *       1 使用attachEvent('on'+enentType,fn1); //没有捕获,需要前面加上 on
+    *       2 不按照绑定的顺序执行 *
+    *       3  可以多次给同一个事件绑定相同的函数，重复绑定 *
+    *       4 detachEvent()
+    *       5 绑定的函数被触发的时候，函数中的this是window *
+    * */
+    //box.addEventListener('mouseenter',function (){},false);
+    box.attachEvent('onclick',fn1); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn2); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn3); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn4); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn5); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn6); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn7); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn8); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn9); //在ie6-8中没有捕获只有冒泡
+    box.attachEvent('onclick',fn10); //在ie6-8中没有捕获只有冒泡
+    box.detachEvent('onclick',fn10);
+    /*box.attachEvent('onclick',fn1);
+    box.attachEvent('onclick',fn1);
+    box.attachEvent('onclick',fn1);
+    box.attachEvent('onclick',fn1);*/
+
+
+</script>

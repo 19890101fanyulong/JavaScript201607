@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>drag</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        html,body{ width: 100%; height: 100%; }
+        #box{ width: 100px; height: 100px; background:red; position: absolute; /*top:50%; left: 50%; margin-left: -50px; margin-top: -50px;*/ cursor: move; /*left:0; top:0; right:0; bottom:0; margin: auto;*/ }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+</body>
+</html>
+<script>
+    /*
+    *   使用js让盒子居中： (可视窗口的高度 - 盒子的高度)/2 就是top值
+    * */
+    var box = document.getElementById('box');
+    box.style.left = ((document.documentElement.clientWidth||document.body.clientWidth) - box.offsetWidth)/2 + 'px';
+    box.style.top = ((document.documentElement.clientHeight||document.body.clientHeight) - box.offsetHeight)/2 + 'px';
+    /*
+    *   1 在鼠标onmousedown的时候我就给盒子绑定两个事件，一个是onmousemove另外一个是onmouseup的时候，
+    *   2 onmousemove的时候:  通过任何一种计算方式来计算盒子的新位置(盒子跟着鼠标跑)
+    *
+    *   3 onmouseup鼠标按钮松开的时候，必须要移除掉onmousemove否则还继续跟着鼠标跑，并且也把onmouseup事件也移除掉
+    *
+    *   4 : box.setCapture()  让盒子和鼠标绑定在一起 chrome不兼容
+    *   5 ： this.releaseCapture() 让盒子和鼠标解绑 chrome不兼容
+    *
+    *   6: 在chrome中，由于鼠标运动过快，导致盒子还没计算出位置鼠标已经脱离盒子了，在鼠标按键松开的时候就不会触发盒子的onmouseup了，所以就没有move事件移除掉，那么再次在盒子内触发onmousemove的时候仍然会继续跟着移动。我们把事件委托给document去完成。事件是传播的，任何事件document都可以获取
+    * */
+    box.onmousedown = function (e){
+        e = e || window.event; //使用事件对象e来计算
+        //鼠标距离box盒子的相对偏移量
+         this.mouseDisBoxLeft = e.clientX - this.offsetLeft;
+         this.mouseDisBoxTop = e.clientY - this.offsetTop;
+        //box.setCapture();
+        //给盒子绑定move和up事件
+        document.onmousemove = function (e){
+            e = e || window.event;
+            //鼠标移动的时候需要时刻计算盒子的位置
+            var l = e.clientX - box.mouseDisBoxLeft;
+            var t = e.clientY - box.mouseDisBoxTop;
+            //盒子不可以出去整个屏幕
+            var minL = 0;
+            var minT = 0;
+            var maxL = (document.documentElement.clientWidth||document.body.clientWidth) - box.offsetWidth;
+            var maxT = (document.documentElement.clientHeight||document.body.clientHeight) - box.offsetHeight;
+            //如果超出范围就给l和t重新赋值,如果l比最小值还小那么重新赋值为最小值，否则就是比最大值还大那么重新赋值为最大值。如果都不符合就是自己
+            l = l < minL ? minL : l > maxL ? maxL : l;
+            t = t < minT ? minT : t > maxT ? maxT : t;
+            box.style.left = l + 'px';
+            box.style.top = t + 'px';
+        }
+        document.onmouseup = function (e){
+            box.releaseCapture ? box.releaseCapture() : void 0;
+            this.onmousemove = null;
+            this.onmouseup = null;
+        }
+        //如果能使用setCapture就使用这个，如果不能使用
+        box.setCapture ? this.setCapture() : void 0; //ie和firefox
+    }
+</script>
