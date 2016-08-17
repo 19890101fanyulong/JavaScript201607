@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript">
+    //->创建一个AJAX对象(在IE6及更低版本的浏览器中是不兼容的)
+    var xhr = new XMLHttpRequest;
+
+    //->打开一个请求的URL和指定一些参数
+    //xhr.open([HTTP METHOD],[URL],[sync/async],[user name],[user pass])
+    xhr.open("get", "/qianduan/temp.txt?name=zhufeng&age=13", true);
+
+    //->客户端设置请求头信息
+    xhr.setRequestHeader("haha", "heihei");
+
+    //->当AJAX状态改变的时候触发事件,执行对应绑定的函数
+    xhr.onreadystatechange = function () {
+        //->获取响应头信息
+        //xhr.getResponseHeader();
+
+        //->获取服务器的时间(响应头信息接收完成 -> xhr.readyState===2)
+        if (xhr.readyState === 2) {
+            var serverTime = xhr.getResponseHeader("Date");//->这样直接获取的时间是格林尼治时间(GMT) 北京时间是GMT+0800，并且数据格式是一个字符串
+            console.log(new Date(serverTime));//->把获取的服务器时间转换为标准的北京时间
+            console.log(xhr.getResponseHeader("test"));
+        }
+
+        if (xhr.readyState === 4 && /^2\d{2}$/.test(xhr.status)) {
+            var con = xhr.responseText;
+            console.log(con);
+        }
+    };
+
+    //->发送AJAX请求:只有执行SEND,AJAX请求才开始,然后等到XHR.READYSTATE等于4的时候才算结束->HTTP事物
+    xhr.send(null);
+
+
+</script>
+</body>
+</html>

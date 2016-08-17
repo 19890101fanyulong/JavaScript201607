@@ -1,0 +1,78 @@
+NODE
+->HTTP模块
+  var s1=http.createServer([function]) 创建一个服务(S1),当客户端向这个服务发送请求的时候,我们执行回调函数,并且给回调函数传递两个参数值:
+    request(请求):
+      存储了当前客户端的请求信息
+        1)request.url:存储了客户端请求的URL地址(请求资源文件的目录名称、问号传参、HASH值...)
+        例如：我们客户端请求的地址是'http://192.168.1.100/qianduan/index.html?name=zxt&age=26' ; 在这里获取到的结果是'/qianduan/index.html?name=zxt&age=26'
+
+
+    response(响应):
+      为服务端提供一系列的方法，让服务端可以把内容和数据返回给客户端
+      1)response.writeHead([status],[responseHeader]) 重写响应头信息 告诉客户端服务端给其返回的数据内容是什么格式的(指定返回数据的MIME类型)
+      2)response.write([content]):服务端通过此方法可以向客户端返回相关的数据和内容(返回的数据和内容一般来说都是字符串格式的)
+      3)response.end:服务端结束向客户端的内容返回操作(响应结束)
+
+
+  s1.listen([port],[function]) 给创建的服务监听一个端口号[port],当端口号监听成功触发回调函数执行,我们一般都会在回调函数中输出一句话提示服务创建成功
+
+
+->URL模块
+  var obj=url.parse([url string],[true/false]) 解析指定URL地址中的信息,第二个参数默认是false,如果写成true,会把query这个字段中的信息解析成对象键值对的方式进行存储
+
+  例如：
+  url.parse("http://192.168.1.100:80/qianduan/index.html?name=zxt&age=26#zf");
+  Url {
+    protocol: 'http:', ->协议
+    slashes: true, ->是否有斜线
+    auth: null,
+    host: '192.168.1.100:80', ->域名或者IP及端口号
+    port: '80', ->端口号
+    hostname: '192.168.1.100', ->域名或者IP
+    hash: '#zf', ->哈希值
+    search: '?name=zxt&age=26', ->问号传递进来的参数值(带问号)
+    query: 'name=zxt&age=26', ->问号传递进来的参数值(不带问号)
+    pathname: '/qianduan/index.html', ->请求资源文件的路径和名称
+    path: '/qianduan/index.html?name=zxt&age=26',
+    href: 'http://192.168.1.100:80/qianduan/index.html?name=zxt&age=26#zf'
+  }
+
+  第二个参数传递为TRUE
+  url.parse("http://192.168.1.100:80/qianduan/index.html?name=zxt&age=26#zf",true);
+  Url {
+    ...
+    query: { name: 'zxt', age: '26' },
+    pathname: '/qianduan/index.html',
+    ...
+  }
+
+->FS模块
+  fs.readFileSync([pathname],[encoding]) 同步读取指定路径下某一个文件的内容(同步读取说明只有把内容读取出来后才能继续做下面的事情)
+
+  fs.writeFileSync([pathname],[content],[encoding]) 同步向某一个文件中写入内容(如果文件不存在会默认创建一个新的文件)
+
+  =>不管是读取还是写入,读取出来的内容是一个字符串,写入进去的内容也是一个字符串
+
+
+
+
+
+->发送请求
+  http://localhost:80/qianduan/index.html   (通过LOCALHOST)
+  http://192.168.1.100:80/qianduan/index.html (通过IP地址)
+  如果当前所有的人都在同一个局域网下(DNS地址都一样,或者是连接的是同一个WIFI),不仅在自己的电脑上通过输入IP地址可以访问到刚才创建的服务,而且局域网中的小伙伴们也可以通过这个IP访问到你的服务(如果不能访问的话,请关闭电脑的防火墙)
+
+  课后回去实战练习一下
+
+->MIME类型
+  每一种资源文件都会有自己的MIME类型,浏览器会根据类型进行解析渲染
+  TXT  -> text/plain
+  HTML -> text/html
+  CSS  -> text/css
+  JS   -> text/javascript
+  JSON -> application/json
+  JPG  -> image/jpeg
+  PNG  -> image/png
+  ...
+
+
