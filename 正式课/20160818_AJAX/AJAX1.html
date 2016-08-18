@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+    //    var xhr = createXHR();
+    //    xhr.open("get", "json/data.json?_=" + Math.random(), true);
+    //    xhr.onreadystatechange = function () {
+    //        if (!/^2\d{2}$/.test(xhr.status)) return;
+    //        var state = xhr.readyState;
+    //        if (state === 2) {
+    //            console.log(new Date(xhr.getResponseHeader("Date")));
+    //            return;
+    //        }
+    //        if (state === 4) {
+    //            console.log(xhr.responseText);
+    //        }
+    //    };
+    //    xhr.send(null);
+
+    //xhr.send('{"lx":1,"h":2}');//->如果当前的请求是POST请求,传递给服务器的数据都付昂在请求主体中,SEND传递的参数值就是通过请求主体传递给服务器(一般传递给服务器的都是JSON格式的字符串)
+
+    //->异步
+    //    var xhr = createXHR();
+    //    xhr.open("get", "json/data.json?_=" + Math.random(), true);
+    //    xhr.onreadystatechange = function () {
+    //        console.log(xhr.readyState);//->2 3 4
+    //    };
+    //    xhr.send(null);
+
+    //    var xhr = createXHR();
+    //    xhr.open("get", "json/data.json?_=" + Math.random(), true);
+    //    xhr.send(null);
+    //    xhr.onreadystatechange = function () {
+    //        console.log(xhr.readyState);//->2 3 4
+    //    };
+
+    //->同步
+    //    var xhr = createXHR();
+    //    xhr.open("get", "json/data.json?_=" + Math.random(), false);
+    //    xhr.onreadystatechange = function () {
+    //        console.log(xhr.readyState);//->4
+    //    };
+    //    xhr.send(null);
+
+    //    var xhr = createXHR();
+    //    xhr.open("get", "json/data.json?_=" + Math.random(), false);
+    //    xhr.send(null);
+    //    //->在执行55行的时候,说明当前的readyState===4
+    //    xhr.onreadystatechange = function () {
+    //        console.log(xhr.readyState);//->一次都不会输出
+    //    };
+
+
+    ajax({
+        url: 'json/data.json',
+        type: 'get',
+        dataType: 'json',
+        data: null,
+        async: false,
+        success: function (data) {
+            //->data:AJAX请求回来的内容
+            console.log(data);
+        }
+    });
+
+</script>
+</body>
+</html>

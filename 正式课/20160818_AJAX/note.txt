@@ -1,0 +1,25 @@
+->当前的AJAX只有执行SEND之后,这件事情(请求数据这件事情)才算开始,此时后续的所有操作都是由HTTP和服务器端处理的:HTTP把内容传递给服务器,服务器准备数据,HTTP在把准备好的数据返回给客户端(在readyState===2的时候先返回响应头内容,readyState===4的时候响应主体内容才返回)，只有当响应主体内容返回当前AJAX这件事才算完成
+
+->当执行SEND之后,JS中的线程就空闲下来了
+  同步:即使空闲也不做其它的事情,只有当readyState===4的时候,也就是AJAX彻底完成才会做其它的事情
+  异步:空闲的时候先做其它的事情,等其它的事情做完了,然后在看看AJAX有没有结束,结束了在把响应主体的内容获取到
+
+[例子1]
+var xhr = createXHR();
+xhr.open("get", "URL", true);//->异步
+xhr.onreadystatechange = function () {
+    var state = xhr.readyState;
+    if (state === 2) {
+        console.log(new Date(xhr.getResponseHeader("Date")));
+        return;
+    }
+    if (state === 4) {
+        console.log(xhr.responseText);
+    }
+};
+//->readyState:1  AJAX结束readyState:4
+xhr.send(null);
+
+while (1) {
+    //->AJAX采用异步,当SEND后不等,执行死循环,JS中的线程被死循环占用了,即使AJAX完成了也不会把内容输出
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript">
+    //->JS是单线程的
+    //->JS中即存在同步也存在异步
+
+    //->JS中的异步编程:定时器、所有的事件绑定都是异步编程、回调函数也可以理解为异步编程、AJAX中也可以设置异步编程
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        console.log(++n);//->2) 1
+    //    }, 10);
+    //    console.log(n);//->1) 0
+
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        console.log(++n);//->2) 1
+    //    }, 0);//->定时器的等待时间写0不是立马执行,每个浏览器默认都有最小的等待时间(谷歌5~6ms IE10~13ms)
+    //    console.log(n);//->1) 0
+
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        console.log(++n);//->2) 10000001
+    //    }, 0);
+    //    for (var i = 0; i < 10000000; i++) {
+    //        n++;
+    //    }
+    //    console.log(n);//->1) 10000000
+
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        console.log(++n);//->
+    //    }, 0);
+    //    while (1) {
+    //
+    //    }
+    //    console.log(n);//->
+
+    //-> 5 8 10
+    //    var n = 0;
+    //    window.setTimeout(function () {
+    //        n = 8;
+    //        console.log(n);
+    //    }, 8);
+    //    window.setTimeout(function () {
+    //        n = 10;
+    //        console.log(n);
+    //    }, 10);
+    //    window.setTimeout(function () {
+    //        n = 5;
+    //        console.log(n);
+    //    }, 5);
+    //    var i = 0;
+    //    while (i < 10000000) {
+    //        i++;
+    //    }
+</script>
+</body>
+</html>
