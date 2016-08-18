@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <link charset="utf-8" type="text/css" rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+<div class="box2">
+    <div>
+        <span>姓名:</span>
+        <input type="text" id="userName"/>
+    </div>
+    <div>
+        <span>年龄:</span>
+        <input type="text" id="userAge"/>
+    </div>
+    <div>
+        <span>电话:</span>
+        <input type="text" id="userPhone"/>
+    </div>
+    <div>
+        <span>地址:</span>
+        <input type="text" id="userAddress"/>
+    </div>
+    <a href="javascript:;" class="submit" id="submit">提交</a>
+</div>
+
+<script charset="utf-8" type="text/javascript" src="js/ajax.js"></script>
+<script charset="utf-8" type="text/javascript">
+    var controlRender = (function () {
+        var userName = document.getElementById('userName'),
+                userAge = document.getElementById('userAge'),
+                userPhone = document.getElementById('userPhone'),
+                userAddress = document.getElementById('userAddress'),
+                submit = document.getElementById('submit');
+
+        //->给我们的提交按钮绑定点击事件
+        function bindEvent() {
+            submit.onclick = function () {
+                var obj = {
+                    "name": userName.value,
+                    "age": userAge.value,
+                    "phone": userPhone.value,
+                    "address": userAddress.value
+                };
+
+                //->SEND AJAX
+                ajax({
+                    url: '/addInfo',
+                    type: 'post',
+                    data: JSON.stringify(obj),
+                    success: function (jsonData) {
+                        if (jsonData && jsonData['code'] == 0) {
+                            //->增加成功后跳转回首页
+                            window.location.href = 'index.html';
+                        }
+                    }
+                });
+            }
+        }
+
+        return {
+            init: function () {
+                bindEvent();
+            }
+        }
+    })();
+    controlRender.init();
+</script>
+</body>
+</html>

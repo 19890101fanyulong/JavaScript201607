@@ -37,13 +37,14 @@ function createXHR() {
 function ajax(options) {
     //->init parameter
     var _default = {
-        url: null,
-        type: 'get',
-        dataType: 'json',
-        async: true,
-        data: null,
-        success: null
+        url: null,//->请求的URL地址
+        type: 'get',//->请求的方式
+        dataType: 'json',//->请求回来的数据内容格式,默认是JSON格式的对象(如果写的是JSON,需要在AJAX中把请求回来的字符串转换为JSON格式的对象)
+        async: true,//->采用同步还是异步
+        data: null,//->设置请求主体中的内容(传递进来的是字符串)
+        success: null//->请求成功后执行的回调函数
     };
+    //->把用户自己传递进来的某些属性的参数值覆盖默认的参数值,这样_default容纳了我们所需要的所有的参数
     for (var key in options) {
         if (options.hasOwnProperty(key)) {
             _default[key] = options[key];
@@ -52,17 +53,28 @@ function ajax(options) {
 
     //->SEND AJAX
     var xhr = createXHR();
+
+    //->如果当前的请求是GET,我们需要清除缓存:判断之前的URL是否存在问号,有的话用&_=,没有的话用?_=,后面把随机数拼接进去即可
     if (_default.type === 'get') {
         var code = _default.url.indexOf('?') > -1 ? '&' : '?';
         _default.url += code + '_=' + Math.random();
     }
+
     xhr.open(_default.type, _default.url, _default.async);
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && /^2\d{2}$/.test(xhr.status)) {
             var text = xhr.responseText;
+
+            //->如果设定dataType='json'的话,我们需要把获取的数据转换为JSON格式的对象
             if (_default.dataType === 'json') {
                 text = "JSON" in window ? JSON.parse(text) : eval('(' + text + ')');
             }
+
+            //->执行我们传递进来的回掉函数,并且把AJAX获取的结果赋值给回调函数
+            //if (typeof _default.success === 'function') {
+            //    _default.success.call(xhr, text);
+            //}
             _default.success && _default.success.call(xhr, text);
         }
     };
