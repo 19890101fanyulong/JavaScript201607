@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<!--<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="http://imgcache.qq.com/bossweb/ipay/js/api/cashier.js"></script>-->
+<script type="text/javascript">
+    function getHotMatchList(data) {
+        console.log(data);
+    }
+</script>
+<script type="text/javascript" src="http://matchweb.sports.qq.com/kbs/hotMatchList?callback=getHotMatchList"></script>
+<!--
+腾讯服务器返回的内容:
+getHotMatchList({"code":0,"data":...})
+-->
+<script type="text/javascript">
+    console.log("ok");//->2) 'ok'
+</script>
+<!--JSONP都是同步请求的:当JSONP请求开始,到服务器端把数据返回,中间不能做任何的事情,只有服务器把数据返回并且在客户端把对应的方法执行后，才可以进行下面的事情-->
+<!--获取之后按照课时152我们复习JSONP的原理-->
+</body>
+</html>

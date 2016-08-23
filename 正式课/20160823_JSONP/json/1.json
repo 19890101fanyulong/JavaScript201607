@@ -1,0 +1,71 @@
+//->http://service.lagou.com/hotword
+{
+  "hotwords": [
+    {
+      "text": "C++",
+      "url": "http://www.lagou.com/zhaopin/C++/?labelWords\u003dlabel",
+      "isHighLight": true,
+      "linkTarget": "_self",
+      "weight": 78
+    },
+    {
+      "text": "前端开发",
+      "url": "http://www.lagou.com/zhaopin/qianduankaifa/?labelWords\u003dlabel",
+      "isHighLight": true,
+      "linkTarget": "_self",
+      "weight": 77
+    },
+    {
+      "text": "iOS",
+      "url": "http://www.lagou.com/zhaopin/iOS/?labelWords\u003dlabel",
+      "isHighLight": true,
+      "linkTarget": "_self",
+      "weight": 76
+    },
+    {
+      "text": "理想之上",
+      "url": "http://activity.lagou.com/activity/dist/aboveIdeal/online/PC/index_cd.html",
+      "isHighLight": true,
+      "linkTarget": "_self",
+      "weight": 59
+    },
+    {
+      "text": "技术经理",
+      "url": "http://www.lagou.com/zhaopin/jishujingli/?labelWords\u003dlabel",
+      "isHighLight": true,
+      "linkTarget": "_self",
+      "weight": 44
+    },
+    {
+      "text": "电台类的好工作",
+      "url": "http://activity.lagou.com/topic/citydiantai.html",
+      "isHighLight": true,
+      "linkTarget": "_self",
+      "weight": 43
+    },
+    {
+      "text": "专属T恤",
+      "url": "http://t.lagouevents.com/",
+      "isHighLight": true,
+      "linkTarget": "_self",
+      "weight": 43
+    },
+    {
+      "text": "测试",
+      "url": "http://www.lagou.com/zhaopin/ceshi",
+      "isHighLight": true,
+      "weight": 39
+    },
+    {
+      "text": "拉勾APP",
+      "url": "http://www.lagou.com/app/download.html?source\u003dsearch_app",
+      "isHighLight": true,
+      "weight": 1
+    }
+  ],
+  "recommendSearchWord": {
+    "text": "架构师",
+    "url": "http://www.lagou.com/zhaopin/jiagoushi/?labelWords\u003dlabel",
+    "isHighLight": false
+  }
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            color: #000;
+            font-size: 14px;
+            font-family: Helvetica, Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        input {
+            display: block;
+            outline: none;
+        }
+
+        .search {
+            margin: 20px auto;
+            width: 300px;
+        }
+
+        .search .searchInp {
+            padding: 0 10px;
+            width: 278px;
+            height: 30px;
+            border: 1px solid green;
+        }
+
+        .search .searchList {
+            display: none;
+            border: 1px solid green;
+            border-top: none;
+        }
+
+        .search .searchList li {
+            padding: 0 10px;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .search .searchList li:hover {
+            background: #EEE;
+        }
+    </style>
+</head>
+<body>
+<!--
+    经过在百度页面的控制台中分析查找出来的API地址:
+    https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=用户在文本框中输入的内容&cb=jQuery110205963538683990863_1471939099567&_=1471939099569
+-->
+<div class="search">
+    <input type="text" class="searchInp" id="searchInp"/>
+    <ul class="searchList">
+        <!-- <li></li>
+         <li></li>
+         <li></li>
+         <li></li>-->
+    </ul>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+    var searchRender = (function () {
+        var $searchInp = $("#searchInp"),
+                $searchList = $(".searchList");
+
+        //->SEND JSONP GET DATA AND BIND HTML
+        function bindHTML() {
+            var val = $searchInp.val();
+            $.ajax({
+                url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + val,
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'cb',
+                success: function (data) {
+                    if (data && data['s'].length > 0) {
+                        var result = data['s'],
+                                str = '';
+                        $.each(result, function (index, item) {
+                            if (index < 4) {
+                                str += '<li>' + item + '</li>';
+                            }
+                        });
+                        $searchList.html(str).stop().slideDown(200);
+                        return;
+                    }
+                    //->我们传递给百度的关键词没有对应的匹配记录
+                    $searchList.html('').stop().slideUp(200);
+                }
+            });
+        }
+
+        return {
+            init: function () {
+                //->当文本框输入内容的时候或者文本框获取光标的时候,首先判断文本框中是否存在内容,存在话执行跨域请求这套方案,没有内容的话,隐藏搜索列表
+                $searchInp.on('focus keyup', function () {
+                    var val = $(this).val();
+                    if (val.length === 0) {
+                        $searchList.stop().slideUp(200);
+                        return;
+                    }
+                    bindHTML();
+                });
+
+                //->应用事件委托实现搜索列表的消失
+                $(document).on('click', function (ev) {
+                    var tar = ev.target,
+                            tarTag = tar.tagName.toUpperCase(),
+                            $tar = $(tar);
+                    //->SEARCHLIST LI
+                    if (tarTag === 'LI' && $tar.parent().hasClass('searchList')) {
+                        $searchInp.val($tar.html());
+                        $searchList.stop().slideUp(200);
+                        return;
+                    }
+
+                    //->INPUT
+                    if (tarTag === 'INPUT' && tar.id === 'searchInp') {
+                        return;
+                    }
+
+                    //->OTHERS
+                    $searchList.stop().slideUp(200);
+                });
+            }
+        }
+    })();
+    searchRender.init();
+</script>
+</body>
+</html>

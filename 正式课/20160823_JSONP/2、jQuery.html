@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<!--
+  当我们用WebStorm预览当前页面的时候,WB会默认的创建一个服务'http://localhost:63342/',我们可以在这个服务下请求静态资源文件中的内容,WB创建的服务会把我们请求资源文件中的源代码返回给客户端的浏览器进行渲染
+  ==>和我们自己之前写的server.js中创建服务，监听端口，处理静态资源文件的请求这些操作相同
+-->
+<script type="text/javascript">
+    //    $.ajax({
+    //        url: 'json/data.json',
+    //        type: 'get',
+    //        dataType: 'text',//->响应数据的类型 text:文本字符串 json:JSON格式的对象
+    //        data: {"a": 12},//->在POST请求中,通过请求主体传递给服务器的内容都放在DATA中;不仅如此,如果我们使用的是GET请求,JQ会默认的把属性名属性值放在URL的后面通过问号传参的方式传递给服务器;
+    //        async: true,
+    //        cache: false,//->默认是TRUE不处理缓存,设置为FALSE会在请求的URL地址后面追加一个随机数,用来清除GET请求中的缓存
+    //        timeout: 3000,//->设置请求的超时时间
+    //        success: function (val) {//->请求成功就触发本回调函数执行,val就是我们获取的数据内容
+    //            console.log(val);
+    //        },
+    //        error: function () {//->请求失败就触发本回调函数执行
+    //
+    //        }
+    //    });
+
+    //    function callback(data) {
+    //        console.log(data);
+    //    }
+    //    $.ajax({
+    //        url: 'json/data.json',
+    //        type: 'get',
+    //        dataType: 'json',
+    //        cache: false,
+    //        success: callback
+    //    });
+</script>
+<script type="text/javascript">
+    //->JSONP
+    //    function callback(data) {
+    //        console.log(data);
+    //    }
+    //    $.ajax({
+    //        url: 'http://matchweb.sports.qq.com/kbs/hotMatchList',
+    //        type: 'get',
+    //        dataType: 'jsonp',//->DATA TYPE的值是TEXT/JSON都属于AJAX,换成JSONP就属于跨域请求了
+    //        success: callback
+    //    });
+    //->JQ中的跨域请求,JQ本身会默认的创建一个随机函数,然后通过?callback=函数名的方式传递给服务器，例如：http://matchweb.sports.qq.com/kbs/hotMatchList?callback=jQuery111302275489928095713_1471937975441&_=1471937975442
+    //->JSONP都是GET请求,所以JQ会在请求地址的末尾自动追加随机数(不需要自己设置CACHE:FALSE)
+
+    function zhufeng(data) {
+        console.log(data);
+    }
+    $.ajax({
+        url: 'http://matchweb.sports.qq.com/kbs/hotMatchList',
+        type: 'get',
+        dataType: 'jsonp',
+        //jsonp: 'cb',//->修改传递函数名的那个问号传参中的属性名,JQ默认是CALLBACK,我们可以通过此属性进行修改
+        jsonpCallback: 'zhufeng'//->修改传递给服务器的函数的名称,JQ默认会生成一个随机的函数jQuery111302275489928095713_1471937975441,我们通过此属性可以修改函数的名字
+    });
+    //->http://matchweb.sports.qq.com/kbs/hotMatchList?callback=zhufeng&_=1471938428329
+    //->zhufeng({....}) 和原生的JSONP原理一模一样,我们传递给服务器的函数名是多少,服务器返回的结果就是“函数名(数据)” 相当于让我们自己定义的ZHUFENG方法执行,这样的话就不在需要SUCCESS这个属性了
+
+    //思考题：回去后把JQ的AJAX/JSONP中需要配置的属性及作用列一份清单(常用的+不是很常用的)以及除了$.ajax实现跨域外,在JQ中还有没有其他的方法实现跨域
+</script>
+</body>
+</html>

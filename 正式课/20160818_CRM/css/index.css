@@ -82,6 +82,12 @@ input {
     float: left;
 }
 
+.box .control a {
+    display: inline-block;
+    margin: 0 5px;
+    text-align: center;
+}
+
 /*CSS3新增加的选择器实现隔行变色*/
 .box li:nth-child(even) {
     background: #EEE;

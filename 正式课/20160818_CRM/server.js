@@ -89,6 +89,60 @@ var server1 = http.createServer(function (request, response) {
         });
         return;
     }
+
+    //4)修改客户信息
+    if (pathname === '/updateInfo') {
+        str = '';
+        request.on('data', function (chunk) {
+            str += chunk;
+        });
+        request.on('end', function () {
+            var data = JSON.parse(str),
+                flag = false;
+            for (var i = 0; i < customData.length; i++) {
+                if (data['id'] == customData[i]['id']) {
+                    customData[i] = data;
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                fs.writeFileSync('./json/custom.json', JSON.stringify(customData), 'utf-8');
+                result = {
+                    code: 0,
+                    msg: '成功'
+                };
+            }
+            response.writeHead(200, {'content-type': 'application/json;charset=utf-8;'});
+            response.end(JSON.stringify(result));
+        });
+        return;
+    }
+
+    //5)删除客户信息
+    if (pathname === '/removeInfo') {
+        customId = query['customId'];
+        var flag = false;
+        customData.forEach(function (item, index) {
+            if (item['id'] == customId) {
+                customData.splice(index, 1);
+                flag = true;
+            }
+        });
+        if (flag) {
+            fs.writeFileSync('./json/custom.json', JSON.stringify(customData), 'utf-8');
+            result = {
+                code: 0,
+                msg: '成功'
+            };
+        }
+        response.writeHead(200, {'content-type': 'application/json;charset=utf-8;'});
+        response.end(JSON.stringify(result));
+        return;
+    }
+
+    response.writeHead(404, {'content-type': 'text/plain;charset=utf-8;'});
+    response.end('request url is not found!');
 });
 server1.listen(80, function () {
     console.log("server is success,listening on 80 port!");
