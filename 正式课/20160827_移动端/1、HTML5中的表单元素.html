@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训</title>
+    <style type="text/css">
+        /*input {
+            outline: none;
+        }
+
+        #userEmailTwo:valid {
+            border: 1px solid green;
+        }
+
+        #userEmailTwo:invalid {
+            border: 1px solid red;
+        }*/
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            color: #000;
+            font-size: 14px;
+            font-family: Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        input {
+            display: inline-block;
+            outline: none;
+        }
+
+        .box {
+            position: relative;
+            margin: 20px auto;
+            width: 200px;
+        }
+
+        .box input, .box .tip {
+            padding: 0 5px;
+            width: 188px;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #CCC;
+        }
+
+        .box .tip {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #CCC;
+            cursor: text;
+        }
+
+    </style>
+</head>
+<body>
+<!--<input type="radio" name="sex" value="man" id="sexMan" checked/><label for="sexMan">男</label>
+<input type="radio" name="sex" value="woman" id="sexWoman"/><label for="sexWoman">女</label>
+<input type="submit" id="submit"/>
+<script type="text/javascript">
+    var submit = document.getElementById('submit'),
+            sexMan = document.getElementById('sexMan'),
+            sexWoman = document.getElementById('sexWoman');
+    submit.onclick = function () {
+        var sexType = 0;
+        !sexMan.checked ? sexType = 1 : null;
+        console.log(sexType);
+    };
+    sexMan.onchange = sexWoman.onchange = function () {
+        console.log(this.value);
+    };
+</script>-->
+
+<!--<input type="checkbox" name="hobby" value="游泳" id="swim"/><label for="swim">游泳</label>
+<input type="checkbox" name="hobby" value="唱歌" id="sing"/><label for="sing">唱歌</label>
+<input type="checkbox" name="hobby" value="爬山" id="climb"/><label for="climb">爬山</label>
+<input type="checkbox" name="hobby" value="摄影" id="photo"/><label for="photo">摄影</label>
+<input type="checkbox" name="hobby" value="敲代码" id="code"/><label for="code">敲代码</label>
+<input type="submit" id="submit"/>
+<script type="text/javascript">
+    var submit = document.getElementById('submit'),
+            hobbyList = document.getElementsByName('hobby');
+    submit.onclick = function () {
+        for (var i = 0; i < hobbyList.length; i++) {
+            var curHobby = hobbyList[i];
+            if (curHobby.checked) {
+                console.log(curHobby.value);
+            }
+        }
+    }
+</script>-->
+<!--<input type="file"/>-->
+
+<!--<input type="number" id="number" style="width: 50px; text-align: center;" value="25" disabled/>
+<input type="range" id="range" min="18" max="65" step="1" value="25"/>
+<script type="text/javascript">
+    var range = document.getElementById('range'),
+            number = document.getElementById('number');
+    range.oninput = function () {
+        number.value = this.value;
+    }
+</script>-->
+
+<!--
+<input type="text" id="userEmailFir"/><br/><br/>
+<input type="email" id="userEmailTwo"/>
+<script type="text/javascript">
+    ~function (pro) {
+        function myTrim() {
+            return this.replace(/^ +| +$/g, '');
+        }
+
+        pro.myTrim = myTrim;
+    }(String.prototype);
+
+    var userEmailFir = document.getElementById('userEmailFir'),
+            userEmailTwo = document.getElementById('userEmailTwo');
+    userEmailFir.onblur = function () {
+        var val = this.value.myTrim();
+        var reg = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        if (!reg.test(val)) {
+            console.log('邮箱格式不正确!');
+        }
+    };
+    userEmailFir.onkeyup = function () {
+        var val = this.value.myTrim();
+        var reg = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        if (!reg.test(val)) {
+            this.style.border = '1px solid red';
+        } else {
+            this.style.border = '1px solid green';
+        }
+    };
+
+
+    userEmailTwo.onblur = function () {
+        var val = this.value.myTrim();
+        if (!this.checkValidity()) {
+            console.log('邮箱格式不正确!');
+        }
+    };
+</script>
+-->
+
+<!--<div class="box">
+    &lt;!&ndash;placeholder="请输入您常用的邮箱!"&ndash;&gt;
+    <input type="email" id="userEmail" placeholder="请输入您常用的邮箱!"/>
+    <span class="tip" id="tipEmail">请输入您常用的邮箱!</span>
+</div>
+<script type="text/javascript">
+    if (navigator.userAgent.indexOf('MSIE') > -1) {
+        var userEmail = document.getElementById('userEmail'),
+                tipEmail = document.getElementById('tipEmail');
+        userEmail.placeholder = '';
+        tipEmail.style.display = 'block';
+        tipEmail.onclick = function () {
+            userEmail.focus();
+        };
+        userEmail.onkeydown = userEmail.onkeyup = userEmail.onfocus = function () {
+            tipEmail.style.display = this.value.length === 0 ? 'block' : 'none';
+        };
+    }
+</script>-->
+
+<!--<select>
+    <option>珠峰培训</option>
+    <option>珠峰培训怎么样</option>
+    <option>珠峰培训前端就业非常好</option>
+    <option>珠峰培训学费怎么收</option>
+</select>
+<input type="search" id="searchInp" list="searchList"/>
+<datalist id="searchList">
+    <option>珠峰培训</option>
+    <option>珠峰培训怎么样</option>
+    <option>珠峰培训前端就业非常好</option>
+    <option>珠峰培训学费怎么收</option>
+</datalist>-->
+
+<script type="text/javascript">
+    /*
+     * PC端表单元素常用的事件都有哪些：click、change、focus、blur、keydown、keyup...
+     * 移动端表单元素的事件：在移动端没有keydown、keyup事件(当然有的手机是识别的)，因为移动端使用的键盘是虚拟的键盘；移动端多了一个事件类型：input事件；
+     */
+
+    /*
+     * 传统INPUT表单的类型：text、password、submit、reset、button、radio、checkbox、file、hidden...
+     * HTML5中给INPUT新增加了一些类型：search、url、email、tel、number、range、color、date、time、dataTime...
+     * 作用：
+     *  ->提供了更加强大的功能,方便我们的开发
+     *  ->在移动端使用对应的INPUT类型,当用户输入的时候可以调取出对应的虚拟键盘,方便用户的快速输入(这个是HTML5表单新类型最核心的作用)
+     *  ->相对于传统的表单类型提供了新的验证方式：
+     *    JS中新提供的是input.checkValidity()
+     *    CSS中新提供的是input:valid / input:invalid
+     *
+     * HTML5除了给INPUT新增加类型外，还新增加一个常用的属性：placeholder，用来给文本框设置默认提示信息的，但是在IE浏览器中支持的不是特别好
+     *
+     * HTML5还提供了一些新的表单元素:dataList、progress...
+     */
+</script>
+</body>
+</html>

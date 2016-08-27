@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /*.box {
+            margin: 0 auto;
+            width: 300px;
+            height: 150px;
+            background: green;
+        }*/
+
+        .box {
+            margin: 0 10px;
+            height: 150px;
+            background: url("banner.jpg") no-repeat;
+            background-size: cover;
+            border: 5px solid black;
+        }
+
+        @media all and (-webkit-device-pixel-ratio: 2) {
+            .box {
+                background: url("banner@2x.jpg") no-repeat;
+                background-size: cover;
+                border: 5px solid red;
+            }
+        }
+
+        @media all and (-webkit-device-pixel-ratio: 3) {
+            .box {
+                background: url("banner@3x.jpg") no-repeat;
+                background-size: cover;
+                border: 5px solid green;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+
+
+</body>
+</html>
