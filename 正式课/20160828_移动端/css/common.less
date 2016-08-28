@@ -1,0 +1,27 @@
+@color : #555;
+@color-white: #FFF;
+
+.transform-scale(@val:1) {
+  -webkit-transform+_: scale(@val);
+  -moz-transform+_: scale(@val);
+  -ms-transform+_: scale(@val);
+  -o-transform+_: scale(@val);
+  transform+_: scale(@val);
+}
+
+.transition(@property:all,@duration:1s,@time-function:linear,@delay:0s) {
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+  -ms-transition: @arguments;
+  -o-transition: @arguments;
+  transition: @arguments;
+}
+
+.center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}

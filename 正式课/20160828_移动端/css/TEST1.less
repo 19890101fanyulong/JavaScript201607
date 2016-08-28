@@ -1,0 +1,53 @@
+@color : #555;
+@color-white: #FFF;
+
+.transform-scale(@val:1) {
+  -webkit-transform: scale(@val);
+  -moz-transform: scale(@val);
+  -ms-transform: scale(@val);
+  -o-transform: scale(@val);
+  transform: scale(@val);
+}
+
+.transition(@property:all,@duration:1s,@time-function:linear,@delay:0s) {
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+  -ms-transition: @arguments;
+  -o-transition: @arguments;
+  transition: @arguments;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.box {
+  /*
+   *需要知道盒子具体的宽度和高度,只有这样才能计算出对应的MARGIN值(兼容所有的浏览器)
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -100px;*/
+
+  /*这种方式可以不需要知道具体的宽度高度(不兼容IE的低版本浏览器)*/
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+
+  width: 200px;
+  height: 200px;
+  border: 1px solid @color;
+  background: #007aff;
+  .transition(@duration: .3s);
+
+  &:hover {
+    .transform-scale(1.5);
+    background: lighten(#007aff, 20%);
+  }
+}
+

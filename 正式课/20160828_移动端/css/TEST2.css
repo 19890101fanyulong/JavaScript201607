@@ -1,0 +1,155 @@
+/*
+.public {
+  width: 100px;
+  height: 100px;
+}
+
+/!*征用:把原有的样式克隆一份一模一样的拿过来使用,如果PUBLIC加上括号,PUBLIC本身不编译*!/
+.box1 {
+  .public;
+}
+
+/!*公用:和原来的选择器公用一套样式,但是需要保证原来的选择器不加括号*!/
+.box2 {
+  &:extend(.public);
+}
+
+.box3:extend(.public) {
+
+}*/
+/*
+.public() {
+  width: 100px;
+  height: 100px;
+
+  .link {
+    width: 200px;
+    height: 200px;
+  }
+
+  &:hover {
+    background: #EEE;
+  }
+}
+
+.box {
+  .public !important; /!*把public及子孙元素的样式都继承过来了*!/
+}
+*/
+/*.public(@x,@y) {
+  @result: @x+@y;
+}
+
+.box {
+  .public(10, 20);
+  z-index: @result;
+}*/
+/*.public(@x) when (@x<10) and (@x>0){
+  background: red;
+}
+
+.public(@x) when (iscolor(@x)) {
+  background: green;
+}
+
+.public(@x) when (isnumber(@x)) {
+  background: blue;
+}
+
+.box {
+  .public(5);
+}*/
+/*.public(@n,@i:1) when (@i<=@n) {
+  .box-@{i} {
+    & when (@i=1) {
+      width: 100px;
+    }
+
+    & when (@i=3) {
+      width: 100px;
+    }
+
+    & when (@i=2) {
+      width: 200px;
+    }
+
+    & when (@i=4) {
+      width: 200px;
+    }
+  }
+
+  .public(@n, @i+1);
+}
+.public(@n:4);*/
+/*.transform(@v:1) {
+  -webkit-transform+_: scale(@v);
+}
+
+.box {
+  .transform(1.5);
+}
+
+.box2 {
+  .transform(1.5);
+  -webkit-transform+_: rotate(45deg);
+}*/
+/*.box {
+  width: 100px;
+  height: 50px;
+  &-top {
+    font-size: 15px;
+  }
+}
+
+.box2 {
+  width: 100px;
+  height: 50px;
+  .link & {
+    font-size: 15px;
+  }
+}*/
+/*@import (reference) "common";
+.box {
+  .center;
+  width: 100px;
+  height: 100px;
+}*/
+/*-------------------------------------------------------*/
+/*@c: '#000';
+@url: '../img/swiper';
+@w100: 100px;*/
+/*.box {
+  /!*background: color(@c);*!/
+  /!*
+   data-uri:把我们需要使用的素材图片转换成BASE64编码,项目中尤其是移动端的项目,节省了图片的加载时间,是图片优化的一个手段; LESS对于大图片是不能转码,我们可以使用BASE64工具转码(tool.css-js.com);项目中慎用BASE64,当你在移动端项目中,有一些大图实在没有办法处理了的情况下在使用BASE64;
+  *!/
+  /!*background: data-uri('@{url}/page1-text1.png');*!/
+  width: unit(unit(@w100)-50, px);
+}*/
+/*@color: #000, #fff, #ccc, #eee;
+.box {
+  background: extract(@color, length(@color));
+}*/
+/*ceil、floor、percentage、round、sqrt、abs、pi、pow、sin、asin、cos、acos、tan、atan、mod(取余数 mod(4,2))、min、max*/
+.box {
+  width: 100px;
+  height: 100px;
+  background: #80e619;
+}
+.box:hover {
+  background: #73cf17;
+}
+/*
+ rgb(@red,@green,@blue)  rgba
+ hsl(@hue色相，饱和度 (saturation)，亮度 (lightness)) hsla
+
+ saturate(@value,20%) 增加饱和度
+ desaturate降低饱和度
+ lighten增加亮度
+ darken降低亮度
+
+ fadein增加透明度
+ fadeout降低透明度
+ fade设置透明度
+ greyscale完全移除饱和度 灰度
+*/

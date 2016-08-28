@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>珠峰培训-Swiper</title>
+    <link charset="utf-8" type="text/css" rel="stylesheet" href="css/reset.min.css"/>
+    <link charset="utf-8" type="text/css" rel="stylesheet" href="css/swiper.min.css"/>
+    <style type="text/css">
+        /*假设：设计稿是640 轮播图区域640*300*/
+        html {
+            font-size: 100px;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .swiper-container {
+            height: 3rem;
+            overflow: hidden;
+        }
+
+        .swiper-slide {
+            height: 3rem;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /*.swiper-pagination-bullet-active {
+            background: red;
+        }*/
+    </style>
+</head>
+<body>
+<section class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner1.jpg" class="swiper-lazy"/>
+
+            <div class="swiper-lazy-preloader"></div>
+        </div>
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner2.jpg" class="swiper-lazy"/>
+
+            <div class="swiper-lazy-preloader"></div>
+        </div>
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner3.jpg" class="swiper-lazy"/>
+
+            <div class="swiper-lazy-preloader"></div>
+        </div>
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner4.jpg" class="swiper-lazy"/>
+
+            <div class="swiper-lazy-preloader"></div>
+        </div>
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner5.jpg" class="swiper-lazy"/>
+
+            <div class="swiper-lazy-preloader"></div>
+        </div>
+    </div>
+    <div class="swiper-pagination"></div>
+</section>
+
+
+<script charset="utf-8" type="text/javascript" src="js/swiper.min.js"></script>
+<script charset="utf-8" type="text/javascript">
+    //->REM
+    ~function () {
+        var desW = 640,
+                winW = document.documentElement.clientWidth,
+                ratio = winW / desW;
+        document.documentElement.style.fontSize = ratio * 100 + 'px';
+    }();
+
+    //->初始化Swiper实现区域的滑动
+    //new Swiper([container selector],[settings])
+    var swiper1 = new Swiper('.swiper-container', {
+        loop: true, /*无缝衔接滚动*/
+        effect: 'slide',
+
+        autoplay: 3000,
+        autoplayDisableOnInteraction: false,
+
+        pagination: '.swiper-pagination',
+        /*paginationType: 'progress',*/
+
+        lazyLoading: true,
+        lazyLoadingInPrevNext: true,
+
+        onInit: function (swiper) {
+            //console.log(swiper instanceof Swiper);//->true
+        }
+    });
+</script>
+</body>
+</html>
