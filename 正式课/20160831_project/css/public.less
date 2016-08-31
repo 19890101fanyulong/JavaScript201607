@@ -1,0 +1,19 @@
+/*extract提取集合中的样式:黑色、灰色、白色、#DDD(边框颜色)*/
+@colorList: #000, #F4F4F4, #FFF, #DDD, #346AFF, #EFF3FF;
+@url: '../img';
+
+/*设置字体的方法*/
+.font(@v:14,@w:normal) {
+  font-size: unit(@v, px);
+  font-weight: @w;
+  font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+}
+
+/*设置TRANSITION过渡动画*/
+.transition(@property:all,@duration:1s,@time-function: linear,@delay: 0s) {
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+  -ms-transition: @arguments;
+  -o-transition: @arguments;
+  transition: @arguments;
+}

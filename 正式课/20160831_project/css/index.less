@@ -1,0 +1,179 @@
+@import (reference) "public";
+
+html, body {
+  width: 100%;
+  height: 100%;
+  color: extract(@colorList, 1);
+  background: extract(@colorList, 2);
+  overflow: hidden;
+}
+
+a {
+  color: extract(@colorList, 1);
+}
+
+a:hover, a:active {
+  color: extract(@colorList, 1);
+}
+
+.content {
+  margin: 0 auto;
+  width: 1040px;
+}
+
+/*--HEADER--*/
+.header {
+  @h: 63;
+  height: unit(@h, px);
+  background: extract(@colorList, 3);
+  border-bottom: 1px solid extract(@colorList, 4);
+
+  /*PUBLIC*/
+  h1, .nav {
+    float: left;
+  }
+
+  .login {
+    float: right;
+  }
+
+  /*LOGO*/
+  h1 {
+    margin: 0 60px 0 10px;
+    width: 160px;
+    font-size: 0;
+
+    a {
+      display: block;
+      height: unit(@h, px);
+      background: url("@{url}/kbs-logo.png") no-repeat left center;
+    }
+  }
+
+  /*NAV*/
+  .nav {
+    a {
+      position: relative;
+      float: left;
+      width: 90px;
+      height: unit(-8+@h, px);
+      line-height: unit(-8+@h, px);
+      text-align: center;
+      border: 4px solid transparent;
+      border-left: none;
+      border-right: none;
+      .font(@v:16,@w:700);
+
+      &:hover {
+        border-top-color: extract(@colorList, 5);
+        .downLoad, .downLoadBg {
+          height: 160px;
+        }
+      }
+
+      &.bg {
+        color: extract(@colorList, 3);
+        background: extract(@colorList, 5);
+      }
+
+      &.liveQQ {
+        width: unit(@h, px);
+        height: unit(@h, px);
+        border: none;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      /*下载*/
+      .downLoad, .downLoadBg {
+        position: absolute;
+        top: unit(-4+@h, px);
+        left: -15px;
+        z-index: 10;
+        width: 120px;
+        height: 0;
+        overflow: hidden;
+        .transition(@duration: .2s);
+
+        img {
+          display: block;
+          margin: 10px auto 0;
+          width: 93px;
+          height: 93px;
+        }
+
+        p {
+          line-height: 23px;
+          .font();
+        }
+      }
+
+      .downLoadBg {
+        background: extract(@colorList, 3);
+        z-index: 9;
+        opacity: 0.7;
+        filter: alpha(opacity=70);
+      }
+    }
+  }
+
+  /*LOGIN*/
+  .login {
+    margin-right: 10px;
+    a {
+      display: block;
+      margin-top: unit((-28+@h)/2, px);
+      width: 46px;
+      height: 28px;
+      line-height: 28px;
+      text-align: center;
+      color: extract(@colorList, 3);
+      background: extract(@colorList, 5);
+      border-radius: 3px;
+    }
+  }
+}
+
+/*--CONTENT--*/
+.conBody {
+  margin: 20px auto;
+}
+
+/*MENU*/
+.menu {
+  overflow: hidden;
+  float: left;
+  width: 198px;
+  background: extract(@colorList, 3);
+  border: 1px solid extract(@colorList, 4);
+
+  li {
+    position: relative;
+
+    a {
+      display: block;
+      padding-left: 24px;
+      height: 50px;
+      line-height: 50px;
+      border-left: 5px solid transparent;
+      .font(@v:16);
+
+      &:hover, &.bg {
+        color: extract(@colorList, 5);
+        background: extract(@colorList, 6);
+        border-left-color: extract(@colorList, 5);
+      }
+
+    }
+  }
+
+}
+
+
+
+
+
+
