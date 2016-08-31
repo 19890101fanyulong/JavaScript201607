@@ -1,35 +1,35 @@
-ÕıÔòÊµÕ½Ó¦ÓÃ¼¼ÇÉ£º¸ñÊ½»¯Ê±¼ä×Ö·û´®
+æ­£åˆ™å®æˆ˜åº”ç”¨æŠ€å·§ï¼šæ ¼å¼åŒ–æ—¶é—´å­—ç¬¦ä¸²
 http://old.zhufengpeixun.cn/qianduanjishuziliao/javaScriptzhuanti/2016-07-02/481.html
 
-ÕıÔòÊµÕ½Ó¦ÓÃ¼¼ÇÉ£º»ñÈ¡URLµØÖ·À¸µÄ²ÎÊı
+æ­£åˆ™å®æˆ˜åº”ç”¨æŠ€å·§ï¼šè·å–URLåœ°å€æ çš„å‚æ•°
 http://old.zhufengpeixun.cn/qianduanjishuziliao/javaScriptzhuanti/2016-07-02/482.html
 
-Ò»Ğ©Äã²»ÖªµÀµÄJavaScript Consoleµ÷ÊÔÃüÁî
+ä¸€äº›ä½ ä¸çŸ¥é“çš„JavaScript Consoleè°ƒè¯•å‘½ä»¤
 http://old.zhufengpeixun.cn/qianduanjishuziliao/javaScriptzhuanti/2016-07-09/500.html
 
-Ê¹ÓÃEJS(Ä£°åÒıÇæ)¶¯Ì¬°ó¶¨Ò³ÃæÖĞµÄÊı¾İ
+ä½¿ç”¨EJS(æ¨¡æ¿å¼•æ“)åŠ¨æ€ç»‘å®šé¡µé¢ä¸­çš„æ•°æ®
 http://old.zhufengpeixun.cn/qianduanjishuziliao/javaScriptzhuanti/2016-07-31/542.html
 
-ÒÆ¶¯¶ËºáÊúÆÁµÄ¼ì²â
+ç§»åŠ¨ç«¯æ¨ªç«–å±çš„æ£€æµ‹
 http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-08-14/581.html
 
-LESSÑ§Ï°:ÁË½âLESSºÍ±àÒëLESS
+LESSå­¦ä¹ :äº†è§£LESSå’Œç¼–è¯‘LESS
 http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-07-22/527.html
 
-LESSÑ§Ï°:LESSµÄ»ù´¡Óï·¨
+LESSå­¦ä¹ :LESSçš„åŸºç¡€è¯­æ³•
 http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-07-22/528.html
 
-Ò»ÆªÎÄÕÂ£¬ÈÃÄã¿ìËÙÁË½âHybrid App¿ª·¢Ä£Ê½
+ä¸€ç¯‡æ–‡ç« ï¼Œè®©ä½ å¿«é€Ÿäº†è§£Hybrid Appå¼€å‘æ¨¡å¼
 http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-07-15/511.html
 
-¼ì²âä¯ÀÀÆ÷µÄÀàĞÍ(PC¶Ë»¹ÊÇÒÆ¶¯¶Ë)
+æ£€æµ‹æµè§ˆå™¨çš„ç±»å‹(PCç«¯è¿˜æ˜¯ç§»åŠ¨ç«¯)
 http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-07-15/510.html
 
 
-ÒÆ¶¯¶Ë»ù´¡ÖªÊ¶µÚÒ»·¢£º³£ÓÃµÄMETA±êÇ©
+ç§»åŠ¨ç«¯åŸºç¡€çŸ¥è¯†ç¬¬ä¸€å‘ï¼šå¸¸ç”¨çš„METAæ ‡ç­¾
 http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-06-29/457.html
 
-ÒÆ¶¯¶Ë»ù´¡ÖªÊ¶µÚ¶ş·¢£º³£ÓÃµÄMETA±êÇ©(ÒÆ¶¯¶Ë)
+ç§»åŠ¨ç«¯åŸºç¡€çŸ¥è¯†ç¬¬äºŒå‘ï¼šå¸¸ç”¨çš„METAæ ‡ç­¾(ç§»åŠ¨ç«¯)
 http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-07-02/480.html
 
 

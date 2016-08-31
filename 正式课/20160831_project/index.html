@@ -67,17 +67,29 @@
     <!--MENU-->
     <div class="menu">
         <ul>
-            <li><a href="#" class="bg">NBA<i></i></a></li>
-            <li><a href="#">NBA<i></i></a></li>
-            <li><a href="#">NBA<i></i></a></li>
-            <li><a href="#">NBA<i></i></a></li>
-            <li><a href="#">NBA<i></i></a></li>
-            <li><a href="#">NBA<i></i></a></li>
-            <li><a href="#">NBA<i></i></a></li>
+
         </ul>
     </div>
-
 </section>
+
+<!--实现模板引擎数据绑定-->
+<script charset="utf-8" type="text/javascript" src="js/ejs.min.js"></script>
+<script charset="utf-8" type="text/template" id="menuTemplate">
+    <%for(var i=0;i
+    <menuData.length;i++){%>
+    <%var cur=menuData[i];%>
+    <li>
+        <a href="#<%=cur.HASH%>" data-id="<%=cur.columnId%>">
+            <%=cur.title%>
+            <i>
+                <span class="over"></span>
+                <span></span>
+            </i>
+        </a>
+    </li>
+    <%}%>
+</script>
+
 
 <script charset="utf-8" type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 <script charset="utf-8" type="text/javascript" src="js/index.js"></script>

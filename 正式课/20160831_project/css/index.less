@@ -167,9 +167,42 @@ a:hover, a:active {
         border-left-color: extract(@colorList, 5);
       }
 
+      &.bg {
+        i {
+          display: block;
+        }
+      }
+
+      i {
+        display: none;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        margin-top: -4px;
+        width: 12px;
+        height: 12px;
+
+        span {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 5;
+          margin-left: 3px;
+          width: 0;
+          height: 0;
+          font-size: 0;
+          border: 6px solid transparent;
+          border-left-color: extract(@colorList, 5);
+
+          &.over {
+            z-index: 6;
+            left: -3px;
+            border-left-color: extract(@colorList, 6);
+          }
+        }
+      }
     }
   }
-
 }
 
 
