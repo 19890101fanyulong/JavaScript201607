@@ -70,6 +70,25 @@
 
         </ul>
     </div>
+    <!--RIGHT-->
+    <div class="right">
+        <!--CALENDER-->
+        <div class="calender">
+            <div class="cal-con">
+                <div class="wrapper">
+
+                </div>
+            </div>
+            <a href="javascript:;" class="cal-left">
+                <span class="over"></span>
+                <span></span>
+            </a>
+            <a href="javascript:;" class="cal-right">
+                <span class="over"></span>
+                <span></span>
+            </a>
+        </div>
+    </div>
 </section>
 
 <!--实现模板引擎数据绑定-->
@@ -89,9 +108,19 @@
     </li>
     <%}%>
 </script>
+<script charset="utf-8" type="text/template" id="calendarTemplate">
+    <%for(var i=0;i<calendarData.length;i++){%>
+    <%var cur=calendarData[i];%>
+    <a href="javascript:;" data-time="<%=cur.date%>">
+        <span class="week"><%=cur.weekday%></span>
+        <span class="date"><%=cur.date.formatTime('{1}-{2}')%></span>
+    </a>
+    <%}%>
+</script>
 
 
 <script charset="utf-8" type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script charset="utf-8" type="text/javascript" src="js/iscroll-5.1.3.min.js"></script>
 <script charset="utf-8" type="text/javascript" src="js/index.js"></script>
 </body>
 </html>

@@ -3,17 +3,17 @@
 html, body {
   width: 100%;
   height: 100%;
-  color: extract(@colorList, 1);
+  color: extract(@colorList, 8);
   background: extract(@colorList, 2);
   overflow: hidden;
 }
 
 a {
-  color: extract(@colorList, 1);
+  color: extract(@colorList, 8);
 }
 
 a:hover, a:active {
-  color: extract(@colorList, 1);
+  color: extract(@colorList, 8);
 }
 
 .content {
@@ -144,6 +144,7 @@ a:hover, a:active {
 
 /*MENU*/
 .menu {
+  position: relative;
   overflow: hidden;
   float: left;
   width: 198px;
@@ -203,6 +204,138 @@ a:hover, a:active {
       }
     }
   }
+}
+
+/*RIGHT*/
+.right {
+  float: right;
+  width: 820px;
+  height: 100%;
+}
+
+/*CALENDER*/
+.calender {
+  position: relative;
+  padding: 5px 0;
+  height: 70px;
+  background: extract(@colorList, 3);
+  border: 1px solid extract(@colorList, 4);
+
+  /*CAL-LEFT/RIGHT*/
+  .cal-left, .cal-right {
+    position: absolute;
+    top: 0;
+    width: 24px;
+    height: 80px;
+    overflow: hidden;
+
+    span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 5;
+      margin: -9px 0 0 -13.5px;
+      width: 0;
+      height: 0;
+      font-size: 0;
+      border: 9px solid transparent;
+
+      &.over {
+        margin-left: -10.5px;
+        z-index: 6;
+      }
+    }
+  }
+
+  .cal-left {
+    left: 0;
+    span {
+      border-right-color: extract(@colorList, 7);
+      &.over {
+        border-right-color: extract(@colorList, 3);
+      }
+    }
+
+    &:hover {
+      span {
+        border-right-color: extract(@colorList, 5);
+        &.over {
+          border-right-color: extract(@colorList, 3);
+        }
+      }
+    }
+  }
+
+  .cal-right {
+    right: 0;
+    span {
+      margin-left: -4.5px;
+      border-left-color: extract(@colorList, 7);
+      &.over {
+        margin-left: -7.5px;
+        border-left-color: extract(@colorList, 3);
+      }
+    }
+
+    &:hover {
+      span {
+        border-left-color: extract(@colorList, 5);
+        &.over {
+          border-left-color: extract(@colorList, 3);
+        }
+      }
+    }
+  }
+
+  /*CAL-CON*/
+  .cal-con {
+    position: relative;
+    margin: 0 auto;
+    width: 770px;
+    height: 100%;
+    overflow: hidden;
+
+    .wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%; /*JS中根据A的个数计算宽度*/
+      height: 100%;
+
+      a {
+        float: left;
+        width: 110px;
+        height: 100%;
+
+        span {
+          display: block;
+          line-height: 27px;
+          text-align: center;
+          .font(@v:16);
+
+          &.week {
+            margin-top: 9px;
+            color: extract(@colorList, 7);
+          }
+        }
+
+        &:hover, &.bg {
+          color: extract(@colorList, 5);
+          background: extract(@colorList, 6);
+          span {
+            &.week {
+              color: extract(@colorList, 5);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.iScrollIndicator {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
 }
 
 
