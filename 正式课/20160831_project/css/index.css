@@ -303,6 +303,27 @@ a:active {
 .calender .cal-con .wrapper a.bg span.week {
   color: #346AFF;
 }
+/*MATCH*/
+.match {
+  position: relative;
+  margin-top: 20px;
+  overflow: hidden;
+}
+.match .matchInfo {
+  margin-bottom: 20px;
+  background: #FFF;
+  border: 1px solid #DDD;
+}
+.match .matchInfo h2 {
+  padding-left: 15px;
+  height: 40px;
+  line-height: 40px;
+}
+.match .matchInfo li {
+  height: 58px;
+  line-height: 58px;
+  border-top: 1px solid #DDD;
+}
 .iScrollIndicator {
   opacity: 0.4;
   filter: alpha(opacity=40);

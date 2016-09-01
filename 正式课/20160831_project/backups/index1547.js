@@ -20,7 +20,11 @@
     //->formatTime:按照指定的模板把时间字符串格式化
     function formatTime(template) {
         template = template || '{0}年{1}月{2}日 {3}时{4}分{5}秒'
+
+        //->把需要解析的时间字符串中的数字分别获取到
         var ary = this.match(/\d+/g);
+
+        //->按照规定的模板解析数据
         return template.replace(/\{(\d)\}/g, function () {
             var index = arguments[1],
                 content = ary[index];
@@ -33,107 +37,51 @@
     pro.formatTime = formatTime;
 }(String.prototype);
 
+//"2016-09-25 18:05:04" ->"09-25"   "2016-09-25 18:05:04".formatTime('{1}-{2}')
+//"2016-09-25 18:05:04".formatTime('{1}-{2} {3}:{4}') "09-25 18:05"
+
+
 //->计算每一个区域的高度
 ~function () {
     changeHeight();
     function changeHeight() {
         var winH = $(window).innerHeight(),
             $conBody = $('.conBody'),
-            $menu = $conBody.children('.menu'),
-            $match = $conBody.find('.match');
+            $menu = $conBody.children('.menu');
         var h = winH - 64 - 20 - 20;
         $conBody.css('height', h);
         $menu.css('height', h - 2);
-        $match.css('height', h - 82 - 20);
     }
 
     $(window).on('resize', changeHeight);
 }();
 
-//->MATCH RENDER
-var matchRender = (function () {
-    var $matchFn = $.Callbacks(),
-        $matchScroll = null;
-    var $match = $('.match'),
-        $wrapper = $match.children('.wrapper');
-
-    //->bindHTML:绑定数据
-    $matchFn.add(bindHTML);
-    function bindHTML(data, columnId) {
-        var templateStr = $('#matchTemplate').html();
-        var resultStr = ejs.render(templateStr, {matchData: data});
-        $wrapper.html(resultStr);
-
-        //->绑定完成数据后,刷新滚动区域,定位到具体的区域
-        if ($matchScroll) {
-            $matchScroll.refresh();
-            $matchScroll.scrollTo(0, 0);
-        }
-    }
-
-    //->实现局部滚动
-    $matchFn.add(bindScroll);
-    function bindScroll(data, columnId) {
-        if (!$matchScroll) {
-            $matchScroll = new IScroll('.match', {
-                scrollbars: true,
-                mouseWheel: true
-            });
-        }
-        //->第一次还需要滚动到选中日期的位置
-        var tarT = $(".calender .wrapper>a[class='bg']").attr('data-time');
-        var $tar = $wrapper.children(".matchInfo[data-time='" + tarT + "']");
-        if ($tar.length > 0) {
-            $matchScroll.scrollToElement($tar[0], 300);
-        }
-        //$matchFn.remove(bindScroll);
-    }
-
-    //->scrollTo:滚动到具体的某一个列表位置
-    function scrollTo(time) {
-        var $tar = $wrapper.children(".matchInfo[data-time='" + time + "']");
-        if ($tar.length > 0) {
-            $matchScroll.scrollToElement($tar[0], 300);
-        }
-    }
-
-    return {
-        init: function (startTime, endTime, columnId) {
-            //->GET DATA
-            $.ajax({
-                url: 'http://matchweb.sports.qq.com/kbs/list?columnId=' + columnId + '&startTime=' + startTime + '&endTime=' + endTime,
-                dataType: 'jsonp',
-                success: function (result) {
-                    if (result && result.code == 0) {
-                        var data = result.data;
-                        $matchFn.fire(data, columnId);
-                    }
-                }
-            });
-        },
-        scrollTo: scrollTo
-    }
-})();
 
 //->CALENDAR RENDER
 var calendarRender = (function () {
     var $calender = $('.calender'),
         $wrapper = $calender.find('.wrapper');
     var maxL = 0, minL = 0;
+
     var $calendarFn = $.Callbacks();
+    //$.Callbacks:创建一个计划
+    //$calendarFn.add：向计划表中追加方法
+    //$calendarFn.remove：从计划表中移除方法
+    //$calendarFn.fire：通知计划表中的方法依次执行
 
     //->EJS绑定页面中的数据
-    $calendarFn.add(function (today, data, columnId) {
+    $calendarFn.add(function (today, data) {
         var templateStr = $('#calendarTemplate').html();
         var resultStr = ejs.render(templateStr, {calendarData: data});
         $wrapper.html(resultStr).css('width', data.length * 110);
     });
 
     //->开始定位到今天日期的位置或者今天日期相近的位置
-    $calendarFn.add(function (today, data, columnId) {
+    $calendarFn.add(function (today, data) {
         var $link = $wrapper.children('a'),
             $tar = $link.filter("[data-time='" + today + "']");
         if ($tar.length === 0) {
+            //->TODAY在所有的A中不存在:找TODAY的后一个日期
             var flag = false;
             $link.each(function (index, item) {
                 var itemTime = $(item).attr('data-time').replace(/-/g, ''),
@@ -141,10 +89,11 @@ var calendarRender = (function () {
                 if (itemTime > todayTime) {
                     $tar = $(item);
                     flag = true;
-                    return false;
+                    return false;//->结束JQ的EACH循环
                 }
             });
             if (!flag) {
+                //->TODAY不存在,也没有比TODAY大的日期了:选中最后一个即可
                 $tar = $link.eq($link.length - 1);
             }
         }
@@ -154,50 +103,6 @@ var calendarRender = (function () {
         $wrapper.css('left', curL);
 
         //->根据起始的日期和结束的日期获取比赛的列表信息
-        var firIn = Math.abs(parseFloat($wrapper.css('left')) / 110),
-            lasIn = firIn + 6;
-        matchRender.init($link.eq(firIn).attr('data-time'), $link.eq(lasIn).attr('data-time'), columnId);
-    });
-
-    //->点击左右切换按钮实现日期区域的滚动(事件委托)
-    $calendarFn.add(function (today, data, columnId) {
-        var $link = $wrapper.children('a');
-        $calender.on('click', function (ev) {
-            var tar = ev.target,
-                tarTag = tar.tagName.toUpperCase(),
-                $tar = $(tar);
-            if (tarTag === 'SPAN') {//->点击的SPAN,让事件源都变成其父级元素
-                tar = tar.parentNode;
-                tarTag = tar.tagName.toUpperCase();
-                $tar = $(tar);
-            }
-            if (tarTag !== 'A') return;
-
-            //->左按钮 或 右按钮
-            if ($tar.hasClass('cal-left') || $tar.hasClass('cal-right')) {
-                var curL = parseFloat($wrapper.css('left'));
-                curL = Math.round(curL / 110) * 110;//->防止过快点击出现每一次运动不是运动七个而出现了半个A展示在页面中的问题
-                $tar.hasClass('cal-left') ? curL += 770 : curL -= 770;
-
-                curL = curL > maxL ? maxL : (curL < minL ? minL : curL);
-                $wrapper.stop().animate({left: curL}, 300, function () {
-                    //->运动完成后,让现有七个中的第一个日期选中
-                    var firIn = Math.abs(curL / 110),
-                        lasIn = firIn + 6;
-                    $link.each(function (index, item) {
-                        firIn === index ? $(item).addClass('bg') : $(item).removeClass('bg');
-                    });
-
-                    //->根据起始的日期和结束的日期获取比赛的列表信息
-                    matchRender.init($link.eq(firIn).attr('data-time'), $link.eq(lasIn).attr('data-time'), columnId);
-                });
-                return;
-            }
-
-            //->WRAPPER中的A:让比赛列表区域滚动到具体的某一个位置
-            $tar.addClass('bg').siblings().removeClass('bg');
-            matchRender.scrollTo($tar.attr('data-time'));
-        });
     });
 
     return {
@@ -212,8 +117,8 @@ var calendarRender = (function () {
                         var data = result['data'],
                             today = data['today'];
                         data = data['data'];
-                        minL = -(data.length - 7) * 110;
-                        $calendarFn.fire(today, data, columnId);
+                        minL = -(data.length - 7) * 110;//->计算WRAPPER的最小运动LEFT的值
+                        $calendarFn.fire(today, data);
                     }
                 }
             });
@@ -249,8 +154,10 @@ var menuRender = (function () {
     function bindEvent() {
         var $oLink = $menuUL.find('a');
         $oLink.on('click', function () {
-            var _this = this;
+            //$(this).addClass('bg').parent().siblings().children('a').removeClass('bg');
+            var _this = this;//->当前点击的这一个A
             $oLink.each(function (index, item) {
+                //->this:item
                 item === _this ? $(item).addClass('bg') : $(item).removeClass('bg');
             });
 
